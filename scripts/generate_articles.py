@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-転職ナビ — 記事自動生成スクリプト
+転職プレス — 記事自動生成スクリプト
 Claude API を使って毎日新しい転職記事を生成し、manifest.json を更新する。
 
 使い方:
@@ -48,7 +48,7 @@ ARTICLE_THEMES = [
 # ─── 記事生成プロンプト ────────────────────────────────────────────────────────
 
 ARTICLE_PROMPT_TEMPLATE = """
-あなたは転職情報メディア「転職ナビ」の編集者です。
+あなたは転職情報メディア「転職プレス」の編集者です。
 以下のテーマで、SEOに強い転職記事のコンテンツを生成してください。
 
 テーマ: {theme}
@@ -181,12 +181,12 @@ def build_article_html(article_id, title, description, category, pub_date,
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{description}">
-  <title>{title} | 転職ナビ</title>
+  <title>{title} | 転職プレス</title>
 
   <meta property="og:type"        content="article">
   <meta property="og:title"       content="{title}">
   <meta property="og:description" content="{description}">
-  <meta property="og:site_name"   content="転職ナビ">
+  <meta property="og:site_name"   content="転職プレス">
   <meta name="twitter:card"       content="summary_large_image">
 
   <link rel="canonical" href="{BASE_URL}/articles/{article_id}.html">
@@ -201,8 +201,8 @@ def build_article_html(article_id, title, description, category, pub_date,
     "headline": "{title}",
     "datePublished": "{pub_date}",
     "dateModified": "{pub_date}",
-    "author": {{ "@type": "Organization", "name": "転職ナビ編集部" }},
-    "publisher": {{ "@type": "Organization", "name": "転職ナビ" }},
+    "author": {{ "@type": "Organization", "name": "転職プレス編集部" }},
+    "publisher": {{ "@type": "Organization", "name": "転職プレス" }},
     "description": "{description}",
     "keywords": "{keywords}"
   }}
@@ -309,13 +309,13 @@ def build_article_html(article_id, title, description, category, pub_date,
       </div>
     </div>
     <div class="footer-bottom">
-      <p>本サイトはアフィリエイト広告を利用しています。&nbsp;|&nbsp;&copy; 2025 転職ナビ All Rights Reserved.</p>
+      <p>本サイトはアフィリエイト広告を利用しています。&nbsp;|&nbsp;&copy; 2025 転職プレス All Rights Reserved.</p>
     </div>
   </footer>
 
   <script>
     function shareX() {{
-      var text = encodeURIComponent(document.title + ' | 転職ナビ');
+      var text = encodeURIComponent(document.title + ' | 転職プレス');
       var url  = encodeURIComponent(location.href);
       window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank');
     }}
