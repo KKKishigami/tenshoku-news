@@ -89,11 +89,14 @@
     var date  = formatDate(a.date);
     var desc  = a.description || '';
     var link  = 'articles/' + a.filename;
+    var thumb = a.thumbnail
+      ? '<img src="' + esc(a.thumbnail) + '" alt="' + esc(a.title) + '" loading="lazy">'
+      : '<span class="card-thumb-icon">' + icon + '</span>';
 
     return [
       '<article class="article-card">',
       '  <a href="' + link + '" class="card-thumb" aria-label="' + esc(a.title) + '">',
-      '    <span class="card-thumb-icon">' + icon + '</span>',
+      '    ' + thumb,
       '  </a>',
       '  <div class="card-body">',
       '    <div class="card-meta">',

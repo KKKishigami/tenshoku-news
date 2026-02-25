@@ -129,11 +129,33 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(-4px); box-shadow: var(--shadow-h);
 }
 .card-thumb {
-  height: 160px; overflow: hidden;
+  height: 180px; overflow: hidden;
   background: linear-gradient(135deg, #dde9f7 0%, #b8d0ea 100%);
   display: flex; align-items: center; justify-content: center;
+  position: relative;
 }
-.card-thumb-icon { font-size: 3rem; opacity: 0.6; }
+.card-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+.article-card:hover .card-thumb img { transform: scale(1.06); }
+.card-thumb-icon {
+  font-size: 3rem; opacity: 0.6;
+  position: absolute;
+}
+/* 記事内画像 */
+.article-img {
+  width: 100%; margin: 1.5rem 0; border-radius: 10px; overflow: hidden;
+}
+.article-img img {
+  width: 100%; height: auto; display: block;
+  max-height: 400px; object-fit: cover;
+}
+.article-img figcaption {
+  font-size: 0.78rem; color: #94a3b8; text-align: center;
+  padding: 0.4rem 0 0;
+}
 .card-body { padding: 1.1rem; flex: 1; display: flex; flex-direction: column; }
 .card-meta { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
 .cat-badge {
