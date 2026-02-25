@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IT・医療・ハイクラスの最新転職ニュースをまとめてお届け。転職市場の動向・年収情報・おすすめ転職サイト比較も掲載。">
+  <meta name="keywords" content="転職,転職ニュース,IT転職,医療転職,ハイクラス転職,転職サイト,求人">
+  <meta name="robots" content="index, follow">
+  <title>転職ナビ | 最新転職ニュース・転職サイト比較</title>
+
+  <!-- OGP -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="転職ナビ | 最新転職ニュース・転職サイト比較">
+  <meta property="og:description" content="IT・医療・ハイクラスの最新転職ニュースをまとめてお届け。">
+  <meta property="og:url"         content="https://kkkishigami.github.io/tenshoku-news/">
+  <meta property="og:site_name"   content="転職ナビ">
+  <meta name="twitter:card"       content="summary_large_image">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://kkkishigami.github.io/tenshoku-news/">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Structured Data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "転職ナビ",
+    "url": "https://kkkishigami.github.io/tenshoku-news/",
+    "description": "IT・医療・ハイクラスの最新転職ニュース・転職サイト比較",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://kkkishigami.github.io/tenshoku-news/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">転職<span>ナビ</span></a>
+      <button class="hamburger" aria-label="メニュー" aria-expanded="false">☰</button>
+      <nav class="header-nav" aria-label="メインナビ">
+        <a href="index.html">ホーム</a>
+        <a href="index.html?cat=IT転職">IT転職</a>
+        <a href="index.html?cat=医療転職">医療転職</a>
+        <a href="index.html?cat=ハイクラス転職">ハイクラス</a>
+        <a href="ranking.html" class="nav-ranking">🏆 転職サイト比較</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>最新の<span>転職ニュース</span>をまとめてお届け</h1>
+      <p>IT・医療・ハイクラスの転職市場動向・求人情報・転職ノウハウを毎日更新</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <strong id="total-count">0</strong>
+          <span>掲載記事</span>
+        </div>
+        <div class="hero-stat">
+          <strong>4</strong>
+          <span>カテゴリ</span>
+        </div>
+        <div class="hero-stat">
+          <strong>毎日</strong>
+          <span>自動更新</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY TABS -->
+  <div class="category-section">
+    <div class="category-tabs" role="tablist" aria-label="記事カテゴリ">
+      <button class="tab-btn active" data-cat="all" role="tab" aria-selected="true">📋 すべて</button>
+      <button class="tab-btn" data-cat="IT転職" role="tab" aria-selected="false">💻 IT転職</button>
+      <button class="tab-btn" data-cat="医療転職" role="tab" aria-selected="false">🏥 医療転職</button>
+      <button class="tab-btn" data-cat="ハイクラス転職" role="tab" aria-selected="false">👔 ハイクラス</button>
+      <button class="tab-btn" data-cat="転職コラム" role="tab" aria-selected="false">📝 コラム</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+    <div class="container">
+      <div class="main-layout">
+
+        <!-- 記事グリッド -->
+        <section aria-label="記事一覧">
+          <div id="articles-grid" class="articles-grid">
+            <p class="no-articles">記事を読み込み中...</p>
+          </div>
+          <nav id="pagination" class="pagination" aria-label="ページナビ"></nav>
+        </section>
+
+        <!-- サイドバー -->
+        <aside class="sidebar" aria-label="サイドバー">
+
+          <!-- アフィリエイト -->
+          <div class="sidebar-block">
+            <div class="sidebar-title">🏆 おすすめ転職サイト</div>
+            <div class="sidebar-content">
+              <div class="disclaimer">
+                ※ 本サイトはアフィリエイトプログラムを利用しています
+              </div>
+
+              <a href="ranking.html#doda" class="affiliate-banner">
+                <p class="aff-label">★★★★★ 総合評価</p>
+                <p class="aff-name">doda（デューダ）</p>
+                <p class="aff-point">求人数No.1クラス・手厚いサポート</p>
+              </a>
+
+              <a href="ranking.html#rikunabi" class="affiliate-banner">
+                <p class="aff-label">★★★★☆ IT特化</p>
+                <p class="aff-name">リクルートエージェント</p>
+                <p class="aff-point">業界最大級・全職種対応</p>
+              </a>
+
+              <a href="ranking.html#bizreach" class="affiliate-banner">
+                <p class="aff-label">★★★★★ ハイクラス</p>
+                <p class="aff-name">ビズリーチ</p>
+                <p class="aff-point">年収600万円以上向け</p>
+              </a>
+
+              <a href="ranking.html" class="btn-register" style="margin-top:0.5rem;display:block;text-align:center;">
+                転職サイト一覧を見る →
+              </a>
+            </div>
+          </div>
+
+          <!-- ミニランキング -->
+          <div class="sidebar-block">
+            <div class="sidebar-title">📊 転職サイト人気ランキング</div>
+            <div class="sidebar-content">
+              <ol class="rank-list">
+                <li class="rank-item">
+                  <span class="rank-num gold">1</span>
+                  <div>
+                    <span class="rank-name">リクルートエージェント</span><br>
+                    <span class="rank-fee">報酬目安：2〜5万円</span>
+                  </div>
+                </li>
+                <li class="rank-item">
+                  <span class="rank-num silver">2</span>
+                  <div>
+                    <span class="rank-name">doda（デューダ）</span><br>
+                    <span class="rank-fee">報酬目安：1〜3万円</span>
+                  </div>
+                </li>
+                <li class="rank-item">
+                  <span class="rank-num bronze">3</span>
+                  <div>
+                    <span class="rank-name">ビズリーチ</span><br>
+                    <span class="rank-fee">報酬目安：3〜5万円</span>
+                  </div>
+                </li>
+                <li class="rank-item">
+                  <span class="rank-num">4</span>
+                  <div>
+                    <span class="rank-name">マイナビ転職</span><br>
+                    <span class="rank-fee">報酬目安：1〜2万円</span>
+                  </div>
+                </li>
+                <li class="rank-item">
+                  <span class="rank-num">5</span>
+                  <div>
+                    <span class="rank-name">レバテックキャリア</span><br>
+                    <span class="rank-fee">報酬目安：2〜4万円</span>
+                  </div>
+                </li>
+              </ol>
+              <a href="ranking.html" style="display:block;text-align:center;font-size:0.82rem;font-weight:700;color:#e85d04;margin-top:0.8rem;">
+                詳しいランキングを見る →
+              </a>
+            </div>
+          </div>
+
+          <!-- カテゴリ別記事数 -->
+          <div class="sidebar-block">
+            <div class="sidebar-title">📂 カテゴリ</div>
+            <div class="sidebar-content">
+              <ul class="rank-list">
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'IT転職\']').click()">
+                  <span style="font-size:1.2rem">💻</span>
+                  <span class="rank-name">IT転職</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'医療転職\']').click()">
+                  <span style="font-size:1.2rem">🏥</span>
+                  <span class="rank-name">医療転職</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'ハイクラス転職\']').click()">
+                  <span style="font-size:1.2rem">👔</span>
+                  <span class="rank-name">ハイクラス転職</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'転職コラム\']').click()">
+                  <span style="font-size:1.2rem">📝</span>
+                  <span class="rank-name">転職コラム</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </aside>
+      </div><!-- /.main-layout -->
+    </div><!-- /.container -->
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">転職<span>ナビ</span></div>
+        <p class="footer-desc">IT・医療・ハイクラスの最新転職情報をお届けする転職特化メディアです。</p>
+      </div>
+      <div>
+        <p class="footer-heading">カテゴリ</p>
+        <ul class="footer-links">
+          <li><a href="index.html">トップ</a></li>
+          <li><a href="index.html?cat=IT転職">IT転職</a></li>
+          <li><a href="index.html?cat=医療転職">医療転職</a></li>
+          <li><a href="index.html?cat=ハイクラス転職">ハイクラス転職</a></li>
+          <li><a href="index.html?cat=転職コラム">転職コラム</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">サイト情報</p>
+        <ul class="footer-links">
+          <li><a href="ranking.html">転職サイト比較</a></li>
+          <li><a href="privacy.html">プライバシーポリシー</a></li>
+          <li><a href="about.html">サイトについて</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>本サイトはアフィリエイト広告を利用しています。&nbsp;|&nbsp;
+      &copy; 2025 転職ナビ All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
