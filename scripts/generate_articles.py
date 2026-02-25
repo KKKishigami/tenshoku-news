@@ -125,12 +125,81 @@ CAT_ICONS = {
     "転職コラム":  "📝",
 }
 
+# ─── 画像マッピング（Unsplash / 商用利用無料）────────────────────────────────
+# キーワード → Unsplash 直リンク
+_IMG = "https://images.unsplash.com/photo-{id}?w=800&h=400&fit=crop&auto=format&q=80"
+
+IMAGE_MAP = {
+    # ── IT転職 ──────────────────────────────────────────────────────────────
+    "フロントエンド":   _IMG.format(id="1587620962725-abab7fe55159"),  # MacBook with code
+    "バックエンド":     _IMG.format(id="1461749280684-dccba630e2f6"),  # code on monitor
+    "React":            _IMG.format(id="1587620962725-abab7fe55159"),
+    "クラウド":         _IMG.format(id="1451187580459-43490279c0fa"),  # data center
+    "AWS":              _IMG.format(id="1451187580459-43490279c0fa"),
+    "Azure":            _IMG.format(id="1451187580459-43490279c0fa"),
+    "セキュリティ":     _IMG.format(id="1550751827-4bd374c3f58b"),    # padlock/cyber
+    "CISSP":            _IMG.format(id="1550751827-4bd374c3f58b"),
+    "Python":           _IMG.format(id="1526374965328-7f61d4dc18c5"), # matrix code
+    "AI":               _IMG.format(id="1555949963-aa79dcee981c"),    # neural network
+    "機械学習":         _IMG.format(id="1555949963-aa79dcee981c"),
+    "LLM":              _IMG.format(id="1555949963-aa79dcee981c"),
+    "データ":           _IMG.format(id="1551288049-bebda4e38f71"),    # data analytics
+    "エンジニア":       _IMG.format(id="1573164713714-d95e436ab8d6"), # developer at desk
+    "プログラム":       _IMG.format(id="1461749280684-dccba630e2f6"),
+    "未経験":           _IMG.format(id="1499750310107-5fef28a66643"), # person studying
+    "ロードマップ":     _IMG.format(id="1499750310107-5fef28a66643"),
+    # ── 医療転職 ────────────────────────────────────────────────────────────
+    "看護師":           _IMG.format(id="1559757148-5c350d0d3c56"),    # smiling nurse
+    "医師":             _IMG.format(id="1612349317150-e413f6a5b16d"), # doctor
+    "薬剤師":           _IMG.format(id="1563213126-a4273aed2016"),    # pharmacy
+    "ドラッグストア":   _IMG.format(id="1563213126-a4273aed2016"),
+    "医療":             _IMG.format(id="1576091160399-112ba8d25d1d"), # healthcare worker
+    "病院":             _IMG.format(id="1584432810601-6c7f27d2362b"), # hospital staff
+    "介護":             _IMG.format(id="1576091160399-112ba8d25d1d"),
+    # ── ハイクラス転職 ──────────────────────────────────────────────────────
+    "コンサル":         _IMG.format(id="1600880292203-757bb62b4baf"), # business strategy
+    "外資":             _IMG.format(id="1521791136064-7986c2920216"), # handshake
+    "MBA":              _IMG.format(id="1521791136064-7986c2920216"),
+    "スタートアップ":   _IMG.format(id="1559136555-9303baea8ebd"),    # startup office
+    "ストックオプション": _IMG.format(id="1611974789855-9c2a0a7236a3"), # stock chart
+    "年収1000万":       _IMG.format(id="1507003211169-0a1dd7228f2d"), # exec portrait
+    "役員":             _IMG.format(id="1507003211169-0a1dd7228f2d"),
+    "グローバル":       _IMG.format(id="1521791136064-7986c2920216"),
+    # ── 転職コラム ──────────────────────────────────────────────────────────
+    "面接":             _IMG.format(id="1573496359142-b8d87734a5a2"), # job interview
+    "履歴書":           _IMG.format(id="1586281380349-632531db7ed4"), # resume writing
+    "志望動機":         _IMG.format(id="1586281380349-632531db7ed4"),
+    "企業選び":         _IMG.format(id="1542744173-8e7e53415bb0"),    # team discussion
+    "30代":             _IMG.format(id="1499750310107-5fef28a66643"), # professional
+    "40代":             _IMG.format(id="1499750310107-5fef28a66643"),
+    "退職":             _IMG.format(id="1454165804606-c3d57bc86b40"), # desk meeting
+    "転職活動":         _IMG.format(id="1454165804606-c3d57bc86b40"),
+}
+
+CATEGORY_DEFAULT_IMAGES = {
+    "IT転職":         _IMG.format(id="1573164713714-d95e436ab8d6"),
+    "医療転職":       _IMG.format(id="1584432810601-6c7f27d2362b"),
+    "ハイクラス転職": _IMG.format(id="1560179707-f14e90ef3623"),
+    "転職コラム":     _IMG.format(id="1454165804606-c3d57bc86b40"),
+}
+
+
+def pick_image_url(category: str, theme: str) -> str:
+    """テーマ文字列のキーワードからUnsplash画像URLを返す。"""
+    for keyword, url in IMAGE_MAP.items():
+        if keyword in theme:
+            return url
+    return CATEGORY_DEFAULT_IMAGES.get(
+        category,
+        _IMG.format(id="1454165804606-c3d57bc86b40")
+    )
+
 
 # ─── HTML テンプレート ──────────────────────────────────────────────────────────
 
 def build_article_html(article_id, title, description, category, pub_date,
                        highlight_points, sections, warning_text, sidebar_info,
-                       related_articles):
+                       related_articles, image_url=""):
     cat_icon = CAT_ICONS.get(category, "📄")
     cat_slug = category.replace(" ", "")
     date_formatted = datetime.strptime(pub_date, "%Y-%m-%d").strftime("%Y年%-m月%-d日") if sys.platform != "win32" else \
@@ -139,10 +208,17 @@ def build_article_html(article_id, title, description, category, pub_date,
     # highlight points
     hl_items = "\n".join(f"              <li>{p}</li>" for p in highlight_points)
 
-    # sections HTML
+    # sections HTML（最初のh2直後に記事内画像を挿入）
+    figure_html = f"""          <figure class="article-img">
+            <img src="{image_url}" alt="{title}" loading="lazy">
+            <figcaption>Photo by Unsplash</figcaption>
+          </figure>""" if image_url else ""
+
     sections_html = []
     for i, sec in enumerate(sections, 1):
         sections_html.append(f"          <h2>{i}. {sec['heading']}</h2>")
+        if i == 1 and figure_html:
+            sections_html.append(figure_html)
         sections_html.append(f"          {sec['content']}")
     sections_str = "\n".join(sections_html)
 
@@ -421,6 +497,7 @@ def main():
 
     sidebar_info = SIDEBAR_MAP.get(category, SIDEBAR_MAP["転職コラム"])
     related      = get_related_articles(manifest, category, article_id)
+    image_url    = pick_image_url(category, theme)
 
     # HTML 生成 & 保存
     html = build_article_html(
@@ -434,6 +511,7 @@ def main():
         warning_text=warning,
         sidebar_info=sidebar_info,
         related_articles=related,
+        image_url=image_url,
     )
 
     out_path = ARTICLES_DIR / f"{article_id}.html"
@@ -448,6 +526,7 @@ def main():
         "date":        pub_date,
         "description": description,
         "filename":    f"{article_id}.html",
+        "thumbnail":   image_url,
         "tags":        tags,
     })
     save_manifest(manifest)
