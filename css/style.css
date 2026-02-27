@@ -19,10 +19,15 @@
   --shadow:    0 2px 12px rgba(0,0,0,0.07);
   --shadow-h:  0 6px 24px rgba(0,0,0,0.12);
 
-  --cat-it:     #3b82f6;
-  --cat-med:    #10b981;
-  --cat-high:   #8b5cf6;
-  --cat-col:    #f59e0b;
+  --cat-it:       #3b82f6;
+  --cat-med:      #10b981;
+  --cat-high:     #8b5cf6;
+  --cat-col:      #f59e0b;
+  --cat-finance:  #ea580c;
+  --cat-mfg:      #0284c7;
+  --cat-care:     #be185d;
+  --cat-global:   #0f766e;
+  --cat-pro:      #7e22ce;
 }
 
 html { scroll-behavior: smooth; }
@@ -102,10 +107,15 @@ a { color: inherit; text-decoration: none; }
 }
 .tab-btn:hover { color: var(--primary); }
 .tab-btn.active { color: var(--primary); border-bottom-color: var(--accent); }
-.tab-btn[data-cat="IT転職"].active   { border-bottom-color: var(--cat-it); color: var(--cat-it); }
-.tab-btn[data-cat="医療転職"].active  { border-bottom-color: var(--cat-med); color: var(--cat-med); }
-.tab-btn[data-cat="ハイクラス転職"].active { border-bottom-color: var(--cat-high); color: var(--cat-high); }
-.tab-btn[data-cat="転職コラム"].active { border-bottom-color: var(--cat-col); color: var(--cat-col); }
+.tab-btn[data-cat="IT転職"].active        { border-bottom-color: var(--cat-it);      color: var(--cat-it); }
+.tab-btn[data-cat="医療転職"].active       { border-bottom-color: var(--cat-med);     color: var(--cat-med); }
+.tab-btn[data-cat="ハイクラス転職"].active  { border-bottom-color: var(--cat-high);    color: var(--cat-high); }
+.tab-btn[data-cat="転職コラム"].active      { border-bottom-color: var(--cat-col);     color: var(--cat-col); }
+.tab-btn[data-cat="金融・保険転職"].active  { border-bottom-color: var(--cat-finance); color: var(--cat-finance); }
+.tab-btn[data-cat="製造・メーカー転職"].active { border-bottom-color: var(--cat-mfg);  color: var(--cat-mfg); }
+.tab-btn[data-cat="介護・福祉転職"].active  { border-bottom-color: var(--cat-care);    color: var(--cat-care); }
+.tab-btn[data-cat="外資系転職"].active      { border-bottom-color: var(--cat-global);  color: var(--cat-global); }
+.tab-btn[data-cat="士業・専門職転職"].active { border-bottom-color: var(--cat-pro);    color: var(--cat-pro); }
 
 /* === MAIN LAYOUT === */
 .main-layout {
@@ -162,10 +172,15 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem;
   border-radius: 100px; color: #fff;
 }
-.cat-IT転職     { background: var(--cat-it); }
-.cat-医療転職    { background: var(--cat-med); }
-.cat-ハイクラス転職 { background: var(--cat-high); }
-.cat-転職コラム  { background: var(--cat-col); }
+.cat-IT転職        { background: var(--cat-it); }
+.cat-医療転職       { background: var(--cat-med); }
+.cat-ハイクラス転職  { background: var(--cat-high); }
+.cat-転職コラム     { background: var(--cat-col); }
+.cat-金融・保険転職  { background: var(--cat-finance); }
+.cat-製造・メーカー転職 { background: var(--cat-mfg); }
+.cat-介護・福祉転職  { background: var(--cat-care); }
+.cat-外資系転職     { background: var(--cat-global); }
+.cat-士業・専門職転職 { background: var(--cat-pro); }
 .card-date { font-size: 0.75rem; color: var(--muted); }
 .card-title {
   font-size: 1rem; font-weight: 700; line-height: 1.4;

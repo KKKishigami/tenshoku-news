@@ -12,12 +12,12 @@
   <meta property="og:type"        content="website">
   <meta property="og:title"       content="転職プレス | 最新転職ニュース・転職サイト比較">
   <meta property="og:description" content="IT・医療・ハイクラスの最新転職ニュースをまとめてお届け。">
-  <meta property="og:url"         content="https://kkkishigami.github.io/tenshoku-news/">
+  <meta property="og:url"         content="https://tenshoku-press.com/">
   <meta property="og:site_name"   content="転職プレス">
   <meta name="twitter:card"       content="summary_large_image">
 
   <!-- Canonical -->
-  <link rel="canonical" href="https://kkkishigami.github.io/tenshoku-news/">
+  <link rel="canonical" href="https://tenshoku-press.com/">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,11 +32,11 @@
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "転職プレス",
-    "url": "https://kkkishigami.github.io/tenshoku-news/",
+    "url": "https://tenshoku-press.com/",
     "description": "IT・医療・ハイクラスの最新転職ニュース・転職サイト比較",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://kkkishigami.github.io/tenshoku-news/?q={search_term_string}",
+      "target": "https://tenshoku-press.com/?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
@@ -54,6 +54,11 @@
         <a href="index.html?cat=IT転職">IT転職</a>
         <a href="index.html?cat=医療転職">医療転職</a>
         <a href="index.html?cat=ハイクラス転職">ハイクラス</a>
+        <a href="index.html?cat=金融・保険転職">金融・保険</a>
+        <a href="index.html?cat=製造・メーカー転職">製造・メーカー</a>
+        <a href="index.html?cat=介護・福祉転職">介護・福祉</a>
+        <a href="index.html?cat=外資系転職">外資系</a>
+        <a href="index.html?cat=士業・専門職転職">士業・専門職</a>
         <a href="ranking.html" class="nav-ranking">🏆 転職サイト比較</a>
       </nav>
     </div>
@@ -70,7 +75,7 @@
           <span>掲載記事</span>
         </div>
         <div class="hero-stat">
-          <strong>4</strong>
+          <strong>9</strong>
           <span>カテゴリ</span>
         </div>
         <div class="hero-stat">
@@ -88,6 +93,11 @@
       <button class="tab-btn" data-cat="IT転職" role="tab" aria-selected="false">💻 IT転職</button>
       <button class="tab-btn" data-cat="医療転職" role="tab" aria-selected="false">🏥 医療転職</button>
       <button class="tab-btn" data-cat="ハイクラス転職" role="tab" aria-selected="false">👔 ハイクラス</button>
+      <button class="tab-btn" data-cat="金融・保険転職" role="tab" aria-selected="false">💰 金融・保険</button>
+      <button class="tab-btn" data-cat="製造・メーカー転職" role="tab" aria-selected="false">🏭 製造・メーカー</button>
+      <button class="tab-btn" data-cat="介護・福祉転職" role="tab" aria-selected="false">🤝 介護・福祉</button>
+      <button class="tab-btn" data-cat="外資系転職" role="tab" aria-selected="false">🌐 外資系</button>
+      <button class="tab-btn" data-cat="士業・専門職転職" role="tab" aria-selected="false">⚖️ 士業・専門職</button>
       <button class="tab-btn" data-cat="転職コラム" role="tab" aria-selected="false">📝 コラム</button>
     </div>
   </div>
@@ -204,6 +214,26 @@
                   <span style="font-size:1.2rem">👔</span>
                   <span class="rank-name">ハイクラス転職</span>
                 </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'金融・保険転職\']').click()">
+                  <span style="font-size:1.2rem">💰</span>
+                  <span class="rank-name">金融・保険転職</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'製造・メーカー転職\']').click()">
+                  <span style="font-size:1.2rem">🏭</span>
+                  <span class="rank-name">製造・メーカー転職</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'介護・福祉転職\']').click()">
+                  <span style="font-size:1.2rem">🤝</span>
+                  <span class="rank-name">介護・福祉転職</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'外資系転職\']').click()">
+                  <span style="font-size:1.2rem">🌐</span>
+                  <span class="rank-name">外資系転職</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'士業・専門職転職\']').click()">
+                  <span style="font-size:1.2rem">⚖️</span>
+                  <span class="rank-name">士業・専門職転職</span>
+                </li>
                 <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'転職コラム\']').click()">
                   <span style="font-size:1.2rem">📝</span>
                   <span class="rank-name">転職コラム</span>
@@ -222,7 +252,7 @@
     <div class="footer-inner">
       <div>
         <div class="footer-logo">転職<span>プレス</span></div>
-        <p class="footer-desc">IT・医療・ハイクラスの最新転職情報をお届けする転職特化メディアです。</p>
+        <p class="footer-desc">IT・医療・金融・製造・介護・外資系・士業など幅広い転職情報をお届けする転職特化メディアです。</p>
       </div>
       <div>
         <p class="footer-heading">カテゴリ</p>
@@ -231,6 +261,11 @@
           <li><a href="index.html?cat=IT転職">IT転職</a></li>
           <li><a href="index.html?cat=医療転職">医療転職</a></li>
           <li><a href="index.html?cat=ハイクラス転職">ハイクラス転職</a></li>
+          <li><a href="index.html?cat=金融・保険転職">金融・保険転職</a></li>
+          <li><a href="index.html?cat=製造・メーカー転職">製造・メーカー転職</a></li>
+          <li><a href="index.html?cat=介護・福祉転職">介護・福祉転職</a></li>
+          <li><a href="index.html?cat=外資系転職">外資系転職</a></li>
+          <li><a href="index.html?cat=士業・専門職転職">士業・専門職転職</a></li>
           <li><a href="index.html?cat=転職コラム">転職コラム</a></li>
         </ul>
       </div>
