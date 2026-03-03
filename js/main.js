@@ -97,11 +97,13 @@
     var thumb = a.thumbnail
       ? '<img src="' + esc(a.thumbnail) + '" alt="' + esc(a.title) + '" loading="lazy">'
       : '<span class="card-thumb-icon">' + icon + '</span>';
+    var newBadge = a.is_new ? '<span class="new-badge">NEW!</span>' : '';
 
     return [
       '<article class="article-card">',
       '  <a href="' + link + '" class="card-thumb" aria-label="' + esc(a.title) + '">',
       '    ' + thumb,
+      '    ' + newBadge,
       '  </a>',
       '  <div class="card-body">',
       '    <div class="card-meta">',
@@ -168,17 +170,27 @@
     var btn = document.querySelector('.hamburger');
     var nav = document.querySelector('.header-nav');
     if (!btn || !nav) return;
-    btn.addEventListener('click', function () {
-      var open = nav.style.display === 'flex';
-      nav.style.display = open ? 'none' : 'flex';
-      nav.style.flexDirection = 'column';
-      nav.style.position = 'absolute';
-      nav.style.top = '100%';
-      nav.style.right = '0';
-      nav.style.background = '#1a3a5c';
-      nav.style.padding = '1rem 1.5rem';
-      nav.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
-      nav.style.zIndex = '200';
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = nav.classList.toggle('nav-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    // 外側クリックで閉じる
+    document.addEventListener('click', function (e) {
+      if (!btn.contains(e.target) && !nav.contains(e.target)) {
+        nav.classList.remove('nav-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // ナビ内リンクをタップしたら閉じる
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.classList.remove('nav-open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
     });
   }
 

@@ -54,6 +54,7 @@ a { color: inherit; text-decoration: none; }
 .header-inner {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0.85rem 1.25rem; max-width: 1120px; margin: 0 auto;
+  position: relative;
 }
 .site-logo {
   font-size: 1.35rem; font-weight: 800; color: #fff; letter-spacing: 0.04em;
@@ -74,6 +75,7 @@ a { color: inherit; text-decoration: none; }
 .hamburger {
   display: none; background: none; border: none;
   color: #fff; font-size: 1.5rem; cursor: pointer;
+  padding: 0.25rem 0.5rem;
 }
 
 /* === HERO === */
@@ -443,14 +445,78 @@ a { color: inherit; text-decoration: none; }
   .ranking-card { grid-template-columns: 56px 1fr; }
   .rank-action { grid-column: 1/-1; flex-direction: row; padding: 0.8rem 1rem; border-top: 1px solid var(--border); }
 }
-@media (max-width: 640px) {
-  .articles-grid { grid-template-columns: 1fr; }
+@media (max-width: 768px) {
+  /* --- Header & hamburger menu --- */
   .header-nav { display: none; }
+  .header-nav.nav-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: var(--primary);
+    padding: 0.5rem 0 0.75rem;
+    gap: 0;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    z-index: 200;
+  }
+  .header-nav.nav-open a {
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.95rem;
+    display: block;
+    color: rgba(255,255,255,0.9);
+  }
+  .header-nav.nav-open a:last-child { border-bottom: none; }
+  .header-nav.nav-open .nav-ranking {
+    margin: 0.5rem 1.5rem 0.25rem;
+    text-align: center;
+    border-radius: 8px;
+    display: block;
+    padding: 0.6rem 1rem !important;
+  }
   .hamburger { display: block; }
+
+  /* --- Article grid --- */
+  .articles-grid { grid-template-columns: 1fr; }
+
+  /* --- Card thumbnail height --- */
+  .card-thumb { height: 160px; }
+  .card-body { padding: 0.85rem; }
+  .card-title { font-size: 0.95rem; }
+  .card-desc { -webkit-line-clamp: 2; }
+
+  /* --- Sidebar --- */
   .sidebar { grid-template-columns: 1fr; }
+
+  /* --- Footer --- */
   .footer-inner { grid-template-columns: 1fr; }
+
+  /* --- Hero --- */
   .hero { padding: 2rem 1rem; }
+  .hero h1 { font-size: 1.5rem; }
   .hero-stats { gap: 1.2rem; }
+  .hero-stat strong { font-size: 1.3rem; }
+
+  /* --- Tabs --- */
+  .tab-btn { padding: 0.75rem 0.9rem; font-size: 0.82rem; }
+
+  /* --- Article page --- */
+  .article-body { padding: 1.25rem; }
+  .article-body h2 { font-size: 1.05rem; }
+  .article-body p, .article-body li { font-size: 0.9rem; }
+
+  /* --- Ranking page --- */
+  .ranking-card { grid-template-columns: 48px 1fr; }
+  .rank-info { padding: 0.85rem 1rem; }
+  .rank-info h3 { font-size: 0.95rem; }
+}
+@media (max-width: 480px) {
+  .container { padding: 0 0.75rem; }
+  .card-thumb { height: 140px; }
+  .hero { padding: 1.5rem 0.75rem; }
 }
 
 
