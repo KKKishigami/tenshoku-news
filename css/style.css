@@ -437,19 +437,9 @@ a { color: inherit; text-decoration: none; }
 .page-btn:hover:not(.active) { border-color: var(--primary); color: var(--primary); }
 
 /* === RESPONSIVE === */
-@media (max-width: 900px) {
-  .main-layout { grid-template-columns: 1fr; }
-  .sidebar { display: grid; grid-template-columns: 1fr 1fr; }
-  .article-layout { grid-template-columns: 1fr; }
-  .footer-inner { grid-template-columns: 1fr 1fr; }
-  .ranking-card { grid-template-columns: 56px 1fr; }
-  .rank-action { grid-column: 1/-1; flex-direction: row; padding: 0.8rem 1rem; border-top: 1px solid var(--border); }
-  /* ナビリンクが多い場合の溢れ防止 */
-  .header-nav { gap: 0.75rem; }
-  .header-nav a { font-size: 0.8rem; }
-}
-@media (max-width: 768px) {
-  /* --- Header & hamburger menu --- */
+
+/* --- 1024px: ナビ11リンク溢れ防止 → ハンバーガーに切り替え --- */
+@media (max-width: 1024px) {
   .header-nav { display: none; }
   .header-nav.nav-open {
     display: flex;
@@ -481,7 +471,20 @@ a { color: inherit; text-decoration: none; }
     padding: 0.6rem 1rem !important;
   }
   .hamburger { display: block; }
+}
 
+/* --- 900px: グリッドレイアウト --- */
+@media (max-width: 900px) {
+  .main-layout { grid-template-columns: 1fr; }
+  .sidebar { display: grid; grid-template-columns: 1fr 1fr; }
+  .article-layout { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .ranking-card { grid-template-columns: 56px 1fr; }
+  .rank-action { grid-column: 1/-1; flex-direction: row; padding: 0.8rem 1rem; border-top: 1px solid var(--border); }
+}
+
+/* --- 768px: 記事・カード・フォント調整 --- */
+@media (max-width: 768px) {
   /* --- Article grid --- */
   .articles-grid { grid-template-columns: 1fr; }
 

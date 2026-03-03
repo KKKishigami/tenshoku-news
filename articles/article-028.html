@@ -30,6 +30,7 @@
   <header id="site-header">
     <div class="header-inner">
       <a href="../index.html" class="site-logo">転職<span>プレス</span></a>
+      <button class="hamburger" aria-label="メニュー" aria-expanded="false">☰</button>
       <nav class="header-nav">
         <a href="../index.html">ホーム</a>
         <a href="../index.html?cat=IT転職">IT転職</a>
@@ -216,6 +217,30 @@
   <script>
     function shareX() { var t=encodeURIComponent(document.title+' | 転職プレス'),u=encodeURIComponent(location.href); window.open('https://twitter.com/intent/tweet?text='+t+'&url='+u,'_blank'); }
     function copyURL() { navigator.clipboard.writeText(location.href).then(function(){ alert('URLをコピーしました'); }); }
+  </script>
+  <script>
+  (function(){
+    var btn = document.querySelector('.hamburger');
+    var nav = document.querySelector('.header-nav');
+    if(!btn||!nav) return;
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = nav.classList.toggle('nav-open');
+      btn.setAttribute('aria-expanded', open?'true':'false');
+    });
+    document.addEventListener('click', function(e){
+      if(!btn.contains(e.target)&&!nav.contains(e.target)){
+        nav.classList.remove('nav-open');
+        btn.setAttribute('aria-expanded','false');
+      }
+    });
+    nav.addEventListener('click', function(e){
+      if(e.target.tagName==='A'){
+        nav.classList.remove('nav-open');
+        btn.setAttribute('aria-expanded','false');
+      }
+    });
+  })();
   </script>
 </body>
 </html>
