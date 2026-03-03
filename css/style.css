@@ -107,7 +107,7 @@ a { color: inherit; text-decoration: none; }
   flex-shrink: 0; background: none; border: none; border-bottom: 3px solid transparent;
   padding: 0.9rem 1.2rem; font-size: 0.88rem; font-weight: 700;
   color: var(--muted); cursor: pointer; transition: color 0.2s, border-color 0.2s;
-  font-family: inherit;
+  font-family: inherit; white-space: nowrap;
 }
 .tab-btn:hover { color: var(--primary); }
 .tab-btn.active { color: var(--primary); border-bottom-color: var(--accent); }
