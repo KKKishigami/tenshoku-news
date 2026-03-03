@@ -62,16 +62,18 @@ a { color: inherit; text-decoration: none; }
   font-size: 1.35rem; font-weight: 800; color: #fff; letter-spacing: 0.04em;
 }
 .site-logo span { color: var(--accent-l); }
-.header-nav { display: flex; gap: 1.5rem; align-items: center; }
+.header-nav { display: flex; gap: 1rem; align-items: center; flex-wrap: nowrap; }
 .header-nav a {
-  color: rgba(255,255,255,0.85); font-size: 0.88rem; font-weight: 600;
+  color: rgba(255,255,255,0.85); font-size: 0.85rem; font-weight: 600;
   transition: color 0.2s; padding: 0.3rem 0;
+  white-space: nowrap;
 }
 .header-nav a:hover { color: #fff; }
 .nav-ranking {
   background: var(--accent); color: #fff !important;
-  padding: 0.4rem 1rem !important; border-radius: 100px;
+  padding: 0.4rem 0.85rem !important; border-radius: 100px;
   transition: background 0.2s !important;
+  white-space: nowrap;
 }
 .nav-ranking:hover { background: var(--accent-l) !important; }
 .hamburger {
