@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW22NSV162"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RW22NSV162');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="職種・経験年数・スキルを入力するだけで、AIがあなたの適正年収を無料で診断。転職市場での市場価値と年収アップのアドバイスをその場で確認できます。">
+  <title>AI年収診断ツール【無料】転職市場での適正年収を即チェック | 転職プレス</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AI年収診断ツール【無料】転職市場での適正年収を即チェック">
+  <meta property="og:description" content="職種・経験年数・スキルを入力するだけで、AIがあなたの適正年収を無料で診断。">
+  <meta property="og:site_name" content="転職プレス">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://tenshoku-press.com/tools/nenshu.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"AI年収診断ツール","description":"職種・経験年数・スキルで適正年収を無料診断","url":"https://tenshoku-press.com/tools/nenshu.html","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+  </script>
+  <style>
+    .tool-hero{background:linear-gradient(135deg,#1a3a5c 0%,#0d5cb6 100%);color:#fff;padding:2.5rem 0;text-align:center}
+    .tool-hero h1{font-size:clamp(1.3rem,3vw,2rem);margin-bottom:.5rem}
+    .tool-hero p{opacity:.85;font-size:.95rem}
+    .tool-badge{display:inline-block;background:rgba(255,255,255,.2);padding:.25rem .75rem;border-radius:100px;font-size:.75rem;font-weight:700;margin-bottom:.75rem}
+    .tool-card{background:#fff;border-radius:14px;box-shadow:0 2px 20px rgba(0,0,0,.08);padding:2rem;max-width:760px;margin:2rem auto}
+    .tool-form label{display:block;font-weight:700;font-size:.9rem;color:#1e293b;margin-bottom:.4rem;margin-top:1.2rem}
+    .tool-form label:first-of-type{margin-top:0}
+    .form-hint{font-size:.78rem;color:#64748b;font-weight:400;margin-left:.4rem}
+    .tool-form select,.tool-form input[type="number"],.tool-form input[type="text"]{width:100%;padding:.75rem 1rem;border:2px solid #e2e8f0;border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:.95rem;transition:border-color .2s;box-sizing:border-box;background:#fff}
+    .tool-form select:focus,.tool-form input:focus{outline:none;border-color:#0d5cb6}
+    .skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.5rem;margin-top:.5rem}
+    .skill-check{display:flex;align-items:center;gap:.4rem;font-size:.85rem;padding:.4rem .5rem;border-radius:6px;cursor:pointer}
+    .skill-check:hover{background:#f0f5fc}
+    .skill-check input{accent-color:#0d5cb6;width:16px;height:16px;flex-shrink:0}
+    .btn-generate{display:block;width:100%;padding:1.1rem;background:linear-gradient(135deg,#e85d04,#c94e00);color:#fff;border:none;border-radius:10px;font-size:1.1rem;font-weight:800;cursor:pointer;margin-top:1.75rem;transition:opacity .2s,transform .2s;font-family:'Noto Sans JP',sans-serif}
+    .btn-generate:hover{opacity:.9;transform:translateY(-2px)}
+    .btn-generate:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .loading-wrap{display:none;text-align:center;padding:2.5rem;color:#64748b}
+    .loading-wrap.on{display:block}
+    .spin{width:42px;height:42px;border:4px solid #e2e8f0;border-top-color:#0d5cb6;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .result-box{display:none;margin-top:1.5rem}
+    .result-box.on{display:block}
+    .result-content{background:#f8fbff;border:1px solid #c7ddf7;border-radius:10px;padding:1.5rem;line-height:1.85;font-size:.95rem}
+    .result-content h3{color:#1a3a5c;font-size:1.05rem;margin:1.2rem 0 .5rem;border-left:3px solid #0d5cb6;padding-left:.6rem}
+    .result-content h3:first-child{margin-top:0}
+    .result-content strong{color:#1a3a5c}
+    .result-content ul{padding-left:1.4rem;margin:.4rem 0}
+    .cta-box{background:linear-gradient(135deg,#fff9f0,#fff);border:2px solid #e85d04;border-radius:12px;padding:1.5rem;margin-top:1.5rem;text-align:center}
+    .cta-box h3{color:#1a3a5c;margin-bottom:1rem;font-size:1.05rem}
+    .cta-links{display:flex;flex-direction:column;gap:.7rem}
+    .cta-link{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:.85rem 1rem;text-decoration:none;color:#1e293b;font-weight:700;font-size:.9rem;transition:all .2s}
+    .cta-link:hover{background:#fff5ee;transform:translateX(4px);border-color:#e85d04}
+    .cta-free{background:#e53e3e;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:4px;flex-shrink:0}
+    .error-box{background:#fff5f5;border:1px solid #fed7d7;border-radius:8px;padding:1rem 1.25rem;margin-top:1rem;color:#c53030;font-size:.9rem;display:none}
+    .error-box.on{display:block}
+    .tips-box{background:#e8f4fd;border-left:4px solid #0d5cb6;border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin-top:1.25rem;font-size:.85rem;color:#1a3a5c}
+    .reset-btn{background:none;border:1px solid #cbd5e1;color:#64748b;padding:.5rem 1.25rem;border-radius:8px;font-size:.85rem;cursor:pointer;margin-top:1rem;font-family:inherit}
+    .reset-btn:hover{background:#f8fafc}
+  </style>
+</head>
+<body>
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="site-logo">転職<span>プレス</span></a>
+      <nav class="header-nav">
+        <a href="../index.html">ホーム</a>
+        <a href="../index.html?cat=IT転職">IT転職</a>
+        <a href="../index.html?cat=医療転職">医療転職</a>
+        <a href="../index.html?cat=ハイクラス転職">ハイクラス</a>
+        <a href="../index.html?cat=金融・保険転職">金融</a>
+        <a href="index.html" class="nav-ranking">🔧 無料ツール</a>
+        <a href="../ranking.html" class="nav-ranking">🏆 転職サイト比較</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="tool-hero">
+    <div class="container">
+      <div class="tool-badge">💰 無料 AIツール</div>
+      <h1>AI年収診断ツール</h1>
+      <p>職種・経験年数・スキルを入力するだけで、転職市場での適正年収をAIが即時診断</p>
+    </div>
+  </section>
+
+  <main>
+    <div class="container">
+      <nav class="breadcrumb" style="margin:1.25rem 0 0">
+        <a href="../index.html">トップ</a> › <a href="index.html">無料ツール</a> › <span>AI年収診断</span>
+      </nav>
+
+      <div class="tool-card">
+        <form class="tool-form" id="toolForm">
+          <label>職種カテゴリ <span class="form-hint">（最も近いものを選択）</span></label>
+          <select id="jobType" required>
+            <option value="">-- 選択してください --</option>
+            <option>ITエンジニア（バックエンド）</option>
+            <option>ITエンジニア（フロントエンド）</option>
+            <option>ITエンジニア（インフラ・クラウド）</option>
+            <option>データサイエンティスト・AI</option>
+            <option>プロジェクトマネージャー</option>
+            <option>Webデザイナー・UX</option>
+            <option>営業（IT・SaaS）</option>
+            <option>営業（メーカー・商社）</option>
+            <option>マーケティング</option>
+            <option>人事・労務</option>
+            <option>経理・財務</option>
+            <option>医師</option>
+            <option>看護師</option>
+            <option>薬剤師</option>
+            <option>介護士・ケアマネージャー</option>
+            <option>コンサルタント（経営・戦略）</option>
+            <option>金融（銀行・証券）</option>
+            <option>製造・生産技術</option>
+            <option>弁護士・司法書士</option>
+            <option>公認会計士・税理士</option>
+            <option>その他</option>
+          </select>
+
+          <label>経験年数</label>
+          <select id="expYears" required>
+            <option value="">-- 選択してください --</option>
+            <option value="1">1年未満</option>
+            <option value="2">1〜2年</option>
+            <option value="3">3〜4年</option>
+            <option value="5">5〜7年</option>
+            <option value="8">8〜10年</option>
+            <option value="12">11〜15年</option>
+            <option value="20">16年以上</option>
+          </select>
+
+          <label>現在の年収 <span class="form-hint">（わからない場合は0）</span></label>
+          <input type="number" id="currentSalary" placeholder="例: 450" min="0" max="5000">
+          <span style="font-size:.8rem;color:#64748b;display:block;margin-top:.3rem">万円</span>
+
+          <label>勤務地</label>
+          <select id="location">
+            <option>東京・神奈川（首都圏）</option>
+            <option>大阪・京都・兵庫（関西圏）</option>
+            <option>愛知（東海圏）</option>
+            <option>その他地方</option>
+            <option>フルリモート希望</option>
+          </select>
+
+          <label>保有スキル・資格 <span class="form-hint">（複数選択可）</span></label>
+          <div class="skill-grid">
+            <label class="skill-check"><input type="checkbox" value="マネジメント経験">マネジメント経験</label>
+            <label class="skill-check"><input type="checkbox" value="英語（ビジネスレベル）">英語（ビジネスレベル）</label>
+            <label class="skill-check"><input type="checkbox" value="MBA・大学院">MBA・大学院</label>
+            <label class="skill-check"><input type="checkbox" value="国家資格保有">国家資格保有</label>
+            <label class="skill-check"><input type="checkbox" value="AWS・クラウド認定">AWS・クラウド認定</label>
+            <label class="skill-check"><input type="checkbox" value="PMP・プロジェクト管理">PMP・プロジェクト管理</label>
+            <label class="skill-check"><input type="checkbox" value="データ分析・SQL">データ分析・SQL</label>
+            <label class="skill-check"><input type="checkbox" value="AI・機械学習">AI・機械学習</label>
+          </div>
+
+          <button type="submit" class="btn-generate" id="genBtn">
+            💡 AIで年収を診断する（無料）
+          </button>
+        </form>
+
+        <div class="loading-wrap" id="loadingWrap">
+          <div class="spin"></div>
+          <p>AIが転職市場データを分析中...<br><small>（通常10〜20秒かかります）</small></p>
+        </div>
+
+        <div class="error-box" id="errorBox"></div>
+
+        <div class="result-box" id="resultBox">
+          <div class="result-content" id="resultContent"></div>
+
+          <div class="tips-box">
+            💡 <strong>次のアクション</strong>：複数の転職エージェントに相談することで、より正確な市場価値と非公開求人情報を確認できます。
+          </div>
+
+          <div class="cta-box">
+            <h3>🎯 年収アップの転職相談（すべて無料・登録2分）</h3>
+            <div class="cta-links">
+              <a href="../ranking.html" class="cta-link">
+                <span>👔 ビズリーチ — ハイクラス・スカウト型 年収800万超の求人多数</span>
+                <span class="cta-free">無料</span>
+              </a>
+              <a href="../ranking.html" class="cta-link">
+                <span>💼 JACリクルートメント — 外資・管理職・専門職に強い</span>
+                <span class="cta-free">無料</span>
+              </a>
+              <a href="../ranking.html" class="cta-link">
+                <span>📊 リクルートエージェント — 業界最大級の求人数・年収交渉実績No.1</span>
+                <span class="cta-free">無料</span>
+              </a>
+            </div>
+            <p style="font-size:.75rem;color:#94a3b8;margin-top:.75rem">※本サイトはアフィリエイト広告を利用しています</p>
+          </div>
+
+          <button class="reset-btn" id="resetBtn">← もう一度診断する</button>
+        </div>
+      </div>
+
+      <div style="max-width:760px;margin:0 auto 3rem">
+        <h2 style="font-size:1.15rem;font-weight:800;color:#1a3a5c;margin-bottom:1rem">このツールの使い方</h2>
+        <ol style="padding-left:1.5rem;font-size:.9rem;line-height:2;color:#334155">
+          <li>職種・経験年数・現在の年収・スキルを入力</li>
+          <li>「AIで年収を診断する」ボタンを押す</li>
+          <li>AIが最新の転職市場データをもとに適正年収レンジを分析</li>
+          <li>結果をもとに転職エージェントに無料相談して年収アップへ</li>
+        </ol>
+        <p style="font-size:.8rem;color:#94a3b8;margin-top:1rem">※診断結果はAIによる参考値です。実際の年収は企業・条件によって異なります。</p>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">転職<span>プレス</span></div>
+        <p class="footer-desc">IT・医療・金融・製造・介護・外資系・士業など幅広い転職情報をお届けするメディアです。</p>
+      </div>
+      <div>
+        <p class="footer-heading">無料ツール</p>
+        <ul class="footer-links">
+          <li><a href="nenshu.html">AI年収診断</a></li>
+          <li><a href="rirekisho.html">職務経歴書チェッカー</a></li>
+          <li><a href="mensetsu.html">面接Q&Aジェネレーター</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">サイト情報</p>
+        <ul class="footer-links">
+          <li><a href="../ranking.html">転職サイト比較</a></li>
+          <li><a href="../privacy.html">プライバシーポリシー</a></li>
+          <li><a href="../about.html">サイトについて</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>本サイトはアフィリエイト広告を利用しています。&nbsp;|&nbsp;&copy; 2026 転職プレス All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script>
+  (function(){
+    var form   = document.getElementById('toolForm');
+    var genBtn = document.getElementById('genBtn');
+    var load   = document.getElementById('loadingWrap');
+    var err    = document.getElementById('errorBox');
+    var result = document.getElementById('resultBox');
+    var content= document.getElementById('resultContent');
+    var reset  = document.getElementById('resetBtn');
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+
+      var key = window.GEMINI_TOOLS_KEY;
+      if (!key) {
+        showErr('ツールを準備中です。しばらくお待ちください。');
+        return;
+      }
+
+      var jobType  = document.getElementById('jobType').value;
+      var expYears = document.getElementById('expYears').value;
+      var salary   = document.getElementById('currentSalary').value;
+      var location = document.getElementById('location').value;
+      var skills   = Array.from(document.querySelectorAll('.skill-check input:checked')).map(function(c){return c.value;});
+
+      if (!jobType || !expYears) {
+        showErr('職種と経験年数は必須です。');
+        return;
+      }
+
+      setLoading(true);
+      hideResult();
+      hideErr();
+
+      var skillsText = skills.length ? '保有スキル・資格: ' + skills.join('、') : 'スキル・資格: 特になし（または未入力）';
+      var salaryText = salary ? '現在の年収: ' + salary + '万円' : '現在の年収: 未入力';
+
+      var prompt = `あなたは転職市場の専門アナリストです。以下のプロフィールの人物について、2026年の日本の転職市場における適正年収を詳しく分析してください。
+
+【プロフィール】
+職種: ${jobType}
+経験年数: ${expYears}年
+${salaryText}
+勤務地希望: ${location}
+${skillsText}
+
+以下の形式でHTMLタグ（h3/p/ul/li/strong）を使って回答してください:
+
+<h3>📊 適正年収レンジ</h3>
+現在の市場での年収レンジ（低・中央・高の3段階）と根拠を説明
+
+<h3>📈 現在の年収の評価</h3>
+${salary ? `現在の年収${salary}万円が市場水準と比べてどうか` : '市場水準の年収帯の解説'}
+
+<h3>💡 年収アップのポイント</h3>
+この職種・経験で年収を上げるために何が重要か（具体的に3〜4点）
+
+<h3>🏢 おすすめの転職先タイプ</h3>
+年収アップが見込める企業タイプや業界（3〜4例）
+
+<h3>💬 転職エージェントに相談する前に確認すること</h3>
+面談前に準備すべきことを2〜3点
+
+回答は必ず日本語で、具体的な数字を含めてください。`;
+
+      try {
+        var text = await callGemini(key, prompt);
+        content.innerHTML = text;
+        setLoading(false);
+        showResult();
+      } catch(e) {
+        setLoading(false);
+        showErr('診断中にエラーが発生しました。しばらく待ってから再試行してください。（' + e.message + '）');
+      }
+    });
+
+    reset.addEventListener('click', function(){
+      hideResult();
+      form.style.display = '';
+      window.scrollTo({top: 0, behavior:'smooth'});
+    });
+
+    async function callGemini(apiKey, prompt) {
+      var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + apiKey;
+      var res = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          contents: [{parts: [{text: prompt}]}],
+          generationConfig: {temperature: 0.7, maxOutputTokens: 1200}
+        })
+      });
+      if (!res.ok) {
+        var d = await res.json().catch(function(){return {};});
+        throw new Error(d.error && d.error.message ? d.error.message : 'HTTP ' + res.status);
+      }
+      var data = await res.json();
+      return data.candidates[0].content.parts[0].text;
+    }
+
+    function setLoading(on) {
+      load.classList.toggle('on', on);
+      genBtn.disabled = on;
+      if (on) form.style.display = 'none';
+      else form.style.display = '';
+    }
+    function showResult()  { result.classList.add('on'); }
+    function hideResult()  { result.classList.remove('on'); }
+    function showErr(msg)  { err.textContent = msg; err.classList.add('on'); }
+    function hideErr()     { err.classList.remove('on'); }
+  })();
+  </script>
+</body>
+</html>

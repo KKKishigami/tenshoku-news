@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RW22NSV162"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RW22NSV162');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="職務経歴書をAIが無料でチェック。採用担当者の視点で評価スコアと改善点を即時フィードバック。転職活動の通過率アップに活用してください。">
+  <title>職務経歴書チェッカー【AI無料診断】評価スコアと改善点を即フィードバック | 転職プレス</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="職務経歴書チェッカー【AI無料診断】評価スコアと改善点を即フィードバック">
+  <meta property="og:description" content="職務経歴書をAIが無料でチェック。採用担当者の視点で評価スコアと改善点を即時フィードバック。">
+  <meta property="og:site_name" content="転職プレス">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://tenshoku-press.com/tools/rirekisho.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"職務経歴書チェッカー","description":"AIが職務経歴書を無料でチェック・採点","url":"https://tenshoku-press.com/tools/rirekisho.html","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"}}
+  </script>
+  <style>
+    .tool-hero{background:linear-gradient(135deg,#1a3a5c 0%,#10b981 100%);color:#fff;padding:2.5rem 0;text-align:center}
+    .tool-hero h1{font-size:clamp(1.3rem,3vw,2rem);margin-bottom:.5rem}
+    .tool-hero p{opacity:.85;font-size:.95rem}
+    .tool-badge{display:inline-block;background:rgba(255,255,255,.2);padding:.25rem .75rem;border-radius:100px;font-size:.75rem;font-weight:700;margin-bottom:.75rem}
+    .tool-card{background:#fff;border-radius:14px;box-shadow:0 2px 20px rgba(0,0,0,.08);padding:2rem;max-width:760px;margin:2rem auto}
+    .tool-form label{display:block;font-weight:700;font-size:.9rem;color:#1e293b;margin-bottom:.4rem;margin-top:1.2rem}
+    .tool-form label:first-of-type{margin-top:0}
+    .form-hint{font-size:.78rem;color:#64748b;font-weight:400;margin-left:.4rem}
+    .tool-form select,.tool-form textarea{width:100%;padding:.75rem 1rem;border:2px solid #e2e8f0;border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:.95rem;transition:border-color .2s;box-sizing:border-box;background:#fff}
+    .tool-form select:focus,.tool-form textarea:focus{outline:none;border-color:#10b981}
+    .char-count{font-size:.78rem;color:#64748b;text-align:right;margin-top:.3rem}
+    .char-count.warn{color:#e85d04}
+    .btn-generate{display:block;width:100%;padding:1.1rem;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:10px;font-size:1.1rem;font-weight:800;cursor:pointer;margin-top:1.75rem;transition:opacity .2s,transform .2s;font-family:'Noto Sans JP',sans-serif}
+    .btn-generate:hover{opacity:.9;transform:translateY(-2px)}
+    .btn-generate:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .loading-wrap{display:none;text-align:center;padding:2.5rem;color:#64748b}
+    .loading-wrap.on{display:block}
+    .spin{width:42px;height:42px;border:4px solid #e2e8f0;border-top-color:#10b981;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .result-box{display:none;margin-top:1.5rem}
+    .result-box.on{display:block}
+    .score-circle{text-align:center;margin-bottom:1.5rem}
+    .score-num{font-size:4rem;font-weight:800;color:#1a3a5c;line-height:1}
+    .score-label{font-size:.85rem;color:#64748b;margin-top:.3rem}
+    .score-bar{height:10px;background:#e2e8f0;border-radius:5px;margin:.75rem auto;max-width:240px;overflow:hidden}
+    .score-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,#10b981,#059669);transition:width 1s ease}
+    .result-content{background:#f8fffc;border:1px solid #a7f3d0;border-radius:10px;padding:1.5rem;line-height:1.85;font-size:.95rem}
+    .result-content h3{color:#1a3a5c;font-size:1.05rem;margin:1.2rem 0 .5rem;border-left:3px solid #10b981;padding-left:.6rem}
+    .result-content h3:first-child{margin-top:0}
+    .result-content strong{color:#1a3a5c}
+    .result-content ul{padding-left:1.4rem;margin:.4rem 0}
+    .cta-box{background:linear-gradient(135deg,#f0fdf4,#fff);border:2px solid #10b981;border-radius:12px;padding:1.5rem;margin-top:1.5rem;text-align:center}
+    .cta-box h3{color:#1a3a5c;margin-bottom:1rem;font-size:1.05rem}
+    .cta-links{display:flex;flex-direction:column;gap:.7rem}
+    .cta-link{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:.85rem 1rem;text-decoration:none;color:#1e293b;font-weight:700;font-size:.9rem;transition:all .2s}
+    .cta-link:hover{background:#f0fdf4;transform:translateX(4px);border-color:#10b981}
+    .cta-free{background:#e53e3e;color:#fff;font-size:.65rem;font-weight:800;padding:.15rem .5rem;border-radius:4px;flex-shrink:0}
+    .error-box{background:#fff5f5;border:1px solid #fed7d7;border-radius:8px;padding:1rem 1.25rem;margin-top:1rem;color:#c53030;font-size:.9rem;display:none}
+    .error-box.on{display:block}
+    .tips-box{background:#e8fdf4;border-left:4px solid #10b981;border-radius:0 8px 8px 0;padding:1rem 1.25rem;margin-top:1.25rem;font-size:.85rem;color:#1a3a5c}
+    .reset-btn{background:none;border:1px solid #cbd5e1;color:#64748b;padding:.5rem 1.25rem;border-radius:8px;font-size:.85rem;cursor:pointer;margin-top:1rem;font-family:inherit}
+    .reset-btn:hover{background:#f8fafc}
+    .sample-btn{background:#f0fdf4;border:1px solid #10b981;color:#059669;padding:.5rem 1rem;border-radius:8px;font-size:.82rem;cursor:pointer;margin-top:.5rem;font-family:inherit;font-weight:600}
+    .sample-btn:hover{background:#dcfce7}
+  </style>
+</head>
+<body>
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="../index.html" class="site-logo">転職<span>プレス</span></a>
+      <nav class="header-nav">
+        <a href="../index.html">ホーム</a>
+        <a href="../index.html?cat=IT転職">IT転職</a>
+        <a href="../index.html?cat=医療転職">医療転職</a>
+        <a href="../index.html?cat=ハイクラス転職">ハイクラス</a>
+        <a href="../index.html?cat=金融・保険転職">金融</a>
+        <a href="index.html" class="nav-ranking">🔧 無料ツール</a>
+        <a href="../ranking.html" class="nav-ranking">🏆 転職サイト比較</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="tool-hero">
+    <div class="container">
+      <div class="tool-badge">📄 無料 AIツール</div>
+      <h1>職務経歴書チェッカー</h1>
+      <p>採用担当者の視点でAIがスコアリング。改善点と修正例を即時フィードバック</p>
+    </div>
+  </section>
+
+  <main>
+    <div class="container">
+      <nav class="breadcrumb" style="margin:1.25rem 0 0">
+        <a href="../index.html">トップ</a> › <a href="index.html">無料ツール</a> › <span>職務経歴書チェッカー</span>
+      </nav>
+
+      <div class="tool-card">
+        <form class="tool-form" id="toolForm">
+          <label>応募職種 <span class="form-hint">（チェックのポイントが変わります）</span></label>
+          <select id="targetJob">
+            <option value="">-- 選択してください（任意） --</option>
+            <option>ITエンジニア（バックエンド）</option>
+            <option>ITエンジニア（フロントエンド）</option>
+            <option>プロジェクトマネージャー</option>
+            <option>営業</option>
+            <option>マーケティング</option>
+            <option>経理・財務</option>
+            <option>人事・労務</option>
+            <option>コンサルタント</option>
+            <option>医療・介護職</option>
+            <option>その他</option>
+          </select>
+
+          <label>職務経歴書の内容を貼り付けてください <span class="form-hint">（200〜3000文字）</span></label>
+          <textarea id="resumeText" rows="12" placeholder="職務経歴書の内容をコピー&ペーストしてください。
+
+例:
+【職務要約】
+○○株式会社にて5年間、Webアプリケーションの開発に従事。React/Node.jsを用いたフルスタック開発を担当し、月間100万PVのサービスの機能開発・パフォーマンス改善を主導。
+
+【職務経歴】
+■ 株式会社〇〇（2020年4月〜現在）
+・Webアプリケーション開発（React, TypeScript, Node.js）
+・要件定義〜設計〜実装〜テストを担当
+..."></textarea>
+          <div class="char-count" id="charCount">0 / 3000文字</div>
+          <button type="button" class="sample-btn" id="sampleBtn">📋 サンプルを入力して試す</button>
+
+          <button type="submit" class="btn-generate" id="genBtn">
+            📊 AIでスコアリング・添削する（無料）
+          </button>
+        </form>
+
+        <div class="loading-wrap" id="loadingWrap">
+          <div class="spin"></div>
+          <p>採用担当者の視点でAI分析中...<br><small>（通常15〜25秒かかります）</small></p>
+        </div>
+
+        <div class="error-box" id="errorBox"></div>
+
+        <div class="result-box" id="resultBox">
+          <div class="score-circle">
+            <div class="score-num" id="scoreNum">--</div>
+            <div class="score-label">採用担当者評価スコア（100点満点）</div>
+            <div class="score-bar"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+          </div>
+
+          <div class="result-content" id="resultContent"></div>
+
+          <div class="tips-box">
+            💡 <strong>プロによる添削も有効</strong>：AIの指摘を参考に修正後、転職エージェントの面談でプロのキャリアアドバイザーにも確認してもらうと書類通過率がさらに上がります。
+          </div>
+
+          <div class="cta-box">
+            <h3>📝 プロのキャリアアドバイザーに書類添削を依頼する（無料）</h3>
+            <div class="cta-links">
+              <a href="../ranking.html" class="cta-link">
+                <span>📋 リクルートエージェント — 書類添削・面接対策が充実、求人数No.1</span>
+                <span class="cta-free">無料</span>
+              </a>
+              <a href="../ranking.html" class="cta-link">
+                <span>🌟 マイナビAGENT — 20代・30代に強い、丁寧なサポート</span>
+                <span class="cta-free">無料</span>
+              </a>
+              <a href="../ranking.html" class="cta-link">
+                <span>💼 doda — 豊富な求人と充実した書類作成サポート</span>
+                <span class="cta-free">無料</span>
+              </a>
+            </div>
+            <p style="font-size:.75rem;color:#94a3b8;margin-top:.75rem">※本サイトはアフィリエイト広告を利用しています</p>
+          </div>
+
+          <button class="reset-btn" id="resetBtn">← 別の文章でチェックする</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">転職<span>プレス</span></div>
+        <p class="footer-desc">IT・医療・金融・製造・介護・外資系・士業など幅広い転職情報をお届けするメディアです。</p>
+      </div>
+      <div>
+        <p class="footer-heading">無料ツール</p>
+        <ul class="footer-links">
+          <li><a href="nenshu.html">AI年収診断</a></li>
+          <li><a href="rirekisho.html">職務経歴書チェッカー</a></li>
+          <li><a href="mensetsu.html">面接Q&Aジェネレーター</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">サイト情報</p>
+        <ul class="footer-links">
+          <li><a href="../ranking.html">転職サイト比較</a></li>
+          <li><a href="../privacy.html">プライバシーポリシー</a></li>
+          <li><a href="../about.html">サイトについて</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>本サイトはアフィリエイト広告を利用しています。&nbsp;|&nbsp;&copy; 2026 転職プレス All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script>
+  (function(){
+    var form    = document.getElementById('toolForm');
+    var genBtn  = document.getElementById('genBtn');
+    var load    = document.getElementById('loadingWrap');
+    var err     = document.getElementById('errorBox');
+    var result  = document.getElementById('resultBox');
+    var content = document.getElementById('resultContent');
+    var reset   = document.getElementById('resetBtn');
+    var scoreN  = document.getElementById('scoreNum');
+    var scoreF  = document.getElementById('scoreFill');
+    var textArea= document.getElementById('resumeText');
+    var charCnt = document.getElementById('charCount');
+
+    textArea.addEventListener('input', function(){
+      var n = textArea.value.length;
+      charCnt.textContent = n + ' / 3000文字';
+      charCnt.classList.toggle('warn', n > 3000);
+    });
+
+    document.getElementById('sampleBtn').addEventListener('click', function(){
+      textArea.value = `【職務要約】
+○○株式会社にてWebエンジニアとして5年間勤務。バックエンド開発を中心に、要件定義から設計・実装・テストまで一貫して担当。月間100万PVのECサービスの機能開発をリードし、レスポンスタイムを40%改善。
+
+【職務経歴】
+■ 株式会社○○（2020年4月〜現在）
+職種：バックエンドエンジニア
+・ECサービスのバックエンドAPI開発（Python / Django / PostgreSQL）
+・マイクロサービス化の設計・実装（Docker / Kubernetes）
+・チーム5名のリーダーとして、スプリント計画・コードレビューを担当
+・CIパイプライン構築によりデプロイ頻度を月2回→毎日に改善
+
+■ 株式会社△△（2017年4月〜2020年3月）
+職種：Webエンジニア
+・PHPによるWebシステム開発
+・社内業務システムの要件定義・設計・開発
+
+【スキル】
+言語：Python、PHP、JavaScript
+フレームワーク：Django、Laravel、React
+インフラ：AWS（EC2/RDS/S3）、Docker、GitHub Actions
+その他：Scrum、アジャイル開発`;
+      charCnt.textContent = textArea.value.length + ' / 3000文字';
+    });
+
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+
+      var key = window.GEMINI_TOOLS_KEY;
+      if (!key) { showErr('ツールを準備中です。しばらくお待ちください。'); return; }
+
+      var text = textArea.value.trim();
+      if (text.length < 100) { showErr('職務経歴書の内容を100文字以上入力してください。'); return; }
+      if (text.length > 3000) { showErr('3000文字以内に収めてください。'); return; }
+
+      var targetJob = document.getElementById('targetJob').value;
+      var jobNote   = targetJob ? '応募職種: ' + targetJob : '応募職種: 未指定（一般的な視点で評価）';
+
+      setLoading(true);
+      hideResult();
+      hideErr();
+
+      var prompt = `あなたは日系・外資系企業の採用担当者として15年以上の経験を持つキャリアアドバイザーです。
+以下の職務経歴書を採用担当者の視点で厳しく、かつ建設的に評価してください。
+
+【評価条件】
+${jobNote}
+
+【職務経歴書】
+${text}
+
+以下の形式でHTMLタグ（h3/p/ul/li/strong）を使って回答してください。必ず最初に総合スコアを書いてください:
+
+<h3>🏆 総合評価スコア: XX点 / 100点</h3>
+（スコアと一言評価。採用担当者として率直な印象を書く）
+
+<h3>✅ 評価できるポイント（3〜4点）</h3>
+（強みや良い書き方の具体的な箇所を挙げる）
+
+<h3>⚠️ 改善が必要な点（3〜5点）</h3>
+（採用通過率を下げているポイントを具体的に指摘する）
+
+<h3>✏️ 具体的な修正例</h3>
+（最も重要な改善点について、修正前→修正後の例を示す）
+
+<h3>📋 書類通過率を上げるための追加アドバイス</h3>
+（この職務経歴書を通過させるために最優先でやるべきこと2〜3点）
+
+必ず日本語で、具体的・実践的なフィードバックをしてください。`;
+
+      try {
+        var responseText = await callGemini(key, prompt);
+        var scoreMatch = responseText.match(/総合評価スコア[：:]\s*(\d+)/);
+        if (scoreMatch) {
+          var score = parseInt(scoreMatch[1]);
+          scoreN.textContent = score;
+          setTimeout(function(){ scoreF.style.width = score + '%'; }, 100);
+        }
+        content.innerHTML = responseText;
+        setLoading(false);
+        showResult();
+      } catch(e) {
+        setLoading(false);
+        showErr('診断中にエラーが発生しました。しばらく待ってから再試行してください。（' + e.message + '）');
+      }
+    });
+
+    reset.addEventListener('click', function(){
+      hideResult();
+      scoreN.textContent = '--';
+      scoreF.style.width = '0%';
+      form.style.display = '';
+      window.scrollTo({top: 0, behavior:'smooth'});
+    });
+
+    async function callGemini(apiKey, prompt) {
+      var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + apiKey;
+      var res = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          contents: [{parts: [{text: prompt}]}],
+          generationConfig: {temperature: 0.6, maxOutputTokens: 1500}
+        })
+      });
+      if (!res.ok) {
+        var d = await res.json().catch(function(){return {};});
+        throw new Error(d.error && d.error.message ? d.error.message : 'HTTP ' + res.status);
+      }
+      var data = await res.json();
+      return data.candidates[0].content.parts[0].text;
+    }
+
+    function setLoading(on) {
+      load.classList.toggle('on', on);
+      genBtn.disabled = on;
+      if (on) form.style.display = 'none';
+      else form.style.display = '';
+    }
+    function showResult()  { result.classList.add('on'); }
+    function hideResult()  { result.classList.remove('on'); }
+    function showErr(msg)  { err.textContent = msg; err.classList.add('on'); }
+    function hideErr()     { err.classList.remove('on'); }
+  })();
+  </script>
+</body>
+</html>
