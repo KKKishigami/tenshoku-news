@@ -106,6 +106,22 @@
         <a href="../index.html">トップ</a> › <a href="index.html">無料ツール</a> › <span>職務経歴書チェッカー</span>
       </nav>
 
+      <!-- APIキー設定パネル -->
+      <div class="tool-card" style="margin-bottom:1rem;padding:1.25rem;">
+        <div id="api-key-saved" style="display:none;align-items:center;gap:1rem;">
+          <span style="font-size:0.9rem;color:#2d6a4f;font-weight:700;">&#10003; Gemini APIキー設定済み</span>
+          <button type="button" onclick="showApiKeyInput()" style="font-size:0.78rem;padding:0.25rem 0.75rem;background:#fff;border:1px solid #cbd5e0;border-radius:4px;cursor:pointer;">変更</button>
+        </div>
+        <div id="api-key-input-area">
+          <p style="font-weight:700;margin:0 0 0.4rem;">&#128273; Gemini APIキーを設定</p>
+          <p style="font-size:0.82rem;color:#555;margin:0 0 0.75rem;"><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a> で無料取得できます。キーはブラウザにのみ保存されます。</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            <input type="text" id="apiKeyInput" placeholder="AIza..." style="flex:1;min-width:200px;padding:0.5rem 0.75rem;border:1.5px solid #cbd5e0;border-radius:6px;font-size:0.9rem;">
+            <button type="button" onclick="saveApiKey()" style="padding:0.5rem 1.25rem;background:#1a3a5c;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;">保存</button>
+          </div>
+        </div>
+      </div>
+
       <div class="tool-card">
         <form class="tool-form" id="toolForm">
           <label>応募職種 <span class="form-hint">（チェックのポイントが変わります）</span></label>
@@ -215,8 +231,6 @@
       <p>本サイトはアフィリエイト広告を利用しています。&nbsp;|&nbsp;&copy; 2026 転職プレス All Rights Reserved.</p>
     </div>
   </footer>
-
-  <script src="config.js"></script>
   <script>
   (function(){
     var form    = document.getElementById('toolForm');
@@ -265,8 +279,8 @@
     form.addEventListener('submit', async function(e){
       e.preventDefault();
 
-      var key = window.GEMINI_TOOLS_KEY;
-      if (!key) { showErr('ツールを準備中です。しばらくお待ちください。'); return; }
+      var key = localStorage.getItem('gemini_api_key');
+      if (!key) { showErr('APIキーが設定されていません。ページ上部のフォームにAPIキーを入力してください。'); return; }
 
       var text = textArea.value.trim();
       if (text.length < 100) { showErr('職務経歴書の内容を100文字以上入力してください。'); return; }
@@ -363,6 +377,26 @@ ${text}
   })();
   </script>
   <script>
+    // APIキー管理
+    (function(){
+      var saved = localStorage.getItem('gemini_api_key');
+      if(saved){
+        document.getElementById('api-key-saved').style.display = 'flex';
+        document.getElementById('api-key-input-area').style.display = 'none';
+      }
+    })();
+    function saveApiKey(){
+      var val = document.getElementById('apiKeyInput').value.trim();
+      if(!val){ alert('APIキーを入力してください'); return; }
+      localStorage.setItem('gemini_api_key', val);
+      document.getElementById('api-key-saved').style.display = 'flex';
+      document.getElementById('api-key-input-area').style.display = 'none';
+    }
+    function showApiKeyInput(){
+      document.getElementById('api-key-saved').style.display = 'none';
+      document.getElementById('api-key-input-area').style.display = 'block';
+    }
+
   (function(){
     var btn = document.querySelector('.hamburger');
     var nav = document.querySelector('.header-nav');
