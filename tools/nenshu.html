@@ -333,7 +333,7 @@ ${salary ? `現在の年収${salary}万円が市場水準と比べてどうか` 
     });
 
     async function callGemini(apiKey, prompt) {
-      var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + apiKey;
+      var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
       var res = await fetch(url, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
