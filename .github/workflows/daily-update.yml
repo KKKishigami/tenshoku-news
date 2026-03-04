@@ -33,17 +33,10 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scripts/generate_articles.py
 
-      - name: tools/config.js にAPIキーを注入
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          mkdir -p tools
-          printf 'window.GEMINI_TOOLS_KEY = "%s";\n' "$GEMINI_API_KEY" > tools/config.js
-
       - name: 変更をコミット & プッシュ
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add articles/ tools/config.js
+          git add articles/
           git diff --cached --quiet || git commit -m "chore: 記事自動更新 $(date +'%Y-%m-%d')"
           git push
