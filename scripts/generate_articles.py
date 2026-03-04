@@ -214,19 +214,22 @@ def build_prompt(cat, related):
 }}"""
 
 
-GEMINI_MODELS = [
-    "gemini-2.0-flash",
-    "gemini-2.0-flash-lite",
-    "gemini-1.5-flash-002",
+# (model, api_version) の組み合わせ。上から順に試す
+GEMINI_CANDIDATES = [
+    ("gemini-2.0-flash",      "v1beta"),
+    ("gemini-2.0-flash-lite", "v1beta"),
+    ("gemini-1.5-flash",      "v1"),
+    ("gemini-1.5-flash",      "v1beta"),
+    ("gemini-1.5-pro",        "v1"),
 ]
-GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/{version}/models/{model}:generateContent?key={key}"
 
 
 def call_gemini(api_key, prompt, retries=2):
     """Gemini REST API を直接呼び出し、JSON をパースして返す"""
     last_exc = None
-    for model_name in GEMINI_MODELS:
-        url = GEMINI_ENDPOINT.format(model=model_name, key=api_key)
+    for model_name, api_ver in GEMINI_CANDIDATES:
+        url = GEMINI_ENDPOINT.format(version=api_ver, model=model_name, key=api_key)
         body = json.dumps({
             "contents": [{"parts": [{"text": prompt}]}],
             "generationConfig": {
@@ -247,17 +250,17 @@ def call_gemini(api_key, prompt, retries=2):
                 text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
                 text = re.sub(r'^```(?:json)?\s*', '', text, flags=re.MULTILINE)
                 text = re.sub(r'\s*```$', '', text, flags=re.MULTILINE)
-                print(f"    モデル: {model_name}")
+                print(f"    モデル: {model_name} ({api_ver})")
                 return json.loads(text)
             except urllib.error.HTTPError as e:
-                err_body = e.read().decode("utf-8", errors="replace")[:300]
+                err_body = e.read().decode("utf-8", errors="replace")[:800]
                 exc_msg = f"HTTP {e.code}: {err_body}"
                 if attempt < retries:
                     print(f"    リトライ ({attempt + 1}/{retries}): {exc_msg[:120]}")
                     time.sleep(6)
                 else:
                     last_exc = exc_msg
-                    print(f"    モデル {model_name} 失敗: {exc_msg[:120]}")
+                    print(f"    モデル {model_name}/{api_ver} 失敗: {exc_msg[:200]}")
                     break
             except Exception as exc:
                 if attempt < retries:
