@@ -328,16 +328,19 @@ def build_article_html(cat, slug, data, related, thumb):
   <header id="site-header">
     <div class="header-inner">
       <a href="../index.html" class="site-logo">転職<span>プレス</span></a>
+      <button class="hamburger" aria-label="メニュー" aria-expanded="false">☰</button>
       <nav class="header-nav">
         <a href="../index.html">ホーム</a>
         <a href="../index.html?cat=IT転職">IT転職</a>
         <a href="../index.html?cat=医療転職">医療転職</a>
+        <a href="../index.html?cat=ハイクラス転職">ハイクラス</a>
         <a href="../index.html?cat=金融・保険転職">金融・保険</a>
         <a href="../index.html?cat=製造・メーカー転職">製造・メーカー</a>
         <a href="../index.html?cat=介護・福祉転職">介護・福祉</a>
         <a href="../index.html?cat=外資系転職">外資系</a>
         <a href="../index.html?cat=士業・専門職転職">士業・専門職</a>
         <a href="../ranking.html" class="nav-ranking">🏆 転職サイト比較</a>
+        <a href="../tools/index.html" class="nav-tool-sm">🔧 ツール</a>
       </nav>
     </div>
   </header>
@@ -444,7 +447,7 @@ def main():
 
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel(
-        "gemini-1.5-flash",
+        "gemini-2.0-flash",
         generation_config={"response_mime_type": "application/json"},
     )
 
