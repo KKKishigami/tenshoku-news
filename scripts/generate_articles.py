@@ -13,7 +13,8 @@ import re
 import time
 from datetime import date
 
-import google.generativeai as genai
+import urllib.request
+import urllib.error
 
 # ── 定数 ─────────────────────────────────────────────────────────
 BASE_DIR     = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -213,26 +214,59 @@ def build_prompt(cat, related):
 }}"""
 
 
-def call_gemini(model, prompt, retries=2):
-    """Gemini API を呼び出し、JSON をパースして返す"""
-    for attempt in range(retries + 1):
-        try:
-            resp = model.generate_content(prompt)
-            text = resp.text.strip()
-            # コードブロックが付いていた場合は除去
-            text = re.sub(r'^```(?:json)?\s*', '', text, flags=re.MULTILINE)
-            text = re.sub(r'\s*```$', '', text, flags=re.MULTILINE)
-            return json.loads(text)
-        except Exception as exc:
-            if attempt < retries:
-                print(f"    リトライ ({attempt + 1}/{retries}): {exc}")
-                time.sleep(6)
-            else:
-                raise
+GEMINI_MODELS = [
+    "gemini-2.0-flash",
+    "gemini-2.0-flash-lite",
+    "gemini-1.5-flash-002",
+]
+GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
 
 
-# ── HTML 組み立て ─────────────────────────────────────────────────
-
+def call_gemini(api_key, prompt, retries=2):
+    """Gemini REST API を直接呼び出し、JSON をパースして返す"""
+    last_exc = None
+    for model_name in GEMINI_MODELS:
+        url = GEMINI_ENDPOINT.format(model=model_name, key=api_key)
+        body = json.dumps({
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "responseMimeType": "application/json",
+                "temperature": 0.7,
+                "maxOutputTokens": 2048,
+            }
+        }).encode("utf-8")
+        for attempt in range(retries + 1):
+            try:
+                req = urllib.request.Request(
+                    url, data=body,
+                    headers={"Content-Type": "application/json"},
+                    method="POST"
+                )
+                with urllib.request.urlopen(req, timeout=60) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                text = re.sub(r'^```(?:json)?\s*', '', text, flags=re.MULTILINE)
+                text = re.sub(r'\s*```$', '', text, flags=re.MULTILINE)
+                print(f"    モデル: {model_name}")
+                return json.loads(text)
+            except urllib.error.HTTPError as e:
+                err_body = e.read().decode("utf-8", errors="replace")[:300]
+                exc_msg = f"HTTP {e.code}: {err_body}"
+                if attempt < retries:
+                    print(f"    リトライ ({attempt + 1}/{retries}): {exc_msg[:120]}")
+                    time.sleep(6)
+                else:
+                    last_exc = exc_msg
+                    print(f"    モデル {model_name} 失敗: {exc_msg[:120]}")
+                    break
+            except Exception as exc:
+                if attempt < retries:
+                    print(f"    リトライ ({attempt + 1}/{retries}): {exc}")
+                    time.sleep(6)
+                else:
+                    last_exc = exc
+                    break
+    raise Exception(f"全モデル失敗: {last_exc}")
 def _esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
@@ -445,12 +479,6 @@ def main():
     if not api_key:
         raise SystemExit("ERROR: 環境変数 GEMINI_API_KEY が設定されていません")
 
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel(
-        "gemini-2.0-flash",
-        generation_config={"response_mime_type": "application/json"},
-    )
-
     # manifest 読み込み
     with open(MANIFEST, encoding="utf-8") as f:
         manifest = json.load(f)
@@ -481,7 +509,7 @@ def main():
         prompt  = build_prompt(cat, related)
 
         try:
-            data = call_gemini(model, prompt)
+            data = call_gemini(api_key, prompt)
         except Exception as exc:
             print(f"    ERROR: {exc}")
             errors.append(cat["name"])

@@ -25,9 +25,6 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: 依存パッケージをインストール
-        run: pip install google-generativeai
-
       - name: 記事を生成
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
