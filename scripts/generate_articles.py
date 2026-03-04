@@ -4,7 +4,7 @@
 転職プレス - 毎日記事自動生成スクリプト (Gemini API)
 
 Usage: python scripts/generate_articles.py
-Required env: GEMINI_API_KEY
+Required env: GROQ_API_KEY
 """
 
 import os
@@ -215,60 +215,51 @@ def build_prompt(cat, related):
 
 
 # (model, api_version) の組み合わせ。上から順に試す
-GEMINI_CANDIDATES = [
-    ("gemini-2.0-flash",      "v1beta"),
-    ("gemini-2.0-flash-lite", "v1beta"),
-    ("gemini-1.5-flash",      "v1"),
-    ("gemini-1.5-flash",      "v1beta"),
-    ("gemini-1.5-pro",        "v1"),
-]
-GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/{version}/models/{model}:generateContent?key={key}"
+GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
+GROQ_MODEL    = "llama-3.3-70b-versatile"
 
 
 def call_gemini(api_key, prompt, retries=2):
-    """Gemini REST API を直接呼び出し、JSON をパースして返す"""
-    last_exc = None
-    for model_name, api_ver in GEMINI_CANDIDATES:
-        url = GEMINI_ENDPOINT.format(version=api_ver, model=model_name, key=api_key)
-        body = json.dumps({
-            "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {
-                "responseMimeType": "application/json",
-                "temperature": 0.7,
-                "maxOutputTokens": 2048,
-            }
-        }).encode("utf-8")
-        for attempt in range(retries + 1):
-            try:
-                req = urllib.request.Request(
-                    url, data=body,
-                    headers={"Content-Type": "application/json"},
-                    method="POST"
-                )
-                with urllib.request.urlopen(req, timeout=60) as resp:
-                    data = json.loads(resp.read().decode("utf-8"))
-                text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
-                text = re.sub(r'^```(?:json)?\s*', '', text, flags=re.MULTILINE)
-                text = re.sub(r'\s*```$', '', text, flags=re.MULTILINE)
-                print(f"    モデル: {model_name} ({api_ver})")
-                return json.loads(text)
-            except urllib.error.HTTPError as e:
-                err_body = e.read().decode("utf-8", errors="replace")[:800]
-                exc_msg = f"HTTP {e.code}: {err_body}"
-                if attempt < retries:
-                    print(f"    リトライ ({attempt + 1}/{retries}): {exc_msg[:120]}")
-                    time.sleep(6)
-                else:
-                    last_exc = exc_msg
-                    print(f"    モデル {model_name}/{api_ver} 失敗: {exc_msg[:200]}")
-                    break
-            except Exception as exc:
-                if attempt < retries:
-                    print(f"    リトライ ({attempt + 1}/{retries}): {exc}")
-                    time.sleep(6)
-                else:
-                    last_exc = exc
-                    break
+    """Groq API を呼び出し、JSON をパースして返す"""
+    body = json.dumps({
+        "model": GROQ_MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.7,
+        "max_tokens": 2048,
+        "response_format": {"type": "json_object"},
+    }).encode("utf-8")
+
+    for attempt in range(retries + 1):
+        try:
+            req = urllib.request.Request(
+                GROQ_ENDPOINT,
+                data=body,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + api_key,
+                },
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            text = data["choices"][0]["message"]["content"].strip()
+            text = re.sub(r'^```(?:json)?\s*', '', text, flags=re.MULTILINE)
+            text = re.sub(r'\s*```$', '', text, flags=re.MULTILINE)
+            return json.loads(text)
+        except urllib.error.HTTPError as e:
+            err_body = e.read().decode("utf-8", errors="replace")[:500]
+            exc_msg = f"HTTP {e.code}: {err_body}"
+            if attempt < retries:
+                print(f"    リトライ ({attempt + 1}/{retries}): {exc_msg[:150]}")
+                time.sleep(8)
+            else:
+                raise Exception(exc_msg)
+        except Exception as exc:
+            if attempt < retries:
+                print(f"    リトライ ({attempt + 1}/{retries}): {exc}")
+                time.sleep(8)
+            else:
+                raise
     raise Exception(f"全モデル失敗: {last_exc}")
 def _esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
@@ -478,9 +469,9 @@ def get_related(manifest, category, exclude_filename, limit=3):
 
 
 def main():
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
-        raise SystemExit("ERROR: 環境変数 GEMINI_API_KEY が設定されていません")
+        raise SystemExit("ERROR: 環境変数 GROQ_API_KEY が設定されていません")
 
     # manifest 読み込み
     with open(MANIFEST, encoding="utf-8") as f:
