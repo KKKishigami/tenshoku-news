@@ -4,7 +4,7 @@
 転職プレス - 毎日記事自動生成スクリプト (Gemini API)
 
 Usage: python scripts/generate_articles.py
-Required env: GROQ_API_KEY
+Required env: GITHUB_TOKEN
 """
 
 import os
@@ -215,14 +215,14 @@ def build_prompt(cat, related):
 
 
 # (model, api_version) の組み合わせ。上から順に試す
-GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_MODEL    = "llama-3.3-70b-versatile"
+GITHUB_MODELS_ENDPOINT = "https://models.inference.ai.azure.com/chat/completions"
+GITHUB_MODEL = "gpt-4o-mini"
 
 
 def call_gemini(api_key, prompt, retries=2):
-    """Groq API を呼び出し、JSON をパースして返す"""
+    """GitHub Models API を呼び出し、JSON をパースして返す"""
     body = json.dumps({
-        "model": GROQ_MODEL,
+        "model": GITHUB_MODEL,
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.7,
         "max_tokens": 2048,
@@ -232,7 +232,7 @@ def call_gemini(api_key, prompt, retries=2):
     for attempt in range(retries + 1):
         try:
             req = urllib.request.Request(
-                GROQ_ENDPOINT,
+                GITHUB_MODELS_ENDPOINT,
                 data=body,
                 headers={
                     "Content-Type": "application/json",
@@ -469,9 +469,9 @@ def get_related(manifest, category, exclude_filename, limit=3):
 
 
 def main():
-    api_key = os.environ.get("GROQ_API_KEY")
+    api_key = os.environ.get("GITHUB_TOKEN")
     if not api_key:
-        raise SystemExit("ERROR: 環境変数 GROQ_API_KEY が設定されていません")
+        raise SystemExit("ERROR: GITHUB_TOKEN が設定されていません")
 
     # manifest 読み込み
     with open(MANIFEST, encoding="utf-8") as f:

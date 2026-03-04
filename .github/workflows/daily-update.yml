@@ -1,4 +1,4 @@
-name: 毎日記事自動生成（Groq API）
+name: 毎日記事自動生成（GitHub Models）
 
 on:
   schedule:
@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  models: read
 
 jobs:
   generate-and-deploy:
@@ -27,7 +28,7 @@ jobs:
 
       - name: 記事を生成
         env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/generate_articles.py
 
       - name: 変更をコミット & プッシュ
