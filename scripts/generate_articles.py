@@ -20,6 +20,7 @@ import urllib.error
 BASE_DIR     = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARTICLES_DIR = os.path.join(BASE_DIR, "articles")
 MANIFEST     = os.path.join(ARTICLES_DIR, "manifest.json")
+SITEMAP_PATH = os.path.join(BASE_DIR, "sitemap.xml")
 BASE_URL     = "https://tenshoku-press.com"
 GA_ID        = "G-RW22NSV162"
 
@@ -450,6 +451,12 @@ def build_article_html(cat, slug, data, related, thumb):
   <script>
     function shareX() {{ var t=encodeURIComponent(document.title+' | 転職プレス'),u=encodeURIComponent(location.href); window.open('https://twitter.com/intent/tweet?text='+t+'&url='+u,'_blank'); }}
     function copyURL() {{ navigator.clipboard.writeText(location.href).then(function(){{ alert('URLをコピーしました'); }}); }}
+    (function(){{
+      var btn=document.querySelector('.hamburger'), nav=document.querySelector('.header-nav');
+      if(!btn||!nav) return;
+      btn.addEventListener('click',function(e){{e.stopPropagation();var o=nav.classList.toggle('nav-open');btn.setAttribute('aria-expanded',o?'true':'false');}});
+      document.addEventListener('click',function(e){{if(!btn.contains(e.target)&&!nav.contains(e.target)){{nav.classList.remove('nav-open');btn.setAttribute('aria-expanded','false');}}}});
+    }})();
   </script>
 </body>
 </html>'''
@@ -466,6 +473,49 @@ def get_related(manifest, category, exclude_filename, limit=3):
             if len(result) >= limit:
                 break
     return result
+
+
+
+STATIC_URLS = [
+    ("https://tenshoku-press.com/",                  "daily",   "1.0"),
+    ("https://tenshoku-press.com/tools/",             "monthly", "0.85"),
+    ("https://tenshoku-press.com/tools/nenshu.html",  "monthly", "0.85"),
+    ("https://tenshoku-press.com/tools/rirekisho.html","monthly","0.85"),
+    ("https://tenshoku-press.com/tools/mensetsu.html", "monthly","0.85"),
+    ("https://tenshoku-press.com/ranking.html",        "weekly",  "0.9"),
+    ("https://tenshoku-press.com/about.html",          "monthly", "0.5"),
+    ("https://tenshoku-press.com/privacy.html",        "monthly", "0.3"),
+]
+
+
+def update_sitemap(manifest):
+    """manifest.json から sitemap.xml を再生成する"""
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for loc, freq, pri in STATIC_URLS:
+        lines += [
+            "  <url>",
+            f"    <loc>{loc}</loc>",
+            f"    <lastmod>{TODAY_ISO}</lastmod>",
+            f"    <changefreq>{freq}</changefreq>",
+            f"    <priority>{pri}</priority>",
+            "  </url>",
+        ]
+    for art in manifest["articles"]:
+        lastmod = art.get("date", TODAY_ISO)
+        loc = f"{BASE_URL}/articles/{art['filename']}"
+        lines += [
+            "  <url>",
+            f"    <loc>{loc}</loc>",
+            f"    <lastmod>{lastmod}</lastmod>",
+            "    <changefreq>monthly</changefreq>",
+            "    <priority>0.8</priority>",
+            "  </url>",
+        ]
+    lines.append("</urlset>")
+    with open(SITEMAP_PATH, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+    print(f"  sitemap.xml 更新: {len(manifest['articles'])} 記事")
 
 
 def main():
@@ -540,6 +590,7 @@ def main():
     with open(MANIFEST, "w", encoding="utf-8") as f:
         json.dump(manifest, f, ensure_ascii=False, indent=2)
 
+    update_sitemap(manifest)
     print(f"\n完了: {len(new_entries)} 記事を生成しました。")
     if errors:
         print(f"失敗カテゴリ: {', '.join(errors)}")
