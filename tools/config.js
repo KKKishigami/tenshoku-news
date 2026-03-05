@@ -1,1 +1,2 @@
-window.GEMINI_TOOLS_KEY = "AIzaSyBXwW2alfQgMMpLPBvb11Sn-WMJ74uNYEQ";
+// API keys are managed via localStorage in each tool page.
+// This file is intentionally empty.
