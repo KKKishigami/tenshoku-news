@@ -545,10 +545,26 @@ a { color: inherit; text-decoration: none; }
   .rank-info { padding: 0.85rem 1rem; }
   .rank-info h3 { font-size: 0.95rem; }
 }
+@media (max-width: 600px) {
+  /* ヘッダーのトップナビボタンをスマホサイズに縮小 */
+  .header-inner { padding: 0.7rem 0.85rem; }
+  .header-nav-top { gap: 0.4rem; }
+  .header-nav-top a.nav-ranking {
+    font-size: 0.7rem !important;
+    padding: 0.3rem 0.55rem !important;
+    letter-spacing: 0;
+  }
+}
 @media (max-width: 480px) {
   .container { padding: 0 0.75rem; }
   .card-thumb { height: 140px; }
   .hero { padding: 1.5rem 0.75rem; }
+  .header-inner { padding: 0.65rem 0.75rem; }
+  .header-nav-top { gap: 0.3rem; }
+  .header-nav-top a.nav-ranking {
+    font-size: 0.65rem !important;
+    padding: 0.25rem 0.45rem !important;
+  }
 }
 
 

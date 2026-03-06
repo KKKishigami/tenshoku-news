@@ -124,11 +124,17 @@
     if (!wrap) return;
     if (pages <= 1) { wrap.innerHTML = ''; return; }
 
+    var WINDOW = 4;
+    var half   = Math.floor(WINDOW / 2);
+    var start  = Math.max(1, currentPage - half);
+    var end    = Math.min(pages, start + WINDOW - 1);
+    start      = Math.max(1, end - WINDOW + 1);   // 末尾に寄ったとき先頭を再計算
+
     var html = '';
     if (currentPage > 1) {
       html += '<button class="page-btn" data-p="' + (currentPage - 1) + '">‹</button>';
     }
-    for (var i = 1; i <= pages; i++) {
+    for (var i = start; i <= end; i++) {
       html += '<button class="page-btn' + (i === currentPage ? ' active' : '') +
               '" data-p="' + i + '">' + i + '</button>';
     }
