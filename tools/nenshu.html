@@ -101,22 +101,6 @@
         <a href="../index.html">トップ</a> › <a href="index.html">無料ツール</a> › <span>AI年収診断</span>
       </nav>
 
-      <!-- APIキー設定パネル -->
-      <div class="tool-card" style="margin-bottom:1rem;padding:1.25rem;">
-        <div id="api-key-saved" style="display:none;align-items:center;gap:1rem;">
-          <span style="font-size:0.9rem;color:#2d6a4f;font-weight:700;">&#10003; Gemini APIキー設定済み</span>
-          <button type="button" onclick="showApiKeyInput()" style="font-size:0.78rem;padding:0.25rem 0.75rem;background:#fff;border:1px solid #cbd5e0;border-radius:4px;cursor:pointer;">変更</button>
-        </div>
-        <div id="api-key-input-area">
-          <p style="font-weight:700;margin:0 0 0.4rem;">&#128273; Gemini APIキーを設定</p>
-          <p style="font-size:0.82rem;color:#555;margin:0 0 0.75rem;"><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a> で無料取得できます。キーはブラウザにのみ保存されます。</p>
-          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-            <input type="text" id="apiKeyInput" placeholder="AIza..." style="flex:1;min-width:200px;padding:0.5rem 0.75rem;border:1.5px solid #cbd5e0;border-radius:6px;font-size:0.9rem;">
-            <button type="button" onclick="saveApiKey()" style="padding:0.5rem 1.25rem;background:#1a3a5c;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;">保存</button>
-          </div>
-        </div>
-      </div>
-
       <div class="tool-card">
         <form class="tool-form" id="toolForm">
           <label>職種カテゴリ <span class="form-hint">（最も近いものを選択）</span></label>
@@ -189,7 +173,7 @@
 
         <div class="loading-wrap" id="loadingWrap">
           <div class="spin"></div>
-          <p>AIが転職市場データを分析中...<br><small>（通常10〜20秒かかります）</small></p>
+          <p>転職市場データをもとに診断中...<br><small>少々お待ちください</small></p>
         </div>
 
         <div class="error-box" id="errorBox"></div>
@@ -264,160 +248,172 @@
       <p>本サイトはアフィリエイト広告を利用しています。&nbsp;|&nbsp;&copy; 2026 転職プレス All Rights Reserved.</p>
     </div>
   </footer>
-  <script>
+<script>
   (function(){
-    var form   = document.getElementById('toolForm');
-    var genBtn = document.getElementById('genBtn');
-    var load   = document.getElementById('loadingWrap');
-    var err    = document.getElementById('errorBox');
-    var result = document.getElementById('resultBox');
-    var content= document.getElementById('resultContent');
-    var reset  = document.getElementById('resetBtn');
+    /* ── 年収テーブル: [min, mid, max] × 7 経験レベル ── */
+    var T = {
+      'ITエンジニア（バックエンド）':     [[280,320,380],[330,380,450],[400,460,560],[480,560,680],[580,680,820],[680,820,1000],[800,1000,1300]],
+      'ITエンジニア（フロントエンド）':    [[260,300,360],[310,360,430],[375,440,530],[450,530,640],[540,640,760],[640,760,940],[750,940,1200]],
+      'ITエンジニア（インフラ・クラウド）':[[270,310,370],[320,370,440],[390,450,550],[470,550,670],[570,670,800],[670,800,980],[790,980,1250]],
+      'データサイエンティスト・AI':        [[300,350,420],[360,420,500],[440,510,620],[530,630,760],[640,760,920],[760,920,1100],[900,1100,1400]],
+      'プロジェクトマネージャー':          [[300,350,420],[360,420,500],[440,510,620],[530,620,760],[640,750,920],[750,920,1100],[880,1100,1380]],
+      'Webデザイナー・UX':               [[230,270,330],[270,320,390],[330,390,480],[390,470,570],[460,560,680],[540,660,810],[640,800,990]],
+      '営業（IT・SaaS）':                [[280,330,400],[330,390,470],[390,460,560],[460,550,680],[560,680,840],[680,840,1050],[820,1050,1350]],
+      '営業（メーカー・商社）':            [[260,300,360],[300,350,420],[350,410,500],[420,490,600],[490,600,730],[590,730,900],[720,900,1100]],
+      'マーケティング':                   [[260,300,360],[300,360,430],[360,430,520],[430,510,630],[520,630,780],[630,780,960],[760,960,1200]],
+      '人事・労務':                       [[240,280,340],[275,325,395],[325,385,475],[385,455,555],[455,555,680],[555,680,840],[680,840,1050]],
+      '経理・財務':                       [[260,300,360],[300,360,430],[360,420,515],[420,500,620],[510,620,760],[620,760,940],[760,940,1200]],
+      '医師':                             [[800,1000,1300],[900,1100,1500],[1050,1350,1850],[1250,1650,2250],[1550,2050,2900],[2100,2700,3600],[2600,3300,4600]],
+      '看護師':                           [[320,365,430],[340,385,450],[355,405,475],[365,420,500],[375,435,515],[385,450,535],[400,470,560]],
+      '薬剤師':                           [[380,430,510],[405,455,540],[425,485,580],[445,515,615],[465,545,655],[485,575,695],[510,610,745]],
+      '介護士・ケアマネージャー':          [[225,260,310],[240,278,330],[258,298,360],[275,318,390],[295,345,420],[315,372,455],[340,408,498]],
+      'コンサルタント（経営・戦略）':      [[350,420,530],[430,520,645],[535,645,800],[665,800,990],[800,990,1240],[995,1240,1570],[1240,1570,2150]],
+      '金融（銀行・証券）':               [[300,360,440],[360,430,530],[435,520,645],[535,645,805],[655,805,1010],[808,1010,1295],[1010,1295,1720]],
+      '製造・生産技術':                   [[250,290,350],[290,340,410],[340,400,490],[400,480,590],[480,585,720],[585,720,895],[720,895,1120]],
+      '弁護士・司法書士':                 [[400,520,680],[510,660,865],[665,860,1120],[865,1120,1475],[1125,1480,1950],[1480,1950,2660],[1950,2660,3600]],
+      '公認会計士・税理士':               [[380,480,620],[470,590,765],[590,745,965],[745,960,1250],[965,1250,1640],[1250,1640,2170],[1640,2170,2960]],
+      'その他':                           [[250,295,360],[295,355,430],[355,425,520],[425,510,625],[510,620,760],[620,758,940],[755,940,1175]],
+    };
+    var EXP   = {'1':0,'2':1,'3':2,'5':3,'8':4,'12':5,'20':6};
+    var ELBL  = ['1年未満','1〜2年','3〜4年','5〜7年','8〜10年','11〜15年','16年以上'];
+    var LOC   = {'東京・神奈川（首都圏）':1.00,'大阪・京都・兵庫（関西圏）':0.90,'愛知（東海圏）':0.88,'その他地方':0.82,'フルリモート希望':1.05};
+    var SP    = {
+      'マネジメント経験':      {add:80,  note:'チームリーダー・管理職求人で特に優遇されます'},
+      '英語（ビジネスレベル）': {add:50,  note:'外資系・グローバル企業で年収プレミアムが顕著です'},
+      'MBA・大学院':           {add:40,  note:'コンサル・金融・事業会社の管理職ポジションで評価されます'},
+      '国家資格保有':          {add:60,  note:'希少性が高く、専門職ポジションで年収交渉を有利にします'},
+      'AWS・クラウド認定':     {add:40,  note:'IT系求人で引き合いが強く、年収upに直結します'},
+      'PMP・プロジェクト管理': {add:35,  note:'PM・ITコンサル求人で国際資格として評価されます'},
+      'データ分析・SQL':       {add:30,  note:'全業種でデータ活用需要が高まり差別化につながります'},
+      'AI・機械学習':          {add:70,  note:'2026年現在、採用市場で最も希少性の高いスキルの一つです'},
+    };
+    var ADV = {
+      'IT':{
+        pts:['GitHubのコントリビューション・個人プロダクトなど実績の可視化が評価につながります',
+             '技術スタックの幅より「これは自分のコードだ」と言える深い実績を整理しましょう',
+             'エンジニア市場は非公開求人が多く、エージェント経由で年収30〜80万円高い求人に出会えます'],
+        cos:['自社開発のメガベンチャー（メルカリ・サイバーエージェント等）',
+             '外資系テック企業（Google・Amazon・Microsoft等）',
+             'DX推進中の大手事業会社（製造・金融・小売）',
+             '上場準備中スタートアップ（ストックオプション込みで高収入も）']},
+      '医療':{
+        pts:['地域・施設タイプで年収差が大きく、都市部の民間クリニックで高年収が狙えます',
+             '専門診療科・資格・経験の組み合わせが年収を大きく左右します',
+             '転職エージェント経由で非公開の好条件ポジションが多く見つかります'],
+        cos:['民間病院・自由診療系クリニック（美容・眼科・皮膚科）',
+             '大手医療法人グループ',
+             '産業医・企業内医療職（安定×高年収）',
+             'クリニック院長候補・開業支援つきポジション']},
+      '営業':{
+        pts:['インセンティブ設計が年収を左右するため、固定給+歩合の構造を確認しましょう',
+             'SaaS・IT製品の営業は商材単価が高く、成果に応じた高年収が実現しやすいです',
+             'マネジメント経験・担当エリアの拡大実績が年収交渉の武器になります'],
+        cos:['SaaS・IT系企業（Salesforce・HubSpot等の代理店含む）',
+             '外資系メーカー・製薬会社の法人営業',
+             '投資・不動産・金融系（フルコミッション型で高収入も）',
+             '大手メーカー・商社（安定×確実な昇給）']},
+      '専門':{
+        pts:['資格と実務経験の組み合わせが年収を決定するため、業界平均と定期的に比較しましょう',
+             '大手法人・ファームへの転職は年収が一段上がるきっかけになります',
+             '副業・フリーランス活動との組み合わせで収入最大化を図る方法も有効です'],
+        cos:['大手監査法人・法律事務所・コンサルティングファーム',
+             '上場企業の経営管理部門（CFO候補等）',
+             '外資系金融・コンサル（報酬は国内最高水準）',
+             '独立開業（長期的な収入最大化の選択肢）']},
+      '一般':{
+        pts:['転職によるポジションアップが年収を大きく引き上げる有効な手段です',
+             '業界・企業規模のシフトによる年収アップを狙いましょう',
+             '複数のエージェントに登録し比較することで年収交渉の精度が上がります'],
+        cos:['業界リーダー企業（同職種でも年収差が大きい）',
+             '外資系企業（グローバル水準の報酬体系）',
+             'スタートアップ（成長ステージに応じたアップサイド）',
+             '大手グループの中核ポジション']},
+    };
+    function getCat(j){
+      if(/IT|エンジニア|データ|AI|デザイナー|PM|プロジェクト/.test(j)) return 'IT';
+      if(/医師|看護|薬剤|介護|医療/.test(j)) return '医療';
+      if(/営業|マーケ/.test(j)) return '営業';
+      if(/弁護|会計|税理|コンサル|金融/.test(j)) return '専門';
+      return '一般';
+    }
+    function R(n){ return Math.round(n/10)*10; }
 
-    form.addEventListener('submit', async function(e){
-      e.preventDefault();
-
-      var key = localStorage.getItem('gemini_api_key');
-      if (!key) {
-        showErr('APIキーが設定されていません。ページ上部のフォームにAPIキーを入力してください。');
-        return;
-      }
-
-      var jobType  = document.getElementById('jobType').value;
-      var expYears = document.getElementById('expYears').value;
-      var salary   = document.getElementById('currentSalary').value;
-      var location = document.getElementById('location').value;
-      var skills   = Array.from(document.querySelectorAll('.skill-check input:checked')).map(function(c){return c.value;});
-
-      if (!jobType || !expYears) {
-        showErr('職種と経験年数は必須です。');
-        return;
-      }
-
-      setLoading(true);
-      hideResult();
-      hideErr();
-
-      var skillsText = skills.length ? '保有スキル・資格: ' + skills.join('、') : 'スキル・資格: 特になし（または未入力）';
-      var salaryText = salary ? '現在の年収: ' + salary + '万円' : '現在の年収: 未入力';
-
-      var prompt = `あなたは転職市場の専門アナリストです。以下のプロフィールの人物について、2026年の日本の転職市場における適正年収を詳しく分析してください。
-
-【プロフィール】
-職種: ${jobType}
-経験年数: ${expYears}年
-${salaryText}
-勤務地希望: ${location}
-${skillsText}
-
-以下の形式でHTMLタグ（h3/p/ul/li/strong）を使って回答してください:
-
-<h3>📊 適正年収レンジ</h3>
-現在の市場での年収レンジ（低・中央・高の3段階）と根拠を説明
-
-<h3>📈 現在の年収の評価</h3>
-${salary ? `現在の年収${salary}万円が市場水準と比べてどうか` : '市場水準の年収帯の解説'}
-
-<h3>💡 年収アップのポイント</h3>
-この職種・経験で年収を上げるために何が重要か（具体的に3〜4点）
-
-<h3>🏢 おすすめの転職先タイプ</h3>
-年収アップが見込める企業タイプや業界（3〜4例）
-
-<h3>💬 転職エージェントに相談する前に確認すること</h3>
-面談前に準備すべきことを2〜3点
-
-回答は必ず日本語で、具体的な数字を含めてください。`;
-
-      try {
-        var text = await callGemini(key, prompt);
-        content.innerHTML = text;
-        setLoading(false);
-        showResult();
-      } catch(e) {
-        setLoading(false);
-        showErr('診断中にエラーが発生しました。しばらく待ってから再試行してください。（' + e.message + '）');
-      }
-    });
-
-    reset.addEventListener('click', function(){
-      hideResult();
-      form.style.display = '';
-      window.scrollTo({top: 0, behavior:'smooth'});
-    });
-
-    async function callGemini(apiKey, prompt) {
-      var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
-      var res = await fetch(url, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          contents: [{parts: [{text: prompt}]}],
-          generationConfig: {temperature: 0.7, maxOutputTokens: 1200}
-        })
+    function buildHTML(job,exp,sal,loc,skills){
+      var data=T[job]||T['その他'], ei=EXP[exp]||0, row=data[ei];
+      var mult=LOC[loc]||1.0;
+      var min=R(row[0]*mult), mid=R(row[1]*mult), max=R(row[2]*mult);
+      var bonus=0, skillHtml='';
+      skills.forEach(function(s){
+        var p=SP[s]; if(!p) return;
+        bonus+=p.add;
+        skillHtml+='<li>✨ <strong>'+s+'</strong>（+'+p.add+'万円相当）：'+p.note+'</li>';
       });
-      if (!res.ok) {
-        var d = await res.json().catch(function(){return {};});
-        throw new Error(d.error && d.error.message ? d.error.message : 'HTTP ' + res.status);
+      var aMin=R(min+bonus*0.5), aMid=R(mid+bonus*0.8), aMax=R(max+bonus);
+      var salN=parseInt(sal)||0, evalHtml='';
+      if(salN>0){
+        var r=salN/aMid, lbl, col;
+        if(r<0.85)     {lbl='⚠️ 市場水準を大きく下回っています（差額 約'+(aMid-salN)+'万円）。早期の転職活動をお勧めします。';col='#c53030';}
+        else if(r<0.95){lbl='📉 市場水準をやや下回っています（差額 約'+(aMid-salN)+'万円）。転職活動で水準に戻せる可能性が高いです。';col='#d69e2e';}
+        else if(r<=1.08){lbl='✅ 市場水準に合致しています。上位25%水準は'+aMax+'万円です。キャリアアップでさらなる年収upが狙えます。';col='#276749';}
+        else            {lbl='🌟 市場水準を上回っています。転職時は同水準以上の求人に絞って交渉しましょう。';col='#276749';}
+        evalHtml='<p style="color:'+col+';font-weight:700;margin:.3rem 0;">'+lbl+'</p>';
       }
-      var data = await res.json();
-      return data.candidates[0].content.parts[0].text;
+      var cat=getCat(job), adv=ADV[cat]||ADV['一般'];
+      var ptH=adv.pts.map(function(p){return '<li>'+p+'</li>';}).join('');
+      var coH=adv.cos.map(function(c){return '<li>'+c+'</li>';}).join('');
+      var skSec=skills.length
+        ?'<h3>✨ スキル・資格によるプレミアム</h3><ul>'+skillHtml+'</ul><p>スキルプレミアム合計：<strong>+'+bonus+'万円相当</strong>　スキル込み中央値推計：<strong>'+aMid+'万円</strong></p>'
+        :'';
+      return '<h3>📊 適正年収レンジ（2026年・市場調査ベース）</h3>'
+        +'<div style="background:linear-gradient(135deg,#1a3a5c,#0d5cb6);color:#fff;border-radius:12px;padding:1.5rem;text-align:center;margin:.75rem 0 1rem">'
+        +'<div style="font-size:.82rem;opacity:.8;margin-bottom:.5rem">'+job+'／'+ELBL[ei]+'／'+loc+'</div>'
+        +'<div style="font-size:2rem;font-weight:800;letter-spacing:.03em">'+aMin+'万 〜 <span style="color:#ffd166">'+aMid+'万</span> 〜 '+aMax+'万円</div>'
+        +'<div style="font-size:.78rem;opacity:.75;margin-top:.4rem">下位25%　　中央値（目標ライン）　　上位25%</div></div>'
+        +'<p>'+job+'（経験'+ELBL[ei]+'）の転職市場における年収レンジです。中央値<strong>'+aMid+'万円</strong>を目安に、勤務地・スキル・企業規模によって変動します。</p>'
+        +'<h3>📈 現在の年収の市場評価</h3>'
+        +(salN>0?evalHtml:'<p>現在の年収が未入力のため市場比較はスキップします。入力するとより詳細な評価が可能です。</p>')
+        +skSec
+        +'<h3>💡 年収アップの重要ポイント</h3><ul>'+ptH+'</ul>'
+        +'<h3>🏢 年収アップが狙える転職先タイプ</h3><ul>'+coH+'</ul>'
+        +'<h3>💬 エージェント面談前の準備チェックリスト</h3>'
+        +'<ul><li>直近3年の実績・成果を数字で整理しておく（売上・改善率・チーム規模等）</li>'
+        +'<li>「なぜ転職したいか」と「次に何を実現したいか」を1〜2分で話せるよう準備する</li>'
+        +'<li>希望年収は「最低ライン」と「理想ライン」の2段階で設定しておく</li></ul>';
     }
 
-    function setLoading(on) {
-      load.classList.toggle('on', on);
-      genBtn.disabled = on;
-      if (on) form.style.display = 'none';
-      else form.style.display = '';
-    }
-    function showResult()  { result.classList.add('on'); }
-    function hideResult()  { result.classList.remove('on'); }
-    function showErr(msg)  { err.textContent = msg; err.classList.add('on'); }
-    function hideErr()     { err.classList.remove('on'); }
-  })();
-  </script>
-  <script>
-    // APIキー管理
+    var form=document.getElementById('toolForm'),genBtn=document.getElementById('genBtn');
+    var load=document.getElementById('loadingWrap'),err=document.getElementById('errorBox');
+    var result=document.getElementById('resultBox'),content=document.getElementById('resultContent');
+    var reset=document.getElementById('resetBtn');
+
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var job=document.getElementById('jobType').value;
+      var exp=document.getElementById('expYears').value;
+      var sal=document.getElementById('currentSalary').value;
+      var loc=document.getElementById('location').value;
+      var skills=Array.from(document.querySelectorAll('.skill-check input:checked')).map(function(c){return c.value;});
+      if(!job||!exp){showErr('職種と経験年数を選択してください。');return;}
+      setLoading(true);hideResult();hideErr();
+      setTimeout(function(){
+        try{content.innerHTML=buildHTML(job,exp,sal,loc,skills);setLoading(false);showResult();}
+        catch(ex){setLoading(false);showErr('診断中にエラーが発生しました。再度お試しください。');}
+      },1200);
+    });
+    reset.addEventListener('click',function(){hideResult();form.style.display='';window.scrollTo({top:0,behavior:'smooth'});});
+    function setLoading(on){load.classList.toggle('on',on);genBtn.disabled=on;form.style.display=on?'none':'';}
+    function showResult(){result.classList.add('on');}
+    function hideResult(){result.classList.remove('on');}
+    function showErr(msg){err.textContent=msg;err.classList.add('on');}
+    function hideErr(){err.classList.remove('on');}
+
     (function(){
-      var saved = localStorage.getItem('gemini_api_key');
-      if(saved){
-        document.getElementById('api-key-saved').style.display = 'flex';
-        document.getElementById('api-key-input-area').style.display = 'none';
-      }
+      var btn=document.querySelector('.hamburger'),nav=document.querySelector('.header-nav');
+      if(!btn||!nav)return;
+      btn.addEventListener('click',function(e){e.stopPropagation();var o=nav.classList.toggle('nav-open');btn.setAttribute('aria-expanded',o?'true':'false');});
+      document.addEventListener('click',function(e){if(!btn.contains(e.target)&&!nav.contains(e.target)){nav.classList.remove('nav-open');btn.setAttribute('aria-expanded','false');}});
+      nav.addEventListener('click',function(e){if(e.target.tagName==='A'){nav.classList.remove('nav-open');btn.setAttribute('aria-expanded','false');}});
     })();
-    function saveApiKey(){
-      var val = document.getElementById('apiKeyInput').value.trim();
-      if(!val){ alert('APIキーを入力してください'); return; }
-      localStorage.setItem('gemini_api_key', val);
-      document.getElementById('api-key-saved').style.display = 'flex';
-      document.getElementById('api-key-input-area').style.display = 'none';
-    }
-    function showApiKeyInput(){
-      document.getElementById('api-key-saved').style.display = 'none';
-      document.getElementById('api-key-input-area').style.display = 'block';
-    }
-
-  (function(){
-    var btn = document.querySelector('.hamburger');
-    var nav = document.querySelector('.header-nav');
-    if(!btn||!nav) return;
-    btn.addEventListener('click', function(e){
-      e.stopPropagation();
-      var open = nav.classList.toggle('nav-open');
-      btn.setAttribute('aria-expanded', open?'true':'false');
-    });
-    document.addEventListener('click', function(e){
-      if(!btn.contains(e.target)&&!nav.contains(e.target)){
-        nav.classList.remove('nav-open');
-        btn.setAttribute('aria-expanded','false');
-      }
-    });
-    nav.addEventListener('click', function(e){
-      if(e.target.tagName==='A'){
-        nav.classList.remove('nav-open');
-        btn.setAttribute('aria-expanded','false');
-      }
-    });
   })();
   </script>
 </body>

@@ -103,22 +103,6 @@
         <a href="../index.html">トップ</a> › <a href="index.html">無料ツール</a> › <span>面接Q&Aジェネレーター</span>
       </nav>
 
-      <!-- APIキー設定パネル -->
-      <div class="tool-card" style="margin-bottom:1rem;padding:1.25rem;">
-        <div id="api-key-saved" style="display:none;align-items:center;gap:1rem;">
-          <span style="font-size:0.9rem;color:#2d6a4f;font-weight:700;">&#10003; Gemini APIキー設定済み</span>
-          <button type="button" onclick="showApiKeyInput()" style="font-size:0.78rem;padding:0.25rem 0.75rem;background:#fff;border:1px solid #cbd5e0;border-radius:4px;cursor:pointer;">変更</button>
-        </div>
-        <div id="api-key-input-area">
-          <p style="font-weight:700;margin:0 0 0.4rem;">&#128273; Gemini APIキーを設定</p>
-          <p style="font-size:0.82rem;color:#555;margin:0 0 0.75rem;"><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a> で無料取得できます。キーはブラウザにのみ保存されます。</p>
-          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-            <input type="text" id="apiKeyInput" placeholder="AIza..." style="flex:1;min-width:200px;padding:0.5rem 0.75rem;border:1.5px solid #cbd5e0;border-radius:6px;font-size:0.9rem;">
-            <button type="button" onclick="saveApiKey()" style="padding:0.5rem 1.25rem;background:#1a3a5c;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;">保存</button>
-          </div>
-        </div>
-      </div>
-
       <div class="tool-card">
         <form class="tool-form" id="toolForm">
           <label>希望職種 <span class="form-hint">（具体的なほどより精度の高い質問が生成されます）</span></label>
@@ -147,7 +131,7 @@
 
         <div class="loading-wrap" id="loadingWrap">
           <div class="spin"></div>
-          <p>面接質問と回答例を生成中...<br><small>（通常15〜25秒かかります）</small></p>
+          <p>面接質問と回答例を生成中...<br><small>少々お待ちください</small></p>
         </div>
 
         <div class="error-box" id="errorBox"></div>
@@ -212,152 +196,215 @@
       <p>本サイトはアフィリエイト広告を利用しています。&nbsp;|&nbsp;&copy; 2026 転職プレス All Rights Reserved.</p>
     </div>
   </footer>
-  <script>
+<script>
   (function(){
-    var form    = document.getElementById('toolForm');
-    var genBtn  = document.getElementById('genBtn');
-    var load    = document.getElementById('loadingWrap');
-    var err     = document.getElementById('errorBox');
-    var result  = document.getElementById('resultBox');
-    var content = document.getElementById('resultContent');
-    var reset   = document.getElementById('resetBtn');
+    /* ── 質問バンク ── */
+    var UQ=[  /* 全職種共通 5問 */
+      {q:'自己紹介をしてください',f:'★★★★★',
+       p:'「現職での役割→実績→転職理由→なぜここか」の流れで1〜2分にまとめましょう。',
+       g:'「現在は〇〇株式会社で△△を担当しております。入社以来X年間、主に○○に携わり、直近では□□をリードしました。更なる成長を求めて転職を検討しております。」',
+       n:'「えーと、○○と申します…（沈黙）」→ 準備不足が丸見えです。職歴を長々と読み上げるだけも避けましょう。'},
+      {q:'転職理由を教えてください',f:'★★★★★',
+       p:'ネガティブな理由は前面に出さず、「やりたいこと・成長したいこと」に焦点を当てて前向きに答えましょう。',
+       g:'【入力内容をもとに個人化されます】',
+       n:'「上司との関係が良くなくて…」「給与が低いので…」→ 会社や他者の批判は控えましょう。'},
+      {q:'あなたの強みを教えてください',f:'★★★★★',
+       p:'STAR法（状況→課題→行動→結果）で具体的なエピソードを用いて話しましょう。実体験を交えた強みが記憶に残ります。',
+       g:'【入力内容をもとに個人化されます】',
+       n:'「明るくて前向きなことです」→ 根拠のない自己申告は説得力がありません。'},
+      {q:'当社を志望した理由を教えてください',f:'★★★★★',
+       p:'「他社ではなくここでなければならない理由」を具体的に語りましょう。事業内容・文化・成長性への共感を示すと効果的です。',
+       g:'「御社の○○という事業に強く共感しています。特に△△への取り組みは業界でもユニークであり、私が実現したい□□に最も近い環境だと判断しました。」',
+       n:'「給与が良いので」「知名度が高いので」→ 本質的な動機がないと映ります。'},
+      {q:'5年後のキャリアビジョンを教えてください',f:'★★★★☆',
+       p:'志望企業での成長ストーリーとして話すのが理想です。「だからこそ御社に貢献できる」という流れが効果的です。',
+       g:'「5年後は○○のスペシャリストとして、チームを牽引できる存在になりたいと考えています。そのためにまず御社で□□を積み、段階的にステップアップしていきたいです。」',
+       n:'「まだ考えていません」→ キャリアへの意欲が低く映ります。'},
+    ];
+    var JQ={
+      'IT':[
+        {q:'これまでに最も技術的に難しかった課題と解決方法を教えてください',f:'★★★★★',
+         p:'技術力と問題解決力を見る質問です。具体的な技術スタック・手法・学びを入れて答えましょう。',
+         g:'「○○プロジェクトで△△の問題が発生し、□□の手法で解決しました。このときXXという技術を習得し、後のプロジェクトにも応用できました。」',
+         n:'「特に難しいことはなかったです」→ 謙虚さより具体的な経験の開示が求められます。'},
+        {q:'コードレビューやチーム開発でどのような取り組みをしていましたか',f:'★★★★☆',
+         p:'チームワークと技術的なコミュニケーション力を評価します。建設的なフィードバックの姿勢を示しましょう。',
+         g:'「毎週のコードレビューでは○○の点に重点を置き、指摘の際は改善案も必ず添えるよう心掛けていました。」',
+         n:'「ほぼ個人作業でした」→ チーム開発経験のアピールが難しくなります。'},
+        {q:'技術トレンドのキャッチアップはどのように行っていますか',f:'★★★☆☆',
+         p:'自己学習の習慣を問う質問です。具体的な情報源・学習方法・最近学んだことを話しましょう。',
+         g:'「技術ブログ（Zenn・Qiita等）を毎朝チェックし、月1冊は技術書を読んでいます。最近はLLM活用に興味があり個人プロジェクトも進めています。」',
+         n:'「特に意識はしていません」→ エンジニアとして成長意欲が低く映ります。'},
+      ],
+      '医療':[
+        {q:'印象に残っている患者対応（ケース）と、そこから得た学びを教えてください',f:'★★★★★',
+         p:'医療人としての姿勢と経験の深さを確認します。個人情報に配慮しながら、学びの観点で話しましょう。',
+         g:'「○○のケースで△△という困難な状況がありましたが、チームで連携し□□というアプローチをとりました。この経験からXXの大切さを学びました。」',
+         n:'個人が特定できる情報を含む発言は避けましょう。'},
+        {q:'チームで働くうえで大切にしていることは何ですか',f:'★★★★☆',
+         p:'多職種連携やコミュニケーション力を評価します。',
+         g:'「報告・連絡・相談を徹底することと、相手の立場を想像したコミュニケーションを心掛けています。」',
+         n:'「特になし」→ 連携が重要な職場で不安を与えます。'},
+      ],
+      '営業':[
+        {q:'これまでの営業実績で最も誇れる成果を教えてください',f:'★★★★★',
+         p:'具体的な数字（売上・達成率・受注件数等）で実績を示しましょう。',
+         g:'「前年比120%の売上を達成し、チーム20名中トップ3に入ることができました。特に○○の施策が効果的で、△△という結果につながりました。」',
+         n:'「頑張りました」「チームで取り組みました」→ 数字なしの実績話は印象に残りません。'},
+        {q:'受注に至らなかった案件から、何を学びましたか',f:'★★★★☆',
+         p:'失敗から学ぶ姿勢と内省力を見る質問です。前向きに話しましょう。',
+         g:'「○○の案件で失注した際、提案の○○が不十分だったと振り返りました。その後△△を改善したところ、類似案件の受注率が上がりました。」',
+         n:'「運が悪かったです」「先方の都合なので」→ 外部帰因は成長意欲のなさに映ります。'},
+        {q:'新規開拓と既存顧客フォローのバランスはどう取っていましたか',f:'★★★☆☆',
+         p:'営業スタイルと時間管理能力を評価します。',
+         g:'「週の○割を既存顧客フォロー、△割を新規開拓に充て、月次でKPIを確認しながら比率を調整していました。」',
+         n:'「会社の方針に従っていました」→ 主体性のなさを感じさせます。'},
+      ],
+      '専門':[
+        {q:'専門知識を実務でどのように活かしてきましたか',f:'★★★★★',
+         p:'資格や知識が実際のビジネス成果にどう結びついたか、具体的に話しましょう。',
+         g:'「○○の知識を活かし、△△のプロジェクトで□□を実現しました。これにより企業のXXリスクを大幅に低減できました。」',
+         n:'「資格を持っているだけです」→ 実務での応用が見えないと評価されにくいです。'},
+        {q:'専門分野のアップデートをどのように行っていますか',f:'★★★★☆',
+         p:'継続学習の姿勢と専門性の深さを確認します。',
+         g:'「業界誌の購読・セミナー参加・実務での事例研究を習慣にしています。最近は○○の動向を特にフォローしています。」',
+         n:'「資格取得後は特に…」→ 取得後の努力がないと映ります。'},
+      ],
+      '一般':[
+        {q:'チームや組織の課題を改善した経験を教えてください',f:'★★★★☆',
+         p:'主体性・問題解決力・組織への貢献を評価します。小さな改善でも「自分が動いた」実体験を話しましょう。',
+         g:'「○○という課題があり、△△という改善を提案・実施しました。その結果□□という成果が出て、チームに○○という変化がありました。」',
+         n:'「特に思い当たりません」→ 主体性のなさに映ります。'},
+        {q:'上司や同僚と意見が対立したとき、どう解決しましたか',f:'★★★★☆',
+         p:'対人スキルと協調性・自己主張のバランスを見ます。',
+         g:'「○○の件で意見が異なった際、まず相手の意図をよく聞き、お互いの共通目標を確認してから解決策を話し合いました。」',
+         n:'「相手が間違っていたので押し通しました」「いつも上司の言う通りにしました」→ 極端な対応は評価が低くなります。'},
+      ],
+    };
+    var CQ={
+      '大手日系企業（従業員1000人以上）':
+        {q:'大きな組織で働くことへの考えを聞かせてください',f:'★★★☆☆',
+         p:'大企業特有のプロセス・縦割り構造への適応力を確認します。',
+         g:'「大きな組織では多くのステークホルダーとの調整が重要と理解しています。社内外への説明・合意形成を丁寧に行いながら、着実に成果を出すことを大切にしています。」',
+         n:'「自由にやらせてもらえれば…」→ 組織への適応意欲が低く映ります。'},
+      'ベンチャー・スタートアップ':
+        {q:'急成長フェーズの環境変化にどう対応しますか',f:'★★★★★',
+         p:'柔軟性・主体性・不確実性への耐性を見ます。',
+         g:'「変化は成長の機会と捉えています。まず状況を素早く把握し、優先度を判断して動くことを心掛けています。前職でも△△という変化を乗り越え、○○を達成しました。」',
+         n:'「安定した環境が好きです」→ スタートアップの特性に合わない姿勢です。'},
+      '外資系企業':
+        {q:'英語でのコミュニケーション経験と工夫していることを教えてください',f:'★★★★☆',
+         p:'グローバル環境での実務能力と姿勢を確認します。',
+         g:'「海外チームとは文化的背景の違いを意識しながら、特に□□の点で工夫してコミュニケーションを取ってきました。」',
+         n:'「英語は苦手ですが頑張ります」→ 最低限の準備は示しましょう。'},
+      'コンサルティングファーム':
+        {q:'仮説思考を使って課題を解決した経験を教えてください',f:'★★★★★',
+         p:'コンサル特有の思考力と分析力を直接評価します。',
+         g:'「○○という課題に対し、□□という仮説を立て、△△のデータで検証しました。仮説を修正し□□というアプローチに変更することで成果が出ました。」',
+         n:'「感覚で判断しました」→ 根拠のある思考プロセスが必須です。'},
+      '公的機関・医療機関・福祉施設':
+        {q:'公的・社会貢献的な職場を選んだ理由を教えてください',f:'★★★★☆',
+         p:'社会的な動機と公益性への共感を確認します。',
+         g:'「○○という経験から、社会貢献度の高い仕事に携わりたいという思いが強まりました。御施設の△△という取り組みに共感し、自分の力を発揮したいと考えています。」',
+         n:'「安定しているから」だけでは熱意が伝わりません。'},
+      '中小・中堅日系企業（従業員1000人未満）':
+        {q:'少人数組織で幅広い役割を担うことへの考えを聞かせてください',f:'★★★☆☆',
+         p:'多能工的な働き方への適応力と主体性を見ます。',
+         g:'「幅広い業務を担当することで視野が広がり、より大きな価値を生み出せると考えています。前職でも○○と△△を兼務した経験があり、効率よく成果を出してきました。」',
+         n:'「専門職に集中したいです」→ 中小企業の実情と合わない姿勢です。'},
+    };
 
-    form.addEventListener('submit', async function(e){
-      e.preventDefault();
+    function getCat(j){
+      if(!j) return '一般';
+      if(/エンジニア|プログラマー|開発|システム|インフラ|データ|AI|デザイナー|PM|プロジェクト/.test(j)) return 'IT';
+      if(/医師|看護|薬剤|介護|医療|リハビリ|保健|福祉/.test(j)) return '医療';
+      if(/営業|セールス|マーケ|販売/.test(j)) return '営業';
+      if(/弁護|会計|税理|コンサル|金融|証券|銀行/.test(j)) return '専門';
+      return '一般';
+    }
 
-      var key = localStorage.getItem('gemini_api_key');
-      if (!key) { showErr('APIキーが設定されていません。ページ上部のフォームにAPIキーを入力してください。'); return; }
+    function buildQA(job,company,reason,pr){
+      var cat=getCat(job);
+      /* 質問を選ぶ：共通5問 + 職種2問 + 企業タイプ1問 = 8問 */
+      var list=UQ.slice();
+      var jqs=JQ[cat]||JQ['一般'];
+      list=list.concat(jqs.slice(0,2));
+      var cq=CQ[company];
+      if(cq) list.push(cq);
+      list=list.slice(0,8);
 
-      var targetJob   = document.getElementById('targetJob').value.trim() || '未指定（一般的な転職面接）';
-      var companyType = document.getElementById('companyType').value;
-      var reason      = document.getElementById('reason').value.trim();
-      var prText      = document.getElementById('prText').value.trim();
+      var jobLbl=job||'一般的な転職面接';
+      var catNote={
+        'IT':'技術力・問題解決力・チームワーク・自己学習の姿勢が特に重視されます。具体的な実装経験と数字で語れる実績を準備しましょう。',
+        '医療':'患者への向き合い方・チーム連携・専門スキルと継続学習の姿勢が評価軸になります。',
+        '営業':'実績数値・顧客折衝力・目標達成プロセスが重視されます。数字で語れる成果を整理しておきましょう。',
+        '専門':'専門知識の実務応用力・業界への貢献度・継続的な学習姿勢が評価されます。',
+        '一般':'主体性・コミュニケーション力・職場への適応力が確認されます。具体的なエピソードで答えましょう。',
+      };
+      var rsn=reason.length>80?reason.slice(0,80)+'…':reason;
+      var prSnip=pr&&pr.length>80?pr.slice(0,80)+'…':pr;
 
-      if (!reason) { showErr('転職理由を入力してください。'); return; }
+      var html='<h3>📋 この面接で特に確認されること</h3>'
+        +'<p>'+catNote[cat]+'</p>'
+        +'<p style="font-size:.85rem;color:#64748b;background:#f8fafc;padding:.75rem 1rem;border-radius:8px;margin:.5rem 0 1.25rem">'
+        +'📝 <strong>'+jobLbl+'</strong> / '+company+(reason?' / 転職理由: 「'+rsn+'」':'')+'</p>';
 
-      setLoading(true);
-      hideResult();
-      hideErr();
-
-      var prNote = prText ? '【自己PR・強み】\n' + prText : '';
-
-      var prompt = `あなたは転職経験豊富な面接コーチです。以下のプロフィールの転職希望者に対して、面接で実際に聞かれる可能性の高い質問10問と、効果的な回答例・NG回答例を作成してください。
-
-【プロフィール】
-希望職種: ${targetJob}
-志望企業タイプ: ${companyType}
-転職理由: ${reason}
-${prNote}
-
-以下の形式でHTMLタグ（h3/p/ul/li/strong/div）を使って回答してください:
-
-<h3>📋 この面接で確認されること</h3>
-（この職種・企業タイプで特に重視されるポイントを2〜3点）
-
-そして、質問1〜10を以下の形式で:
-
-<div class="q-item">
-<div class="q-num">Q1 / 頻出度: ★★★★★</div>
-<div class="q-text">質問文をここに書く</div>
-<h4>💡 回答のポイント</h4>
-<p>この質問の意図と答え方のコツ</p>
-<h4>✅ 回答例</h4>
-<p>具体的な回答例（この人のプロフィールに合わせた内容）</p>
-<h4>❌ NG回答例</h4>
-<p>よくある失敗パターンと理由</p>
-</div>
-
-必ず日本語で、この人のプロフィールに合わせた具体的な内容にしてください。質問は頻出順に並べてください。`;
-
-      try {
-        var responseText = await callGemini(key, prompt);
-        content.innerHTML = responseText;
-        setLoading(false);
-        showResult();
-      } catch(e) {
-        setLoading(false);
-        showErr('生成中にエラーが発生しました。しばらく待ってから再試行してください。（' + e.message + '）');
-      }
-    });
-
-    reset.addEventListener('click', function(){
-      hideResult();
-      form.style.display = '';
-      window.scrollTo({top: 0, behavior:'smooth'});
-    });
-
-    async function callGemini(apiKey, prompt) {
-      var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
-      var res = await fetch(url, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          contents: [{parts: [{text: prompt}]}],
-          generationConfig: {temperature: 0.75, maxOutputTokens: 2000}
-        })
+      list.forEach(function(q,i){
+        var gAns=q.g;
+        /* Q2（転職理由）を個人化 */
+        if(i===1&&reason){
+          gAns='「'+rsn+(reason.length>80?'（以下省略）':'')+'。御社の'+company.slice(0,12)+'という環境でこそ、自分のキャリアを実現できると感じています。」';
+        }
+        /* Q3（強み）を個人化 */
+        if(i===2&&pr){
+          gAns='「私の強みは'+prSnip+(pr&&pr.length>80?'（以下省略）':'')+'。この強みを'+jobLbl+'として御社で活かしていきたいと考えています。」';
+        }
+        html+='<div style="border:1px solid #e2e8f0;border-radius:10px;padding:1.25rem;margin-bottom:1rem;background:#fff">';
+        html+='<div style="font-size:.78rem;color:#64748b;margin-bottom:.4rem">Q'+(i+1)+'　頻出度: '+q.f+'</div>';
+        html+='<div style="font-weight:800;font-size:1rem;color:#1a3a5c;margin-bottom:1rem;padding:.6rem .8rem;background:#f0f5ff;border-radius:6px;">'+q.q+'</div>';
+        html+='<h4 style="font-size:.88rem;color:#0d5cb6;margin:.5rem 0 .3rem">💡 回答のポイント</h4>';
+        html+='<p style="font-size:.88rem;color:#334155;margin:.2rem 0 .7rem">'+q.p+'</p>';
+        html+='<h4 style="font-size:.88rem;color:#276749;margin:.5rem 0 .3rem">✅ 回答例</h4>';
+        html+='<p style="font-size:.88rem;color:#1e4620;background:#f0fff4;border-radius:6px;padding:.6rem .8rem;margin:.2rem 0 .7rem">'+gAns+'</p>';
+        html+='<h4 style="font-size:.88rem;color:#c53030;margin:.5rem 0 .3rem">❌ NG回答例</h4>';
+        html+='<p style="font-size:.88rem;color:#742a2a;background:#fff5f5;border-radius:6px;padding:.6rem .8rem;margin:.2rem 0">'+q.n+'</p>';
+        html+='</div>';
       });
-      if (!res.ok) {
-        var d = await res.json().catch(function(){return {};});
-        throw new Error(d.error && d.error.message ? d.error.message : 'HTTP ' + res.status);
-      }
-      var data = await res.json();
-      return data.candidates[0].content.parts[0].text;
+      return html;
     }
 
-    function setLoading(on) {
-      load.classList.toggle('on', on);
-      genBtn.disabled = on;
-      if (on) form.style.display = 'none';
-      else form.style.display = '';
-    }
-    function showResult()  { result.classList.add('on'); }
-    function hideResult()  { result.classList.remove('on'); }
-    function showErr(msg)  { err.textContent = msg; err.classList.add('on'); }
-    function hideErr()     { err.classList.remove('on'); }
-  })();
-  </script>
-  <script>
-    // APIキー管理
+    var form=document.getElementById('toolForm'),genBtn=document.getElementById('genBtn');
+    var load=document.getElementById('loadingWrap'),err=document.getElementById('errorBox');
+    var result=document.getElementById('resultBox'),content=document.getElementById('resultContent');
+    var reset=document.getElementById('resetBtn');
+
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var job=document.getElementById('targetJob').value.trim();
+      var company=document.getElementById('companyType').value;
+      var reason=document.getElementById('reason').value.trim();
+      var pr=document.getElementById('prText').value.trim();
+      if(!reason){showErr('転職理由を入力してください。');return;}
+      setLoading(true);hideResult();hideErr();
+      setTimeout(function(){
+        content.innerHTML=buildQA(job,company,reason,pr);
+        setLoading(false);showResult();
+      },1500);
+    });
+    reset.addEventListener('click',function(){hideResult();form.style.display='';window.scrollTo({top:0,behavior:'smooth'});});
+    function setLoading(on){load.classList.toggle('on',on);genBtn.disabled=on;form.style.display=on?'none':'';}
+    function showResult(){result.classList.add('on');}
+    function hideResult(){result.classList.remove('on');}
+    function showErr(msg){err.textContent=msg;err.classList.add('on');}
+    function hideErr(){err.classList.remove('on');}
+
     (function(){
-      var saved = localStorage.getItem('gemini_api_key');
-      if(saved){
-        document.getElementById('api-key-saved').style.display = 'flex';
-        document.getElementById('api-key-input-area').style.display = 'none';
-      }
+      var btn=document.querySelector('.hamburger'),nav=document.querySelector('.header-nav');
+      if(!btn||!nav)return;
+      btn.addEventListener('click',function(e){e.stopPropagation();var o=nav.classList.toggle('nav-open');btn.setAttribute('aria-expanded',o?'true':'false');});
+      document.addEventListener('click',function(e){if(!btn.contains(e.target)&&!nav.contains(e.target)){nav.classList.remove('nav-open');btn.setAttribute('aria-expanded','false');}});
+      nav.addEventListener('click',function(e){if(e.target.tagName==='A'){nav.classList.remove('nav-open');btn.setAttribute('aria-expanded','false');}});
     })();
-    function saveApiKey(){
-      var val = document.getElementById('apiKeyInput').value.trim();
-      if(!val){ alert('APIキーを入力してください'); return; }
-      localStorage.setItem('gemini_api_key', val);
-      document.getElementById('api-key-saved').style.display = 'flex';
-      document.getElementById('api-key-input-area').style.display = 'none';
-    }
-    function showApiKeyInput(){
-      document.getElementById('api-key-saved').style.display = 'none';
-      document.getElementById('api-key-input-area').style.display = 'block';
-    }
-
-  (function(){
-    var btn = document.querySelector('.hamburger');
-    var nav = document.querySelector('.header-nav');
-    if(!btn||!nav) return;
-    btn.addEventListener('click', function(e){
-      e.stopPropagation();
-      var open = nav.classList.toggle('nav-open');
-      btn.setAttribute('aria-expanded', open?'true':'false');
-    });
-    document.addEventListener('click', function(e){
-      if(!btn.contains(e.target)&&!nav.contains(e.target)){
-        nav.classList.remove('nav-open');
-        btn.setAttribute('aria-expanded','false');
-      }
-    });
-    nav.addEventListener('click', function(e){
-      if(e.target.tagName==='A'){
-        nav.classList.remove('nav-open');
-        btn.setAttribute('aria-expanded','false');
-      }
-    });
   })();
   </script>
 </body>

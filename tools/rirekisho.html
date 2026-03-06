@@ -106,22 +106,6 @@
         <a href="../index.html">トップ</a> › <a href="index.html">無料ツール</a> › <span>職務経歴書チェッカー</span>
       </nav>
 
-      <!-- APIキー設定パネル -->
-      <div class="tool-card" style="margin-bottom:1rem;padding:1.25rem;">
-        <div id="api-key-saved" style="display:none;align-items:center;gap:1rem;">
-          <span style="font-size:0.9rem;color:#2d6a4f;font-weight:700;">&#10003; Gemini APIキー設定済み</span>
-          <button type="button" onclick="showApiKeyInput()" style="font-size:0.78rem;padding:0.25rem 0.75rem;background:#fff;border:1px solid #cbd5e0;border-radius:4px;cursor:pointer;">変更</button>
-        </div>
-        <div id="api-key-input-area">
-          <p style="font-weight:700;margin:0 0 0.4rem;">&#128273; Gemini APIキーを設定</p>
-          <p style="font-size:0.82rem;color:#555;margin:0 0 0.75rem;"><a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a> で無料取得できます。キーはブラウザにのみ保存されます。</p>
-          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-            <input type="text" id="apiKeyInput" placeholder="AIza..." style="flex:1;min-width:200px;padding:0.5rem 0.75rem;border:1.5px solid #cbd5e0;border-radius:6px;font-size:0.9rem;">
-            <button type="button" onclick="saveApiKey()" style="padding:0.5rem 1.25rem;background:#1a3a5c;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer;">保存</button>
-          </div>
-        </div>
-      </div>
-
       <div class="tool-card">
         <form class="tool-form" id="toolForm">
           <label>応募職種 <span class="form-hint">（チェックのポイントが変わります）</span></label>
@@ -161,7 +145,7 @@
 
         <div class="loading-wrap" id="loadingWrap">
           <div class="spin"></div>
-          <p>採用担当者の視点でAI分析中...<br><small>（通常15〜25秒かかります）</small></p>
+          <p>採用担当者の視点で分析中...<br><small>少々お待ちください</small></p>
         </div>
 
         <div class="error-box" id="errorBox"></div>
@@ -231,193 +215,136 @@
       <p>本サイトはアフィリエイト広告を利用しています。&nbsp;|&nbsp;&copy; 2026 転職プレス All Rights Reserved.</p>
     </div>
   </footer>
-  <script>
+<script>
   (function(){
-    var form    = document.getElementById('toolForm');
-    var genBtn  = document.getElementById('genBtn');
-    var load    = document.getElementById('loadingWrap');
-    var err     = document.getElementById('errorBox');
-    var result  = document.getElementById('resultBox');
-    var content = document.getElementById('resultContent');
-    var reset   = document.getElementById('resetBtn');
-    var scoreN  = document.getElementById('scoreNum');
-    var scoreF  = document.getElementById('scoreFill');
-    var textArea= document.getElementById('resumeText');
-    var charCnt = document.getElementById('charCount');
+    var form=document.getElementById('toolForm'),genBtn=document.getElementById('genBtn');
+    var load=document.getElementById('loadingWrap'),err=document.getElementById('errorBox');
+    var result=document.getElementById('resultBox'),content=document.getElementById('resultContent');
+    var reset=document.getElementById('resetBtn');
+    var scoreN=document.getElementById('scoreNum'),scoreF=document.getElementById('scoreFill');
+    var textArea=document.getElementById('resumeText'),charCnt=document.getElementById('charCount');
 
-    textArea.addEventListener('input', function(){
-      var n = textArea.value.length;
-      charCnt.textContent = n + ' / 3000文字';
-      charCnt.classList.toggle('warn', n > 3000);
+    textArea.addEventListener('input',function(){
+      var n=textArea.value.length;
+      charCnt.textContent=n+' / 3000文字';
+      charCnt.classList.toggle('warn',n>3000);
     });
 
-    document.getElementById('sampleBtn').addEventListener('click', function(){
-      textArea.value = `【職務要約】
-○○株式会社にてWebエンジニアとして5年間勤務。バックエンド開発を中心に、要件定義から設計・実装・テストまで一貫して担当。月間100万PVのECサービスの機能開発をリードし、レスポンスタイムを40%改善。
-
-【職務経歴】
-■ 株式会社○○（2020年4月〜現在）
-職種：バックエンドエンジニア
-・ECサービスのバックエンドAPI開発（Python / Django / PostgreSQL）
-・マイクロサービス化の設計・実装（Docker / Kubernetes）
-・チーム5名のリーダーとして、スプリント計画・コードレビューを担当
-・CIパイプライン構築によりデプロイ頻度を月2回→毎日に改善
-
-■ 株式会社△△（2017年4月〜2020年3月）
-職種：Webエンジニア
-・PHPによるWebシステム開発
-・社内業務システムの要件定義・設計・開発
-
-【スキル】
-言語：Python、PHP、JavaScript
-フレームワーク：Django、Laravel、React
-インフラ：AWS（EC2/RDS/S3）、Docker、GitHub Actions
-その他：Scrum、アジャイル開発`;
-      charCnt.textContent = textArea.value.length + ' / 3000文字';
+    document.getElementById('sampleBtn').addEventListener('click',function(){
+      textArea.value='【職務要約】\n○○株式会社にてWebエンジニアとして5年間勤務。バックエンド開発を中心に、要件定義から設計・実装・テストまで一貫して担当。月間100万PVのECサービスの機能開発をリードし、レスポンスタイムを40%改善。\n\n【職務経歴】\n■ 株式会社○○（2020年4月〜現在）\n職種：バックエンドエンジニア\n・ECサービスのバックエンドAPI開発（Python / Django / PostgreSQL）\n・マイクロサービス化の設計・実装（Docker / Kubernetes）\n・チーム5名のリーダーとして、スプリント計画・コードレビューを担当\n・CIパイプライン構築によりデプロイ頻度を月2回→毎日に改善\n\n■ 株式会社△△（2017年4月〜2020年3月）\n職種：Webエンジニア\n・PHPによるWebシステム開発\n・社内業務システムの要件定義・設計・開発\n\n【スキル】\n言語：Python、PHP、JavaScript\nフレームワーク：Django、Laravel、React\nインフラ：AWS（EC2/RDS/S3）、Docker、GitHub Actions\nその他：Scrum、アジャイル開発';
+      charCnt.textContent=textArea.value.length+' / 3000文字';
     });
 
-    form.addEventListener('submit', async function(e){
+    /* ── スコアリング関数（各20点満点） ── */
+    function sVol(t){
+      var n=t.length;
+      if(n<200)  return{s:5, lbl:'ボリューム不足'};
+      if(n<400)  return{s:11,lbl:'やや少ない'};
+      if(n<800)  return{s:15,lbl:'標準'};
+      if(n<2000) return{s:20,lbl:'十分'};
+      return{s:17,lbl:'やや多い'};
+    }
+    function sStr(t){
+      var s=0;
+      if(/[■◆●▼【]/.test(t)) s+=6;
+      if(/\d{4}年/.test(t))   s+=6;
+      if(/[・\-•]/.test(t))   s+=5;
+      if(/職種|役職|ポジション|役割/.test(t)) s+=3;
+      return{s:Math.min(20,s)};
+    }
+    function sQnt(t){
+      var s=0;
+      if(/%/.test(t)) s+=5;
+      if(/\d+[万千億]?[円名人件本]/.test(t)) s+=5;
+      if(/改善|向上|削減|増加|短縮|拡大|倍/.test(t)) s+=5;
+      if(/達成|実現|貢献|主導|構築|推進|立ち上げ/.test(t)) s+=5;
+      return{s:Math.min(20,s)};
+    }
+    function sKwd(t){
+      var s=0;
+      if(/Python|Java|JavaScript|TypeScript|React|Vue|Angular|AWS|GCP|Azure|Docker|SQL|PHP|Ruby|Go|Swift|Kotlin/.test(t)) s+=5;
+      if(/プロジェクト|マネジメント|KPI|ROI|予算|コスト|スケジュール|戦略|施策|企画/.test(t)) s+=5;
+      if(/アジャイル|スクラム|要件定義|設計|テスト|DevOps|Scrum|Sprint/.test(t)) s+=5;
+      if(/コミュニケーション|リーダーシップ|問題解決|調整|折衝|提案|育成|採用/.test(t)) s+=5;
+      return{s:Math.min(20,s)};
+    }
+    function sRead(t){
+      var s=0;
+      if(/職務要約|概要|キャリアサマリー|自己PR|アピール/.test(t)) s+=8;
+      if(t.split('\n').length>5) s+=5;
+      if(!/(.)\1{6,}/.test(t)) s+=4;
+      if(/強み|得意|専門/.test(t)) s+=3;
+      return{s:Math.min(20,s)};
+    }
+
+    function buildFeedback(t,job,sc){
+      var goods=[],imps=[];
+      /* 改善 */
+      if(t.length<400) imps.push({h:'記述量を増やす（現在'+t.length+'文字）',d:'採用担当者が職務内容を把握するには最低500文字程度の記述が推奨されます。各職場での具体的な業務内容を加えましょう。'});
+      if(!/[■◆●▼【]/.test(t)) imps.push({h:'セクション区分を設ける',d:'「■ 職務要約」「■ 職務経歴」のように見出しで区切ると、採用担当者が素早く内容を把握できます。'});
+      if(!/\d{4}年/.test(t)) imps.push({h:'在籍期間を明記する（例: 2020年4月〜2023年3月）',d:'在籍期間がないと経歴の時系列が不明瞭になります。各職場の入社・退社年月を必ず記載しましょう。'});
+      if(!/%/.test(t)&&!/\d+[万千億]?[円名人件]/.test(t)) imps.push({h:'数字・実績を加える',d:'「売上20%改善」「10名チームをリード」「年間1,200万円のコスト削減」のように数字で実績を示すと説得力が大幅に向上します。'});
+      if(!/職務要約|概要|キャリアサマリー/.test(t)) imps.push({h:'冒頭に職務要約を追加する',d:'3〜5行のサマリーを冒頭に置くことで、採用担当者が全体像を素早く把握でき、書類通過率が上がります。'});
+      /* 良い点 */
+      if(/達成|実現|主導|推進/.test(t)) goods.push({h:'成果・アクション動詞を使用している',d:'「主導した」「実現した」などの能動的な表現は採用担当者に好印象を与えます。'});
+      if(/\d{4}年/.test(t)) goods.push({h:'時系列が明確',d:'期間が明記されており、キャリアの流れが把握しやすい構成です。'});
+      if(t.length>=800) goods.push({h:'適切なボリューム',d:'職務内容の詳細が十分に記述されており、採用担当者が評価しやすい分量です。'});
+      if(/職務要約|概要|キャリアサマリー/.test(t)) goods.push({h:'職務要約がある',d:'冒頭に要約があることで、採用担当者が全体像を素早く把握できます。'});
+      if(/%/.test(t)||/\d+[万千億]?[円名人件]/.test(t)) goods.push({h:'数字で実績を示している',d:'具体的な数値が含まれており、実績の信頼性が高まっています。'});
+      return{goods:goods,imps:imps};
+    }
+
+    form.addEventListener('submit',function(e){
       e.preventDefault();
-
-      var key = localStorage.getItem('gemini_api_key');
-      if (!key) { showErr('APIキーが設定されていません。ページ上部のフォームにAPIキーを入力してください。'); return; }
-
-      var text = textArea.value.trim();
-      if (text.length < 100) { showErr('職務経歴書の内容を100文字以上入力してください。'); return; }
-      if (text.length > 3000) { showErr('3000文字以内に収めてください。'); return; }
-
-      var targetJob = document.getElementById('targetJob').value;
-      var jobNote   = targetJob ? '応募職種: ' + targetJob : '応募職種: 未指定（一般的な視点で評価）';
-
-      setLoading(true);
-      hideResult();
-      hideErr();
-
-      var prompt = `あなたは日系・外資系企業の採用担当者として15年以上の経験を持つキャリアアドバイザーです。
-以下の職務経歴書を採用担当者の視点で厳しく、かつ建設的に評価してください。
-
-【評価条件】
-${jobNote}
-
-【職務経歴書】
-${text}
-
-以下の形式でHTMLタグ（h3/p/ul/li/strong）を使って回答してください。必ず最初に総合スコアを書いてください:
-
-<h3>🏆 総合評価スコア: XX点 / 100点</h3>
-（スコアと一言評価。採用担当者として率直な印象を書く）
-
-<h3>✅ 評価できるポイント（3〜4点）</h3>
-（強みや良い書き方の具体的な箇所を挙げる）
-
-<h3>⚠️ 改善が必要な点（3〜5点）</h3>
-（採用通過率を下げているポイントを具体的に指摘する）
-
-<h3>✏️ 具体的な修正例</h3>
-（最も重要な改善点について、修正前→修正後の例を示す）
-
-<h3>📋 書類通過率を上げるための追加アドバイス</h3>
-（この職務経歴書を通過させるために最優先でやるべきこと2〜3点）
-
-必ず日本語で、具体的・実践的なフィードバックをしてください。`;
-
-      try {
-        var responseText = await callGemini(key, prompt);
-        var scoreMatch = responseText.match(/総合評価スコア[：:]\s*(\d+)/);
-        if (scoreMatch) {
-          var score = parseInt(scoreMatch[1]);
-          scoreN.textContent = score;
-          setTimeout(function(){ scoreF.style.width = score + '%'; }, 100);
-        }
-        content.innerHTML = responseText;
-        setLoading(false);
-        showResult();
-      } catch(e) {
-        setLoading(false);
-        showErr('診断中にエラーが発生しました。しばらく待ってから再試行してください。（' + e.message + '）');
-      }
+      var text=textArea.value.trim();
+      if(text.length<100){showErr('100文字以上入力してください。');return;}
+      if(text.length>3000){showErr('3000文字以内にしてください。');return;}
+      var job=document.getElementById('targetJob').value;
+      setLoading(true);hideResult();hideErr();
+      setTimeout(function(){
+        var vs=sVol(text),ss=sStr(text),qs=sQnt(text),ks=sKwd(text),rs=sRead(text);
+        var total=vs.s+ss.s+qs.s+ks.s+rs.s;
+        var color=total>=80?'#276749':total>=60?'#d69e2e':'#c53030';
+        scoreN.textContent=total; scoreN.style.color=color;
+        scoreF.style.width=total+'%'; scoreF.style.background=color;
+        var fb=buildFeedback(text,job,{vs:vs,ss:ss,qs:qs,ks:ks,rs:rs});
+        var lbl=total>=80?'優秀':total>=65?'良好':total>=50?'標準':'要改善';
+        var cmt=total>=80?'書類選考通過率が高い水準です。この内容で自信を持って応募できます。'
+          :total>=65?'書類選考は十分に通過できる水準です。改善ポイントを加えることでさらに通過率が上がります。'
+          :total>=50?'基本的な内容は揃っていますが改善の余地があります。数字・実績の追加が特に効果的です。'
+          :'書類選考の通過率を上げるために具体的な改善が必要です。下記のポイントを参考に加筆してください。';
+        var goodH=fb.goods.length?'<h3>✅ 良い点</h3><ul>'+fb.goods.map(function(f){return'<li><strong>'+f.h+'</strong>：'+f.d+'</li>';}).join('')+'</ul>':'';
+        var impH=fb.imps.length?'<h3>📝 改善ポイント（'+fb.imps.length+'件）</h3><ul>'+fb.imps.map(function(f){return'<li><strong>→ '+f.h+'</strong><br><span style="color:#64748b;font-size:.88rem;">'+f.d+'</span></li>';}).join('')+'</ul>':'<p>✨ 大きな改善点は見当たりません。このままエージェントに書類添削を依頼してみましょう。</p>';
+        content.innerHTML=
+          '<h3>📋 総合評価: <span style="color:'+color+';">'+lbl+'（'+total+'点）</span></h3>'
+          +'<p>'+cmt+'</p>'
+          +'<h3>📊 採点詳細</h3>'
+          +'<table style="width:100%;border-collapse:collapse;font-size:.88rem;margin:.5rem 0 1rem">'
+          +'<tr style="background:#f0f5fc"><th style="text-align:left;padding:.5rem .7rem;border:1px solid #e2e8f0">評価項目</th><th style="padding:.5rem .7rem;border:1px solid #e2e8f0">得点</th><th style="padding:.5rem .7rem;border:1px solid #e2e8f0">満点</th></tr>'
+          +'<tr><td style="padding:.5rem .7rem;border:1px solid #e2e8f0">📏 記述量・詳細度</td><td style="text-align:center;border:1px solid #e2e8f0">'+vs.s+'</td><td style="text-align:center;border:1px solid #e2e8f0">20</td></tr>'
+          +'<tr style="background:#f8fafc"><td style="padding:.5rem .7rem;border:1px solid #e2e8f0">📅 構成・時系列</td><td style="text-align:center;border:1px solid #e2e8f0">'+ss.s+'</td><td style="text-align:center;border:1px solid #e2e8f0">20</td></tr>'
+          +'<tr><td style="padding:.5rem .7rem;border:1px solid #e2e8f0">📈 実績・数値化</td><td style="text-align:center;border:1px solid #e2e8f0">'+qs.s+'</td><td style="text-align:center;border:1px solid #e2e8f0">20</td></tr>'
+          +'<tr style="background:#f8fafc"><td style="padding:.5rem .7rem;border:1px solid #e2e8f0">🔑 キーワード・スキル</td><td style="text-align:center;border:1px solid #e2e8f0">'+ks.s+'</td><td style="text-align:center;border:1px solid #e2e8f0">20</td></tr>'
+          +'<tr><td style="padding:.5rem .7rem;border:1px solid #e2e8f0">✍️ 読みやすさ・訴求力</td><td style="text-align:center;border:1px solid #e2e8f0">'+rs.s+'</td><td style="text-align:center;border:1px solid #e2e8f0">20</td></tr>'
+          +'</table>'
+          +goodH+impH;
+        setLoading(false);showResult();
+      },1500);
     });
+    reset.addEventListener('click',function(){hideResult();form.style.display='';window.scrollTo({top:0,behavior:'smooth'});});
+    function setLoading(on){load.classList.toggle('on',on);genBtn.disabled=on;form.style.display=on?'none':'';}
+    function showResult(){result.classList.add('on');}
+    function hideResult(){result.classList.remove('on');}
+    function showErr(msg){err.textContent=msg;err.classList.add('on');}
+    function hideErr(){err.classList.remove('on');}
 
-    reset.addEventListener('click', function(){
-      hideResult();
-      scoreN.textContent = '--';
-      scoreF.style.width = '0%';
-      form.style.display = '';
-      window.scrollTo({top: 0, behavior:'smooth'});
-    });
-
-    async function callGemini(apiKey, prompt) {
-      var url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
-      var res = await fetch(url, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          contents: [{parts: [{text: prompt}]}],
-          generationConfig: {temperature: 0.6, maxOutputTokens: 1500}
-        })
-      });
-      if (!res.ok) {
-        var d = await res.json().catch(function(){return {};});
-        throw new Error(d.error && d.error.message ? d.error.message : 'HTTP ' + res.status);
-      }
-      var data = await res.json();
-      return data.candidates[0].content.parts[0].text;
-    }
-
-    function setLoading(on) {
-      load.classList.toggle('on', on);
-      genBtn.disabled = on;
-      if (on) form.style.display = 'none';
-      else form.style.display = '';
-    }
-    function showResult()  { result.classList.add('on'); }
-    function hideResult()  { result.classList.remove('on'); }
-    function showErr(msg)  { err.textContent = msg; err.classList.add('on'); }
-    function hideErr()     { err.classList.remove('on'); }
-  })();
-  </script>
-  <script>
-    // APIキー管理
     (function(){
-      var saved = localStorage.getItem('gemini_api_key');
-      if(saved){
-        document.getElementById('api-key-saved').style.display = 'flex';
-        document.getElementById('api-key-input-area').style.display = 'none';
-      }
+      var btn=document.querySelector('.hamburger'),nav=document.querySelector('.header-nav');
+      if(!btn||!nav)return;
+      btn.addEventListener('click',function(e){e.stopPropagation();var o=nav.classList.toggle('nav-open');btn.setAttribute('aria-expanded',o?'true':'false');});
+      document.addEventListener('click',function(e){if(!btn.contains(e.target)&&!nav.contains(e.target)){nav.classList.remove('nav-open');btn.setAttribute('aria-expanded','false');}});
+      nav.addEventListener('click',function(e){if(e.target.tagName==='A'){nav.classList.remove('nav-open');btn.setAttribute('aria-expanded','false');}});
     })();
-    function saveApiKey(){
-      var val = document.getElementById('apiKeyInput').value.trim();
-      if(!val){ alert('APIキーを入力してください'); return; }
-      localStorage.setItem('gemini_api_key', val);
-      document.getElementById('api-key-saved').style.display = 'flex';
-      document.getElementById('api-key-input-area').style.display = 'none';
-    }
-    function showApiKeyInput(){
-      document.getElementById('api-key-saved').style.display = 'none';
-      document.getElementById('api-key-input-area').style.display = 'block';
-    }
-
-  (function(){
-    var btn = document.querySelector('.hamburger');
-    var nav = document.querySelector('.header-nav');
-    if(!btn||!nav) return;
-    btn.addEventListener('click', function(e){
-      e.stopPropagation();
-      var open = nav.classList.toggle('nav-open');
-      btn.setAttribute('aria-expanded', open?'true':'false');
-    });
-    document.addEventListener('click', function(e){
-      if(!btn.contains(e.target)&&!nav.contains(e.target)){
-        nav.classList.remove('nav-open');
-        btn.setAttribute('aria-expanded','false');
-      }
-    });
-    nav.addEventListener('click', function(e){
-      if(e.target.tagName==='A'){
-        nav.classList.remove('nav-open');
-        btn.setAttribute('aria-expanded','false');
-      }
-    });
   })();
   </script>
 </body>
