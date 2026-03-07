@@ -37,4 +37,5 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add articles/ sitemap.xml
           git diff --cached --quiet || git commit -m "chore: 記事自動更新 $(date +'%Y-%m-%d')"
+          git pull --rebase origin main
           git push

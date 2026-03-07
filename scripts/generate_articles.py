@@ -261,7 +261,6 @@ def call_gemini(api_key, prompt, retries=2):
                 time.sleep(8)
             else:
                 raise
-    raise Exception(f"全モデル失敗: {last_exc}")
 def _esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
@@ -554,30 +553,30 @@ def main():
 
         try:
             data = call_gemini(api_key, prompt)
+
+            # サムネイルをローテーション
+            thumb = cat["thumbnails"][TODAY.day % len(cat["thumbnails"])]
+
+            html = build_article_html(cat, slug, data, related, thumb)
+            with open(filepath, "w", encoding="utf-8") as f:
+                f.write(html)
+            print(f"    CREATED: {filename}")
+
+            new_entries.append({
+                "id":          f"{slug}-{TODAY_STR}",
+                "title":       data["title"],
+                "category":    cat["name"],
+                "date":        TODAY_ISO,
+                "description": data["description"],
+                "filename":    filename,
+                "thumbnail":   thumb,
+                "tags":        data.get("keywords", [cat["name"]]),
+                "is_new":      True,
+            })
         except Exception as exc:
             print(f"    ERROR: {exc}")
             errors.append(cat["name"])
             continue
-
-        # サムネイルをローテーション
-        thumb = cat["thumbnails"][TODAY.day % len(cat["thumbnails"])]
-
-        html = build_article_html(cat, slug, data, related, thumb)
-        with open(filepath, "w", encoding="utf-8") as f:
-            f.write(html)
-        print(f"    CREATED: {filename}")
-
-        new_entries.append({
-            "id":          f"{slug}-{TODAY_STR}",
-            "title":       data["title"],
-            "category":    cat["name"],
-            "date":        TODAY_ISO,
-            "description": data["description"],
-            "filename":    filename,
-            "thumbnail":   thumb,
-            "tags":        data.get("keywords", [cat["name"]]),
-            "is_new":      True,
-        })
 
         # Gemini 無料枠のレート制限対策（最後の記事以外は待機）
         if i < len(CATEGORIES) - 1:
