@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="ブラウザで遊べる無料の避けゲーム「DODGE MASTER」。5ステージ制でスマホ・PC両対応。">
+  <title>DODGE MASTER - 避けゲー</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- ========================================
+    Google AdSense
+    審査通過後に下記コードを有効化してください
+    (ca-pub-XXXXXXXXXXXXXXXXを自分のIDに変更)
+  =========================================
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+<body>
+
+  <!-- 上部広告 (728x90 PC / 320x50 スマホ) -->
+  <div class="ad-wrap ad-top">
+    <!-- AdSense審査通過後に下記を有効化
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="XXXXXXXXXX"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+    <div class="ad-placeholder">広告スペース (728×90)</div>
+  </div>
+
+  <div id="main-layout">
+
+    <!-- 左サイド広告 (PCのみ表示) -->
+    <div class="ad-wrap ad-side ad-left">
+      <!-- AdSense審査通過後に下記を有効化
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="XXXXXXXXXX"
+           data-ad-format="auto"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+      <div class="ad-placeholder vertical">広告<br>(160×600)</div>
+    </div>
+
+    <!-- ゲームエリア -->
+    <div id="game-area">
+      <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <!-- 右サイド広告 (PCのみ表示) -->
+    <div class="ad-wrap ad-side ad-right">
+      <!-- AdSense審査通過後に下記を有効化
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="XXXXXXXXXX"
+           data-ad-format="auto"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+      <div class="ad-placeholder vertical">広告<br>(160×600)</div>
+    </div>
+
+  </div>
+
+  <!-- 下部広告 -->
+  <div class="ad-wrap ad-bottom">
+    <!-- AdSense審査通過後に下記を有効化
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+         data-ad-slot="XXXXXXXXXX"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+    <div class="ad-placeholder">広告スペース (320×50 / 728×90)</div>
+  </div>
+
+  <script src="js/game.js"></script>
+</body>
+</html>

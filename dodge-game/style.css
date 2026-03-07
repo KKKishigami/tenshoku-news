@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #08081a;
+  color: #fff;
+  font-family: 'Segoe UI', Helvetica, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* ---- 広告 ---- */
+.ad-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.ad-top {
+  height: 60px;
+  max-width: 728px;
+  margin: 6px auto;
+}
+
+.ad-bottom {
+  height: 60px;
+  max-width: 728px;
+  margin: 6px auto;
+}
+
+.ad-side {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  width: 170px;
+  flex-shrink: 0;
+}
+
+.ad-placeholder {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 11px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+}
+
+.ad-placeholder.vertical {
+  width: 160px;
+  height: 600px;
+}
+
+/* ---- レイアウト ---- */
+#main-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+  padding: 0 8px;
+}
+
+#game-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#gameCanvas {
+  display: block;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: none;
+  border-radius: 8px;
+  box-shadow: 0 0 40px rgba(78, 205, 196, 0.2);
+}
+
+/* PC: サイド広告を表示 */
+@media (min-width: 920px) {
+  .ad-side {
+    display: flex;
+  }
+  .ad-top {
+    height: 90px;
+  }
+  .ad-bottom {
+    height: 90px;
+  }
+}
+
+/* スマホ: canvasを画面幅いっぱいに */
+@media (max-width: 500px) {
+  .ad-top,
+  .ad-bottom {
+    height: 50px;
+  }
+}
