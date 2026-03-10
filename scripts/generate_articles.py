@@ -371,14 +371,22 @@ def build_article_html(cat, slug, data, related, thumb):
   <meta property="og:type" content="article">
   <meta property="og:title" content="{title_esc}">
   <meta property="og:description" content="{desc_esc}">
+  <meta property="og:url" content="{BASE_URL}/articles/{filename}">
   <meta property="og:site_name" content="転職プレス">
+  <meta property="og:image" content="{thumb}">
+  <meta property="og:image:width" content="600">
+  <meta property="og:image:height" content="400">
+  <meta property="og:image:alt" content="{title_esc}">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{title_esc}">
+  <meta name="twitter:description" content="{desc_esc}">
+  <meta name="twitter:image" content="{thumb}">
   <link rel="canonical" href="{BASE_URL}/articles/{filename}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"Article","headline":"{title_esc}","datePublished":"{TODAY_ISO}","dateModified":"{TODAY_ISO}","author":{{"@type":"Organization","name":"転職プレス編集部"}},"publisher":{{"@type":"Organization","name":"転職プレス"}},"description":"{desc_esc}","keywords":"{keywords}"}}
+  {{"@context":"https://schema.org","@type":"Article","headline":"{title_esc}","datePublished":"{TODAY_ISO}","dateModified":"{TODAY_ISO}","author":{{"@type":"Organization","name":"転職プレス編集部"}},"publisher":{{"@type":"Organization","name":"転職プレス","logo":{{"@type":"ImageObject","url":"https://tenshoku-press.com/favicon.ico"}}}},"image":"{thumb}","url":"{BASE_URL}/articles/{filename}","description":"{desc_esc}","keywords":"{keywords}"}}
   </script>
 </head>
 <body>
@@ -529,15 +537,18 @@ def update_sitemap(manifest):
             f"    <priority>{pri}</priority>",
             "  </url>",
         ]
-    for art in manifest["articles"]:
+    for i, art in enumerate(manifest["articles"]):
         lastmod = art.get("date", TODAY_ISO)
         loc = f"{BASE_URL}/articles/{art['filename']}"
+        # 新しい記事ほど優先度を高く、古い記事は下げる
+        priority = "0.9" if i < 8 else ("0.8" if i < 24 else "0.7")
+        changefreq = "daily" if i < 8 else "weekly"
         lines += [
             "  <url>",
             f"    <loc>{loc}</loc>",
             f"    <lastmod>{lastmod}</lastmod>",
-            "    <changefreq>monthly</changefreq>",
-            "    <priority>0.8</priority>",
+            f"    <changefreq>{changefreq}</changefreq>",
+            f"    <priority>{priority}</priority>",
             "  </url>",
         ]
     lines.append("</urlset>")
