@@ -28,7 +28,8 @@ TODAY     = date.today()
 TODAY_STR = TODAY.strftime("%Y%m%d")
 TODAY_ISO = TODAY.isoformat()
 
-AD_HTML = '''<div class="pr-ad-section">
+AD_HTML = '''\
+<div class="pr-ad-section">
   <p class="pr-label">PR</p>
   <div class="pr-ad-row">
     <div class="pr-ad-item"><a href="https://px.a8.net/svt/ejp?a8mat=4AXLW8+95U6OQ+5UK0+5YZ75" rel="nofollow"><img border="0" width="300" height="250" alt="" src="https://www20.a8.net/svt/bgt?aid=260228888554&wid=002&eno=01&mid=s00000027288001003000&mc=1"></a><img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=4AXLW8+95U6OQ+5UK0+5YZ75" alt=""></div>
@@ -36,7 +37,8 @@ AD_HTML = '''<div class="pr-ad-section">
   </div>
 </div>'''
 
-IN_ARTICLE_AD = '''<div class="pr-ad-section">
+IN_ARTICLE_AD = '''\
+<div class="pr-ad-section">
   <p class="pr-label">PR</p>
   <div class="pr-ad-row">
     <div class="pr-ad-item"><a href="https://px.a8.net/svt/ejp?a8mat=4AXLW8+95U6OQ+5UK0+5YZ75" rel="nofollow"><img border="0" width="300" height="250" alt="" src="https://www20.a8.net/svt/bgt?aid=260228888554&wid=002&eno=01&mid=s00000027288001003000&mc=1"></a><img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=4AXLW8+95U6OQ+5UK0+5YZ75" alt=""></div>
@@ -44,29 +46,8 @@ IN_ARTICLE_AD = '''<div class="pr-ad-section">
   </div>
 </div>'''
 
-SIDEBAR_AD_BLOCK = (
-    '          <div class="sidebar-block">
-'
-    '            <p style="font-size:0.7rem;color:#718096;font-weight:700;'
-    'letter-spacing:0.08em;border:1px solid #cbd5e0;border-radius:3px;'
-    'padding:1px 6px;display:inline-block;margin-bottom:0.8rem;">PR</p>
-'
-    '            <div class="pr-ad-row" style="flex-direction:column;align-items:flex-start;gap:0.5rem;">
-'
-    '              <div class="pr-ad-item"><a href="https://px.a8.net/svt/ejp?a8mat=4AXLW8+8Y3JTM+50U0+5ZMCH" rel="nofollow">'
-    '<img border="0" width="300" height="250" alt="安定のお仕事" '
-    'src="https://www24.a8.net/svt/bgt?aid=260228888541&wid=002&eno=01&mid=s00000023436001006000&mc=1"></a>'
-    '<img border="0" width="1" height="1" src="https://www11.a8.net/0.gif?a8mat=4AXLW8+8Y3JTM+50U0+5ZMCH" alt=""></div>
-'
-    '              <div class="pr-ad-item"><a href="https://px.a8.net/svt/ejp?a8mat=4AXLW8+97MHI2+5D9I+HVV0H" rel="nofollow">'
-    '<img border="0" width="300" height="250" alt="テックゲート転職" '
-    'src="https://www29.a8.net/svt/bgt?aid=260228888557&wid=002&eno=01&mid=s00000025047003004000&mc=1"></a>'
-    '<img border="0" width="1" height="1" src="https://www11.a8.net/0.gif?a8mat=4AXLW8+97MHI2+5D9I+HVV0H" alt=""></div>
-'
-    '            </div>
-'
-    '          </div>'
-)
+SIDEBAR_AD_BLOCK = '''\
+<div class="sidebar-block"><p style="font-size:0.7rem;color:#718096;font-weight:700;letter-spacing:0.08em;border:1px solid #cbd5e0;border-radius:3px;padding:1px 6px;display:inline-block;margin-bottom:0.8rem;">PR</p><div class="pr-ad-row" style="flex-direction:column;align-items:flex-start;gap:0.5rem;"><div class="pr-ad-item"><a href="https://px.a8.net/svt/ejp?a8mat=4AXLW8+8Y3JTM+50U0+5ZMCH" rel="nofollow"><img border="0" width="300" height="250" alt="安定のお仕事" src="https://www24.a8.net/svt/bgt?aid=260228888541&wid=002&eno=01&mid=s00000023436001006000&mc=1"></a><img border="0" width="1" height="1" src="https://www11.a8.net/0.gif?a8mat=4AXLW8+8Y3JTM+50U0+5ZMCH" alt=""></div><div class="pr-ad-item"><a href="https://px.a8.net/svt/ejp?a8mat=4AXLW8+97MHI2+5D9I+HVV0H" rel="nofollow"><img border="0" width="300" height="250" alt="テックゲート転職" src="https://www29.a8.net/svt/bgt?aid=260228888557&wid=002&eno=01&mid=s00000025047003004000&mc=1"></a><img border="0" width="1" height="1" src="https://www11.a8.net/0.gif?a8mat=4AXLW8+97MHI2+5D9I+HVV0H" alt=""></div></div></div>'''
 
 # ── カテゴリ設定 ──────────────────────────────────────────────────
 CATEGORIES = [
@@ -296,23 +277,21 @@ def _esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
 
-
-
 def insert_ad_in_body(body_html):
     """body_html内の2番目のh2見出しの後ろにIN_ARTICLE_ADを挿入"""
     count = 0
     pos = 0
     while True:
-        h2_end = body_html.find('</h2>', pos)
-        if h2_end == -1:
+        found = body_html.find('</h2>', pos)
+        if found == -1:
             break
         count += 1
         if count == 2:
-            insert_pos = h2_end + len('</h2>')
-            return body_html[:insert_pos] + '
-' + IN_ARTICLE_AD + body_html[insert_pos:]
-        pos = h2_end + len('</h2>')
+            idx = found + 5
+            return body_html[:idx] + IN_ARTICLE_AD + body_html[idx:]
+        pos = found + 5
     return body_html
+
 
 def build_sidebar_html(cat):
     items = ""
@@ -325,8 +304,7 @@ def build_sidebar_html(cat):
             f'              </a>\n'
         )
     return (
-        SIDEBAR_AD_BLOCK + '
-' +
+        f'          {SIDEBAR_AD_BLOCK}\n'
         f'          <div class="sidebar-block">\n'
         f'            <div class="sidebar-title">{cat["icon"]} {cat["name"]}におすすめ</div>\n'
         f'            <div class="sidebar-content">\n'
