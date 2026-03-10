@@ -586,3 +586,21 @@ a { color: inherit; text-decoration: none; }
 .cta-section-footer{background:#1a2a4a !important;padding:2rem 1rem;}
 .cta-section-footer .cta-pr-label{color:#90cdf4;border-color:#4a6fa5;}
 @media(max-width:600px){.cta-btn{font-size:0.78rem;padding:0.7rem 1rem;max-width:100%;width:100%;}}
+
+/* ===== 記事内コンポーネント ===== */
+.article-points{background:#ebf4ff;border-left:4px solid #2b6cb0;border-radius:0 8px 8px 0;padding:1.2rem 1.5rem;margin:1.5rem 0;}
+.article-points ul{margin:0;padding-left:1.4rem;}
+.article-points ul li{margin-bottom:0.5rem;line-height:1.7;font-size:0.95rem;}
+
+.faq-section{background:#f7fafc;border:1px solid #e2e8f0;border-radius:10px;padding:1.5rem;margin:2rem 0;}
+.faq-section h3{font-size:1.05rem;color:#1a3a5c;margin-bottom:1.2rem;padding-bottom:0.5rem;border-bottom:2px solid #e85d04;}
+.faq-item{margin-bottom:1.2rem;}
+.faq-item:last-child{margin-bottom:0;}
+.faq-q{font-weight:700;color:#1a3a5c;font-size:0.95rem;margin-bottom:0.4rem;display:flex;gap:0.5rem;align-items:flex-start;}
+.faq-q::before{content:"Q.";color:#e85d04;font-weight:800;flex-shrink:0;}
+.faq-a{font-size:0.92rem;line-height:1.75;color:#374151;padding-left:1.6rem;}
+
+.article-cta{background:linear-gradient(135deg,#1a3a5c 0%,#2b6cb0 100%);border-radius:12px;padding:1.8rem 1.5rem;margin:2rem 0;text-align:center;}
+.article-cta p{color:#e2e8f0;font-size:0.95rem;margin-bottom:1.2rem;}
+.article-cta a{display:inline-block;background:#e85d04;color:#fff;font-weight:700;font-size:0.95rem;padding:0.9rem 2rem;border-radius:50px;text-decoration:none;transition:opacity 0.2s,transform 0.15s;box-shadow:0 4px 14px rgba(0,0,0,0.25);}
+.article-cta a:hover{opacity:0.88;transform:translateY(-2px);}
