@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="コンシューマー・スマホゲームの最新ニュース・レビュー・売上ランキングをまとめてお届け。PS5・Switch・PC・スマホゲームの情報を毎日更新。">
+  <meta name="keywords" content="ゲームニュース,PS5,Nintendo Switch,スマホゲーム,ゲームレビュー,ゲームランキング,攻略,新作ゲーム">
+  <meta name="robots" content="index, follow">
+  <title>ゲームプレス | コンシューマー・スマホゲームの最新ニュース・レビュー</title>
+
+  <!-- OGP -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="ゲームプレス | コンシューマー・スマホゲームの最新ニュース・レビュー">
+  <meta property="og:description" content="PS5・Switch・PC・スマホゲームの最新ニュース・レビュー・ランキングをまとめてお届け。">
+  <meta property="og:url"         content="https://game-press.com/">
+  <meta property="og:site_name"   content="ゲームプレス">
+  <meta name="twitter:card"       content="summary_large_image">
+  <meta property="og:image"       content="https://images.unsplash.com/photo-1592155931584-901ac15763e3?w=1200&h=630&fit=crop&auto=format&q=80">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://game-press.com/">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Structured Data: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ゲームプレス",
+    "url": "https://game-press.com/",
+    "description": "コンシューマー・スマホゲームの最新ニュース・レビュー・ランキング",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://game-press.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">ゲーム<span>プレス</span></a>
+      <nav class="header-nav-top">
+        <a href="index.html?cat=ゲームニュース" class="nav-news">📰 最新ニュース</a>
+        <a href="ranking.html" class="nav-ranking">🏆 ランキング</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>コンシューマー＆スマホの<span>最新ゲーム情報</span>をお届け</h1>
+      <p>PS5・Nintendo Switch・PC・スマホゲームのニュース・レビュー・売上ランキングを毎日更新</p>
+    </div>
+  </section>
+
+  <!-- BREAKING NEWS TICKER -->
+  <div class="news-ticker">
+    <div class="ticker-inner">
+      <span class="ticker-label">🔥 HOT</span>
+      <span class="ticker-text" id="news-ticker-text">最新情報を読み込み中...</span>
+    </div>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="category-section">
+    <div class="category-tabs" role="tablist" aria-label="記事カテゴリ">
+      <button class="tab-btn active" data-cat="all"          role="tab" aria-selected="true" >📋 すべて</button>
+      <button class="tab-btn"        data-cat="ゲームニュース" role="tab" aria-selected="false">📰 ニュース</button>
+      <button class="tab-btn"        data-cat="PS5/PS4"       role="tab" aria-selected="false">🎮 PS5/PS4</button>
+      <button class="tab-btn"        data-cat="Switch"        role="tab" aria-selected="false">🕹️ Switch</button>
+      <button class="tab-btn"        data-cat="PC/Xbox"       role="tab" aria-selected="false">💻 PC/Xbox</button>
+      <button class="tab-btn"        data-cat="スマホゲーム"   role="tab" aria-selected="false">📱 スマホ</button>
+      <button class="tab-btn"        data-cat="攻略・ヒント"   role="tab" aria-selected="false">⚔️ 攻略</button>
+      <button class="tab-btn"        data-cat="ゲームレビュー" role="tab" aria-selected="false">🔍 レビュー</button>
+      <button class="tab-btn"        data-cat="ゲームコラム"   role="tab" aria-selected="false">📝 コラム</button>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <p class="cta-pr-label">PR</p>
+    <div class="cta-btn-row">
+      <a href="https://www.amazon.co.jp/b?node=637394011&tag=gamepress-22" rel="nofollow" class="cta-btn cta-btn-amazon">🛒 Amazonでゲームソフトを探す</a>
+      <a href="https://store.playstation.com/" rel="nofollow" class="cta-btn cta-btn-psn">🎮 PlayStation Storeでお得なセール情報</a>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+    <div class="container">
+      <div class="main-layout">
+
+        <!-- 記事グリッド -->
+        <section aria-label="記事一覧">
+          <div id="articles-grid" class="articles-grid">
+            <p class="no-articles">記事を読み込み中...</p>
+          </div>
+          <nav id="pagination" class="pagination" aria-label="ページナビ"></nav>
+        </section>
+
+        <!-- サイドバー -->
+        <aside class="sidebar" aria-label="サイドバー">
+
+          <!-- アフィリエイト -->
+          <div class="sidebar-block">
+            <div class="sidebar-title">🛒 おすすめゲームショップ</div>
+            <div class="sidebar-content">
+              <div class="disclaimer">
+                ※ 本サイトはアフィリエイトプログラムを利用しています
+              </div>
+
+              <a href="https://www.amazon.co.jp/b?node=637394011&tag=gamepress-22" rel="nofollow" class="affiliate-banner">
+                <p class="aff-label">★★★★★ 総合No.1</p>
+                <p class="aff-name">Amazon ゲームストア</p>
+                <p class="aff-point">新作ゲーム・ダウンロードカードが充実</p>
+              </a>
+
+              <a href="ranking.html#psn" rel="nofollow" class="affiliate-banner">
+                <p class="aff-label">★★★★☆ コンシューマー</p>
+                <p class="aff-name">PlayStation Store</p>
+                <p class="aff-point">PS Plus加入でお得なフリープレイ</p>
+              </a>
+
+              <a href="ranking.html#nintendo" rel="nofollow" class="affiliate-banner">
+                <p class="aff-label">★★★★☆ Nintendo</p>
+                <p class="aff-name">Nintendo eShop</p>
+                <p class="aff-point">Switch専用ソフト・セール情報</p>
+              </a>
+
+              <a href="ranking.html" class="btn-register">ゲームショップ比較を見る →</a>
+            </div>
+          </div>
+
+          <!-- 週間ランキング -->
+          <div class="sidebar-block">
+            <div class="sidebar-title">📊 週間ゲームランキング</div>
+            <div class="sidebar-content">
+              <ol class="rank-list">
+                <li class="rank-item">
+                  <span class="rank-num gold">1</span>
+                  <div>
+                    <span class="rank-name">モンスターハンターワイルズ</span><br>
+                    <span class="rank-fee">PS5 / PC</span>
+                  </div>
+                </li>
+                <li class="rank-item">
+                  <span class="rank-num silver">2</span>
+                  <div>
+                    <span class="rank-name">マリオカート ワールド</span><br>
+                    <span class="rank-fee">Nintendo Switch 2</span>
+                  </div>
+                </li>
+                <li class="rank-item">
+                  <span class="rank-num bronze">3</span>
+                  <div>
+                    <span class="rank-name">原神 Ver.5.x</span><br>
+                    <span class="rank-fee">iOS / Android / PC</span>
+                  </div>
+                </li>
+                <li class="rank-item">
+                  <span class="rank-num">4</span>
+                  <div>
+                    <span class="rank-name">ブルーアーカイブ</span><br>
+                    <span class="rank-fee">iOS / Android</span>
+                  </div>
+                </li>
+                <li class="rank-item">
+                  <span class="rank-num">5</span>
+                  <div>
+                    <span class="rank-name">Elden Ring: Nightreign</span><br>
+                    <span class="rank-fee">PS5 / Xbox / PC</span>
+                  </div>
+                </li>
+              </ol>
+              <a href="ranking.html" style="display:block;text-align:center;font-size:0.82rem;font-weight:700;color:#7c3aed;margin-top:0.8rem;">
+                詳しいランキングを見る →
+              </a>
+            </div>
+          </div>
+
+          <!-- 近日発売 -->
+          <div class="sidebar-block">
+            <div class="sidebar-title">📅 近日発売予定</div>
+            <div class="sidebar-content">
+              <ul class="rank-list" style="list-style:none;">
+                <li class="release-item">
+                  <span class="release-date">2026年4月3日</span>
+                  <span class="release-title">マリオカート ワールド</span>
+                  <span class="release-platform">Nintendo Switch 2</span>
+                </li>
+                <li class="release-item">
+                  <span class="release-date">2026年4月10日</span>
+                  <span class="release-title">Gran Turismo 8（仮）</span>
+                  <span class="release-platform">PS5</span>
+                </li>
+                <li class="release-item">
+                  <span class="release-date">2026年4月17日</span>
+                  <span class="release-title">Forza Horizon 6（仮）</span>
+                  <span class="release-platform">Xbox Series X / PC</span>
+                </li>
+                <li class="release-item">
+                  <span class="release-date">2026年4月下旬</span>
+                  <span class="release-title">新作スマホRPG（未発表）</span>
+                  <span class="release-platform">iOS / Android</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- カテゴリ -->
+          <div class="sidebar-block">
+            <div class="sidebar-title">📂 カテゴリ</div>
+            <div class="sidebar-content">
+              <ul class="rank-list">
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'ゲームニュース\']').click()">
+                  <span style="font-size:1.2rem">📰</span>
+                  <span class="rank-name">ゲームニュース</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'PS5/PS4\']').click()">
+                  <span style="font-size:1.2rem">🎮</span>
+                  <span class="rank-name">PS5/PS4</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'Switch\']').click()">
+                  <span style="font-size:1.2rem">🕹️</span>
+                  <span class="rank-name">Nintendo Switch</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'PC/Xbox\']').click()">
+                  <span style="font-size:1.2rem">💻</span>
+                  <span class="rank-name">PC/Xbox</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'スマホゲーム\']').click()">
+                  <span style="font-size:1.2rem">📱</span>
+                  <span class="rank-name">スマホゲーム</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'攻略・ヒント\']').click()">
+                  <span style="font-size:1.2rem">⚔️</span>
+                  <span class="rank-name">攻略・ヒント</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'ゲームレビュー\']').click()">
+                  <span style="font-size:1.2rem">🔍</span>
+                  <span class="rank-name">ゲームレビュー</span>
+                </li>
+                <li class="rank-item" style="cursor:pointer" onclick="document.querySelector('[data-cat=\'ゲームコラム\']').click()">
+                  <span style="font-size:1.2rem">📝</span>
+                  <span class="rank-name">コラム・特集</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </aside>
+      </div><!-- /.main-layout -->
+    </div><!-- /.container -->
+  </main>
+
+  <!-- FOOTER CTA -->
+  <div class="cta-section cta-section-footer">
+    <div class="container">
+      <p class="cta-pr-label">PR</p>
+      <div class="cta-btn-row">
+        <a href="https://www.amazon.co.jp/b?node=637394011&tag=gamepress-22" rel="nofollow" class="cta-btn cta-btn-amazon">🛒 Amazonでゲームソフトを探す</a>
+        <a href="https://store.playstation.com/" rel="nofollow" class="cta-btn cta-btn-psn">🎮 PlayStation Storeのセール情報</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">ゲーム<span>プレス</span></div>
+        <p class="footer-desc">PS5・Nintendo Switch・PC・スマホゲームの最新ニュース・レビュー・ランキングをお届けするゲーム情報メディアです。</p>
+      </div>
+      <div>
+        <p class="footer-heading">カテゴリ</p>
+        <ul class="footer-links">
+          <li><a href="index.html">トップ</a></li>
+          <li><a href="index.html?cat=ゲームニュース">ゲームニュース</a></li>
+          <li><a href="index.html?cat=PS5/PS4">PS5/PS4</a></li>
+          <li><a href="index.html?cat=Switch">Nintendo Switch</a></li>
+          <li><a href="index.html?cat=PC/Xbox">PC/Xbox</a></li>
+          <li><a href="index.html?cat=スマホゲーム">スマホゲーム</a></li>
+          <li><a href="index.html?cat=攻略・ヒント">攻略・ヒント</a></li>
+          <li><a href="index.html?cat=ゲームレビュー">ゲームレビュー</a></li>
+          <li><a href="index.html?cat=ゲームコラム">コラム・特集</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">サイト情報</p>
+        <ul class="footer-links">
+          <li><a href="ranking.html">ゲームランキング</a></li>
+          <li><a href="privacy.html">プライバシーポリシー</a></li>
+          <li><a href="about.html">サイトについて</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>本サイトはアフィリエイト広告を利用しています。&nbsp;|&nbsp;
+      &copy; 2026 ゲームプレス All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
