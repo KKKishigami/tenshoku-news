@@ -1,6 +1,142 @@
 {
-  "generated": "2026-06-01T00:00:00+09:00",
+  "generated": "2026-06-02T00:00:00+09:00",
   "articles": [
+    {
+      "id": "it-20260602",
+      "title": "2026年のIT転職市場トレンドと年収データを徹底解説",
+      "category": "IT転職",
+      "date": "2026-06-02",
+      "description": "2026年のIT転職市場のトレンドや年収データ、未経験からの転職方法について詳しく解説します。",
+      "filename": "it-20260602.html",
+      "thumbnail": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop&auto=format&q=80",
+      "tags": [
+        "IT転職",
+        "年収データ",
+        "転職市場トレンド",
+        "未経験転職",
+        "リモートワーク"
+      ],
+      "is_new": true
+    },
+    {
+      "id": "iryo-20260602",
+      "title": "2026年の医療転職市場トレンドと職種別需要を徹底解説",
+      "category": "医療転職",
+      "date": "2026-06-02",
+      "description": "2026年の医療転職市場のトレンドを解説。職種別需要や給与、資格要件を詳しく紹介します。",
+      "filename": "iryo-20260602.html",
+      "thumbnail": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop&auto=format&q=80",
+      "tags": [
+        "医療転職",
+        "看護師",
+        "薬剤師",
+        "理学療法士",
+        "転職市場トレンド"
+      ],
+      "is_new": true
+    },
+    {
+      "id": "highclass-20260602",
+      "title": "2026年ハイクラス転職市場のトレンドと年収動向",
+      "category": "ハイクラス転職",
+      "date": "2026-06-02",
+      "description": "2026年のハイクラス転職市場トレンドと年収動向を深掘りし、成功の秘訣を解説します。",
+      "filename": "highclass-20260602.html",
+      "thumbnail": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&auto=format&q=80",
+      "tags": [
+        "ハイクラス転職",
+        "転職市場トレンド",
+        "年収動向",
+        "求人数トレンド",
+        "ヘッドハンティング"
+      ],
+      "is_new": true
+    },
+    {
+      "id": "finance-20260602",
+      "title": "2026年の金融・保険転職市場トレンドと年収データ",
+      "category": "金融・保険転職",
+      "date": "2026-06-02",
+      "description": "2026年の金融・保険転職市場のトレンドや年収データを詳しく解説。成功するために必要な情報を網羅。",
+      "filename": "finance-20260602.html",
+      "thumbnail": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop&auto=format&q=80",
+      "tags": [
+        "金融転職",
+        "保険転職",
+        "年収データ",
+        "転職市場トレンド",
+        "フィンテック"
+      ],
+      "is_new": true
+    },
+    {
+      "id": "mfg-20260602",
+      "title": "2026年製造・メーカー転職市場の最新トレンドと成功法則",
+      "category": "製造・メーカー転職",
+      "date": "2026-06-02",
+      "description": "2026年の製造・メーカー転職市場における最新トレンドや成功法則、EV・半導体分野の求人増加について解説します。",
+      "filename": "mfg-20260602.html",
+      "thumbnail": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop&auto=format&q=80",
+      "tags": [
+        "製造転職",
+        "メーカー転職",
+        "EV求人",
+        "半導体求人",
+        "転職市場トレンド"
+      ],
+      "is_new": true
+    },
+    {
+      "id": "care-20260602",
+      "title": "2026年介護・福祉転職市場の最新トレンドと給与改善の実態",
+      "category": "介護・福祉転職",
+      "date": "2026-06-02",
+      "description": "2026年の介護・福祉転職市場のトレンド、給与改善、無資格からのキャリアパスについて詳しく解説します。",
+      "filename": "care-20260602.html",
+      "thumbnail": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop&auto=format&q=80",
+      "tags": [
+        "介護転職",
+        "福祉転職",
+        "転職市場トレンド",
+        "給与改善",
+        "無資格"
+      ],
+      "is_new": true
+    },
+    {
+      "id": "global-20260602",
+      "title": "2026年の外資系転職市場トレンドと年収動向分析",
+      "category": "外資系転職",
+      "date": "2026-06-02",
+      "description": "2026年の外資系転職市場の最新トレンドと年収動向を解説します。英語力別の求人数や年収も紹介。",
+      "filename": "global-20260602.html",
+      "thumbnail": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=400&fit=crop&auto=format&q=80",
+      "tags": [
+        "外資系転職",
+        "年収動向",
+        "転職市場",
+        "英語力",
+        "2026年"
+      ],
+      "is_new": true
+    },
+    {
+      "id": "pro-20260602",
+      "title": "2026年士業・専門職転職市場の最新トレンドと年収ガイド",
+      "category": "士業・専門職転職",
+      "date": "2026-06-02",
+      "description": "2026年の士業・専門職の転職市場トレンドと年収データを解説。あなたの転職活動を成功に導きます。",
+      "filename": "pro-20260602.html",
+      "thumbnail": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop&auto=format&q=80",
+      "tags": [
+        "士業転職",
+        "専門職転職",
+        "年収ガイド",
+        "転職市場トレンド",
+        "弁護士会計士転職"
+      ],
+      "is_new": true
+    },
     {
       "id": "it-20260601",
       "title": "2026年のIT転職市場トレンドと年収データを徹底解説",
@@ -15,8 +151,7 @@
         "平均年収",
         "リモートワーク",
         "未経験転職"
-      ],
-      "is_new": true
+      ]
     },
     {
       "id": "iryo-20260601",
@@ -32,8 +167,7 @@
         "薬剤師",
         "転職市場トレンド",
         "職種別需要"
-      ],
-      "is_new": true
+      ]
     },
     {
       "id": "care-20260601",
@@ -49,8 +183,7 @@
         "2026年トレンド",
         "給与改善",
         "人手不足"
-      ],
-      "is_new": true
+      ]
     },
     {
       "id": "global-20260601",
@@ -66,8 +199,7 @@
         "年収動向",
         "英語力",
         "転職成功率"
-      ],
-      "is_new": true
+      ]
     },
     {
       "id": "pro-20260601",
@@ -83,8 +215,7 @@
         "年収ガイド",
         "転職市場トレンド",
         "弁護士会計士"
-      ],
-      "is_new": true
+      ]
     },
     {
       "id": "it-20260531",
