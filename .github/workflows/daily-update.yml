@@ -1,9 +1,10 @@
 name: 毎日記事自動生成（GitHub Models）
 
 on:
-  schedule:
-    # 毎日 UTC 22:00 = JST 翌朝 7:00 に実行
-    - cron: '0 22 * * *'
+  # スケジュール停止中（再開時は schedule ブロックのコメントを外す）
+  # schedule:
+  #   # 毎日 UTC 22:00 = JST 翌朝 7:00 に実行
+  #   - cron: '0 22 * * *'
   # 手動でも実行可能
   workflow_dispatch:
 
