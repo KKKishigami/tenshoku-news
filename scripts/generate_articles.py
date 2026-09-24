@@ -8,6 +8,7 @@ Required env: GITHUB_TOKEN
 """
 
 import os
+import sys
 import json
 import re
 import time
@@ -284,52 +285,71 @@ def build_prompt(cat, related):
 }}"""
 
 
-# (model, api_version) の組み合わせ。上から順に試す
 GITHUB_MODELS_ENDPOINT = "https://models.inference.ai.azure.com/chat/completions"
-GITHUB_MODEL = "gpt-4o-mini"
+# 上から順に試すモデルリスト
+MODELS_TO_TRY = [
+    "gpt-4o",
+    "gpt-4o-mini",
+    "gpt-4.1-mini",
+    "gpt-4.1",
+]
 
 
 def call_gemini(api_key, prompt, retries=2):
-    """GitHub Models API を呼び出し、JSON をパースして返す"""
-    body = json.dumps({
-        "model": GITHUB_MODEL,
-        "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.7,
-        "max_tokens": 2048,
-        "response_format": {"type": "json_object"},
-    }).encode("utf-8")
+    """GitHub Models API を呼び出し、JSON をパースして返す（複数モデルのフォールバック付き）"""
+    last_exc = None
+    for model in MODELS_TO_TRY:
+        body = json.dumps({
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.7,
+            "max_tokens": 2048,
+            "response_format": {"type": "json_object"},
+        }).encode("utf-8")
 
-    for attempt in range(retries + 1):
-        try:
-            req = urllib.request.Request(
-                GITHUB_MODELS_ENDPOINT,
-                data=body,
-                headers={
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + api_key,
-                },
-                method="POST",
-            )
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-            text = data["choices"][0]["message"]["content"].strip()
-            text = re.sub(r'^```(?:json)?\s*', '', text, flags=re.MULTILINE)
-            text = re.sub(r'\s*```$', '', text, flags=re.MULTILINE)
-            return json.loads(text)
-        except urllib.error.HTTPError as e:
-            err_body = e.read().decode("utf-8", errors="replace")[:500]
-            exc_msg = f"HTTP {e.code}: {err_body}"
-            if attempt < retries:
-                print(f"    リトライ ({attempt + 1}/{retries}): {exc_msg[:150]}")
-                time.sleep(8)
-            else:
-                raise Exception(exc_msg)
-        except Exception as exc:
-            if attempt < retries:
-                print(f"    リトライ ({attempt + 1}/{retries}): {exc}")
-                time.sleep(8)
-            else:
-                raise
+        for attempt in range(retries + 1):
+            try:
+                req = urllib.request.Request(
+                    GITHUB_MODELS_ENDPOINT,
+                    data=body,
+                    headers={
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + api_key,
+                    },
+                    method="POST",
+                )
+                with urllib.request.urlopen(req, timeout=60) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                text = data["choices"][0]["message"]["content"].strip()
+                text = re.sub(r'^```(?:json)?\s*', '', text, flags=re.MULTILINE)
+                text = re.sub(r'\s*```$', '', text, flags=re.MULTILINE)
+                print(f"    モデル '{model}' で成功")
+                return json.loads(text)
+            except urllib.error.HTTPError as e:
+                err_body = e.read().decode("utf-8", errors="replace")[:500]
+                exc_msg = f"[{model}] HTTP {e.code}: {err_body}"
+                print(f"    {exc_msg[:200]}")
+                if e.code in (404, 400) and attempt == 0:
+                    # モデルが存在しない場合は即座に次のモデルへ
+                    last_exc = Exception(exc_msg)
+                    break
+                if attempt < retries:
+                    print(f"    リトライ ({attempt + 1}/{retries})...")
+                    time.sleep(8)
+                else:
+                    last_exc = Exception(exc_msg)
+                    break
+            except Exception as exc:
+                exc_msg = f"[{model}] {exc}"
+                print(f"    {exc_msg}")
+                if attempt < retries:
+                    print(f"    リトライ ({attempt + 1}/{retries})...")
+                    time.sleep(8)
+                else:
+                    last_exc = exc
+                    break
+
+    raise last_exc or Exception("全モデルで失敗しました")
 def _esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
@@ -690,6 +710,9 @@ def main():
     print(f"\n完了: {len(new_entries)} 記事を生成しました。")
     if errors:
         print(f"失敗カテゴリ: {', '.join(errors)}")
+    if len(new_entries) == 0 and len(errors) > 0:
+        print(f"\nERROR: 全記事の生成に失敗しました。GitHub Models API の設定を確認してください。")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
